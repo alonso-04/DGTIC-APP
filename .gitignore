@@ -1,0 +1,7 @@
+# CARPETAS
+.venv
+__pycache__
+
+
+# ARCHIVOS
+.env

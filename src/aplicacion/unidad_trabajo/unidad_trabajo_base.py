@@ -1,0 +1,11 @@
+from abc import ABC, abstractmethod
+
+
+class UnidadTrabajo(ABC):
+    @abstractmethod
+    def __enter__(self):
+        pass
+    
+    @abstractmethod
+    def __exit__(self, *args):
+        pass

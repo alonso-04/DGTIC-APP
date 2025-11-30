@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ventanaPrincipal</class>
+ <widget class="QWidget" name="ventanaPrincipal">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1206</width>
+    <height>722</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1206</width>
+    <height>722</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Iniciar Sesión</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+    <normaloff>:/iconos/iconos/icono-app-dgtic.png</normaloff>:/iconos/iconos/icono-app-dgtic.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+#ventanaPrincipal {
+	background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:1, stop:0.477612 rgba(72, 111, 182, 255), stop:0.751244 rgba(31, 72, 133, 255))
+}
+
+
+/* PÁGINA DE INICIAR SESIÓN */
+
+#frameCamposInicioSesion {
+	background-color: rgb(229, 229, 229);
+	border-radius: 10px;
+}
+
+#labelTituloIniciarSesion {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#labelNombreUsuario,
+#labelClaveUsuario {
+	font-size: 17px;
+	font-weight: bold;
+}
+
+QWidget{
+	font: 9.5pt &quot;Segoe UI&quot;;
+}
+
+#botonAcceder{
+	font: 8pt &quot;Segoe UI Black&quot;;
+	color: #ffffff;
+	background-color: #004aad;
+	border: 2px solid rgb(0, 0, 0);
+	border-radius: 10px;
+	padding-bottom: 2px;
+}
+
+#botonAcceder::hover{
+	background-color: #5c8bc9;
+}
+
+#botonAcceder::pressed{
+	background-color: #063c85;
+}
+
+
+
+/* PÁGINA APP*/
+
+#frameApp{
+	background-color: rgb(255, 255, 255);
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+#frameInferior .QPushButton{
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 10px;
+	padding-bottom: 2px;
+	font: 8.5pt &quot;Segoe UI Black&quot;;
+}
+
+#frameInferior .QPushButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameInferior .QPushButton::pressed{
+	background-color: #063c85;
+}
+
+#frameSuperior .QToolButton{
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 2px;
+	padding-bottom: 2px;
+	font: 9pt &quot;Segoe UI&quot;;
+}
+
+#frameSuperior .QToolButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameSuperior .QToolButton::pressed{
+	background-color: #063c85;
+}
+
+
+#frameSuperior .QPushButton{
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 6px;
+	padding-bottom: 2px;
+	font: 8.5pt &quot;Segoe UI Black&quot;;
+}
+
+#frameSuperior .QPushButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameSuperior .QPushButton::pressed{
+	background-color: #063c85;
+}
+
+#frameSuperior #botonRefrescarApp{
+	background-color: #c8c8c8;
+}
+
+
+#frameSuperior #botonRefrescarApp::hover{
+	background-color: #dadada;
+}
+
+#frameSuperior #botonRefrescarApp::pressed{
+	background-color: #a3a3a3;
+}
+
+
+
+/* PÁGINA DEPARTAMENTOS*/
+
+#frameGeneralDepartamentos{
+	background-color: rgb(255, 255, 255);
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+#frameSeccionRegistrarDepartamento .QPushButton,
+#frameInferiorSeccionDepartamentos .QPushButton {
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 6px;
+	padding-bottom: 2px;
+	font: 8.5pt &quot;Segoe UI Black&quot;;
+}
+
+#frameSeccionRegistrarDepartamento .QPushButton::hover,
+#frameInferiorSeccionDepartamentos .QPushButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameSeccionRegistrarDepartamento .QPushButton::pressed,
+#frameInferiorSeccionDepartamentos .QPushButton::pressed{
+	background-color: #063c85;
+}
+
+#labelTituloRegistrarDepartamento {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#frameSeccionRegistrarDepartamento #botonRefrescarDepartamentos{
+	background-color: #c8c8c8;
+}
+
+#frameSeccionRegistrarDepartamento #botonRefrescarDepartamentos::hover{
+	background-color: #dadada;
+}
+
+#frameSeccionRegistrarDepartamento #botonRefrescarDepartamentos::pressed{
+	background-color: #a3a3a3;
+}
+
+
+
+/* PÁGINA USUARIOS*/
+
+#frameGeneralUsuarios{
+	background-color: rgb(255, 255, 255);
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+#frameSeccionRegistrarUsuario .QPushButton,
+#frameInferiorSeccionUsuarios .QPushButton {
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 6px;
+	padding-bottom: 2px;
+	font: 8.5pt &quot;Segoe UI Black&quot;;
+}
+
+#labelTituloRegistrarUsuario {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#frameSeccionRegistrarUsuario .QPushButton::hover,
+#frameInferiorSeccionUsuarios .QPushButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameSeccionRegistrarUsuario .QPushButton::pressed,
+#frameInferiorSeccionUsuarios .QPushButton::pressed{
+	background-color: #063c85;
+}
+
+#frameSeccionRegistrarUsuario #botonRefrescarUsuarios{
+	background-color: #c8c8c8;
+}
+
+#frameSeccionRegistrarUsuario #botonRefrescarUsuarios::hover{
+	background-color: #dadada;
+}
+
+#frameSeccionRegistrarUsuario #botonRefrescarUsuarios::pressed{
+	background-color: #a3a3a3;
+}
+
+
+
+/* PÁGINA TIPO DE SERVICIO*/
+
+#frameGeneralTipoServicio{
+	background-color: rgb(255, 255, 255);
+	border: 1px solid #000000;
+	border-radius: 4px;
+}
+
+#frameSuperiorTipoServicio .QPushButton,
+#frameInferiorTipoServicio .QPushButton {
+	color: #ffffff;
+	background-color: #417fd2;
+	border: 1px solid rgb(0, 0, 0);
+	border-radius: 6px;
+	padding-bottom: 2px;
+	font: 8.5pt &quot;Segoe UI Black&quot;;
+}
+
+#labelTituloRegistrarTipoServicio {
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#frameSuperiorTipoServicio .QPushButton::hover,
+#frameInferiorTipoServicio .QPushButton::hover{
+	background-color: #5c8bc9;
+}
+
+#frameSuperiorTipoServicio .QPushButton::pressed,
+#frameInferiorTipoServicio .QPushButton::pressed{
+	background-color: #063c85;
+}
+
+#frameSuperiorTipoServicio #botonRefrescarTiposServicio{
+	background-color: #c8c8c8;
+}
+
+#frameSuperiorTipoServicio #botonRefrescarTiposServicio::hover{
+	background-color: #dadada;
+}
+
+#frameSuperiorTipoServicio #botonRefrescarTiposServicio::pressed{
+	background-color: #a3a3a3;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QStackedWidget" name="ventanas">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>1184</width>
+       <height>700</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1184</width>
+       <height>700</height>
+      </size>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="paginaIniciarSesion">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QFrame" name="frameGeneralIniciarSesion">
+         <property name="minimumSize">
+          <size>
+           <width>922</width>
+           <height>400</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>922</width>
+           <height>865</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QFrame" name="frameInicioSesion">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QFrame" name="frameCamposInicioSesion">
+             <property name="geometry">
+              <rect>
+               <x>30</x>
+               <y>90</y>
+               <width>371</width>
+               <height>441</height>
+              </rect>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <widget class="QPushButton" name="botonAcceder">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>390</y>
+                <width>120</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>120</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Acceder</string>
+              </property>
+             </widget>
+             <widget class="QWidget" name="layoutWidget">
+              <property name="geometry">
+               <rect>
+                <x>50</x>
+                <y>10</y>
+                <width>261</width>
+                <height>351</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="vlCamposIniciarSesion" stretch="0,0,0">
+               <property name="spacing">
+                <number>24</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="labelTituloIniciarSesion">
+                 <property name="text">
+                  <string>Iniciar Sesión</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="vlCampoNombreUsuario">
+                 <item>
+                  <widget class="QLabel" name="labelNombreUsuario">
+                   <property name="text">
+                    <string>Usuario</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="inputNombreUsuario">
+                   <property name="minimumSize">
+                    <size>
+                     <width>257</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-image: url(:/iconos/iconos/user.png);
+background-position: left;
+background-repeat: no-repeat;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Ingresa su usuario</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="vlCampoClave">
+                 <item>
+                  <widget class="QLabel" name="labelClaveUsuario">
+                   <property name="text">
+                    <string>Contraseña</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="inputClaveUsuario">
+                   <property name="minimumSize">
+                    <size>
+                     <width>257</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-image: url(:/iconos/iconos/padlock.png);
+background-position: left;
+background-repeat: no-repeat;
+</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="placeholderText">
+                    <string>Ingrese su contraseña</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frameLogoDepartamento">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QLabel" name="labelImgLogo">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>100</y>
+               <width>441</width>
+               <height>401</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap resource="../../../recursos/qtRecursosLogos.qrc">:/logos/logos/logo_dgtic.png</pixmap>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="paginaApp">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QFrame" name="frameApp">
+         <property name="minimumSize">
+          <size>
+           <width>1162</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1162</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QFrame" name="frameInferior">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>590</y>
+            <width>1150</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>1150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>140</x>
+             <y>20</y>
+             <width>880</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlBotonesInferiores">
+            <item>
+             <widget class="QPushButton" name="botonCrearUsuario">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Crear nuevo usuario</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonCrearRespaldo">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Crear respaldo</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonImportarRespaldo">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Importar respaldo</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonGenerarReporte">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Generar reporte</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonCerrarSesion">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Cerrar sesión</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameSuperior">
+          <property name="geometry">
+           <rect>
+            <x>12</x>
+            <y>12</y>
+            <width>1150</width>
+            <height>237</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>1150</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>250</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="Line" name="lineaSeparadoraSeccionApp">
+           <property name="geometry">
+            <rect>
+             <x>-10</x>
+             <y>150</y>
+             <width>1161</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>10</y>
+             <width>1081</width>
+             <height>125</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlCamposRegistrarServicio" stretch="2,3,3,3">
+            <item>
+             <layout class="QVBoxLayout" name="vlRegistrarDepYFalla">
+              <item>
+               <layout class="QGridLayout" name="glCampoRegistrarNombreDep">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="labelDepartamento">
+                  <property name="text">
+                   <string>Departamento:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QToolButton" name="tbOtroDepartamento">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>22</width>
+                    <height>27</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLineEdit" name="inputDepartamento">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>280</width>
+                    <height>27</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>280</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNone</set>
+                  </property>
+                  <property name="clearButtonEnabled">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="vlCampoRegistrarFallaPresenta">
+                <item>
+                 <widget class="QLabel" name="labelFallaPresenta">
+                  <property name="text">
+                   <string>Falla que presenta:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="inputFallaPresenta"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="glCampoRegistrarTecnicosYServicio">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetMinAndMaxSize</enum>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="labelNombreTecnico">
+                <property name="text">
+                 <string>Nombre del técnico:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="labelServicioPrestado">
+                <property name="text">
+                 <string>Servicio prestado:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLineEdit" name="inputServicioPrestado"/>
+              </item>
+              <item row="3" column="1">
+               <widget class="QToolButton" name="tbOtroServicioPrestado">
+                <property name="minimumSize">
+                 <size>
+                  <width>27</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0" colspan="2">
+               <widget class="QLineEdit" name="inputNombreTecnico"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="vlObservacionesAdicionales">
+              <item>
+               <widget class="QLabel" name="labelObservacionesAdicionales">
+                <property name="text">
+                 <string>Observaciones adicionales:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTextEdit" name="teObservacionesAdicionales"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="vlFechaYBotonRegistrarServicio" stretch="0,0,0,0">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetDefaultConstraint</enum>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="labelFecha">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>39</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Fecha:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDateEdit" name="deFecha">
+                <property name="calendarPopup">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="vsFechaYBotonRegistrar">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="botonRegistrar">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="text">
+                 <string>Registrar</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>182</x>
+             <y>170</y>
+             <width>821</width>
+             <height>62</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="vlSeccionFiltrarServicios">
+            <item>
+             <layout class="QHBoxLayout" name="hlLabelsFiltroServicios" stretch="0,0,0">
+              <property name="spacing">
+               <number>7</number>
+              </property>
+              <property name="rightMargin">
+               <number>145</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="labelFiltroFecha">
+                <property name="maximumSize">
+                 <size>
+                  <width>295</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Fecha</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFiltroDepartamento">
+                <property name="text">
+                 <string>Departamento</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelFiltroServicioPrestado">
+                <property name="text">
+                 <string>Servicio prestado</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="hlElementosFiltroServicio" stretch="1,1,1,0">
+              <item>
+               <widget class="QDateEdit" name="deFiltroFecha">
+                <property name="maximumSize">
+                 <size>
+                  <width>295</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+                <property name="keyboardTracking">
+                 <bool>true</bool>
+                </property>
+                <property name="currentSection">
+                 <enum>QDateTimeEdit::DaySection</enum>
+                </property>
+                <property name="calendarPopup">
+                 <bool>true</bool>
+                </property>
+                <property name="timeSpec">
+                 <enum>Qt::LocalTime</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inputFiltroDepartamento"/>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inputFiltroServicioPrestado"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="botonBuscarServicios">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>140</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>140</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="text">
+                 <string>Buscar</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QPushButton" name="botonRefrescarApp">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>31</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+             <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameRegistros">
+          <property name="geometry">
+           <rect>
+            <x>12</x>
+            <y>256</y>
+            <width>1131</width>
+            <height>341</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>300</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1150</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="labelErrorFiltro">
+           <property name="geometry">
+            <rect>
+             <x>12</x>
+             <y>12</y>
+             <width>16</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QTableView" name="tvRegistros">
+           <property name="geometry">
+            <rect>
+             <x>12</x>
+             <y>11</y>
+             <width>1111</width>
+             <height>321</height>
+            </rect>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="showGrid">
+            <bool>true</bool>
+           </property>
+           <property name="gridStyle">
+            <enum>Qt::SolidLine</enum>
+           </property>
+           <property name="cornerButtonEnabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="paginaCrearUsuario">
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QFrame" name="frameGeneralUsuarios">
+         <property name="minimumSize">
+          <size>
+           <width>1164</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1184</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QFrame" name="frameSeccionRegistrarUsuario">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>10</y>
+            <width>1161</width>
+            <height>209</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>876</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>209</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="botonRegistrarUsuario">
+           <property name="geometry">
+            <rect>
+             <x>830</x>
+             <y>120</y>
+             <width>141</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Registrar</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="labelTituloRegistrarUsuario">
+           <property name="geometry">
+            <rect>
+             <x>494</x>
+             <y>10</y>
+             <width>231</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Crear nuevo usuario</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>430</x>
+             <y>60</y>
+             <width>341</width>
+             <height>97</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="glCamposRegistrarUsuario">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelRegistrarNombreUsuario">
+              <property name="text">
+               <string>Nombre de usuario:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="inputRegistrarNombreUsuario"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelRegistrarRol">
+              <property name="text">
+               <string>Rol:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelRegistrarClave">
+              <property name="text">
+               <string>Contraseña:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="inputRegistrarClaveUsuario"/>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="cbRolesRegistrarUsuario">
+              <item>
+               <property name="text">
+                <string>ADMINISTRADOR</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>ESTANDAR</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QPushButton" name="botonRefrescarUsuarios">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>31</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+             <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
+           </property>
+          </widget>
+          <widget class="Line" name="lineaSeparadoraSeccionUsuarios">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>170</y>
+             <width>1151</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameInferiorSeccionUsuarios">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>620</y>
+            <width>1160</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>876</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="botonRegresarSeccionUsuarios">
+           <property name="geometry">
+            <rect>
+             <x>500</x>
+             <y>10</y>
+             <width>191</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Regresar</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameListaUsuarios">
+          <property name="geometry">
+           <rect>
+            <x>12</x>
+            <y>223</y>
+            <width>1141</width>
+            <height>391</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>852</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QTableView" name="tvUsuarios">
+           <property name="geometry">
+            <rect>
+             <x>170</x>
+             <y>0</y>
+             <width>852</width>
+             <height>381</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>852</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="paginaDepartamentos">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QFrame" name="frameGeneralDepartamentos">
+         <property name="minimumSize">
+          <size>
+           <width>1165</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1184</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QFrame" name="frameSeccionRegistrarDepartamento">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>12</y>
+            <width>1151</width>
+            <height>229</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="labelTituloRegistrarDepartamento">
+           <property name="geometry">
+            <rect>
+             <x>290</x>
+             <y>10</y>
+             <width>631</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Crear nuevo departamento</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="Line" name="lineaSeparadoraSeccionDepartamento">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>140</y>
+             <width>1151</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>296</x>
+             <y>170</y>
+             <width>601</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlSeccionBuscarDepartamento" stretch="3,1">
+            <property name="spacing">
+             <number>7</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="hlBuscarDepartamento">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="labelBuscarDepartamento">
+                <property name="text">
+                 <string>Departamento:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inputBuscarDepartamento"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonBuscarDepartamento">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>290</x>
+             <y>90</y>
+             <width>631</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlSeccionRegistrarDepartamento" stretch="3,1">
+            <item>
+             <layout class="QHBoxLayout" name="hlCamposRegistrarDepartamento">
+              <item>
+               <widget class="QLabel" name="labelNombreDepartamento">
+                <property name="text">
+                 <string>Nombre del departamento:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="inputNombreDepartamento"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonRegistrarDepartamento">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Registrar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QLabel" name="labelFiltroSeccionDepartamento">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>200</y>
+             <width>591</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="botonRefrescarDepartamentos">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>31</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+             <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameListaDepartamentos">
+          <property name="geometry">
+           <rect>
+            <x>154</x>
+            <y>248</y>
+            <width>876</width>
+            <height>371</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>876</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QTableView" name="tvDepartamentos">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QFrame" name="frameInferiorSeccionDepartamentos">
+          <property name="geometry">
+           <rect>
+            <x>160</x>
+            <y>620</y>
+            <width>876</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>876</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>876</width>
+            <height>130</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="botonRegresarSeccionDepartamentos">
+           <property name="geometry">
+            <rect>
+             <x>340</x>
+             <y>10</y>
+             <width>200</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Regresar</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="paginaTiposServicio">
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QFrame" name="frameGeneralTipoServicio">
+         <property name="minimumSize">
+          <size>
+           <width>1165</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1184</width>
+           <height>685</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QFrame" name="frameSuperiorTipoServicio">
+          <property name="geometry">
+           <rect>
+            <x>9</x>
+            <y>12</y>
+            <width>1151</width>
+            <height>229</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>876</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="labelTituloRegistrarTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>10</y>
+             <width>591</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Crear nuevo tipo de servicio</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="Line" name="lineaSeparadoraSeccionTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>130</y>
+             <width>1151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>80</y>
+             <width>591</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlRegistrarTipoServicio">
+            <item>
+             <widget class="QLabel" name="labelCampoTipoServicio">
+              <property name="text">
+               <string>Nombre del tipo de servicio:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="inputRegistrarTipoServicio"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonRegistrarTipoServicio">
+              <property name="minimumSize">
+               <size>
+                <width>155</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Registrar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>330</x>
+             <y>160</y>
+             <width>551</width>
+             <height>32</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="hlFiltrarTipoServicio">
+            <item>
+             <widget class="QLabel" name="labelFiltroTipoServicio">
+              <property name="text">
+               <string>Tipo de servicio:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="inputFiltroTipoServicio"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="botonBuscarTipoServicio">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>148</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="text">
+               <string>Buscar</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QLabel" name="labelFiltroSeccionTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>200</y>
+             <width>591</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="botonRefrescarTiposServicio">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>31</width>
+             <height>28</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+             <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameRegistrosTipoServicio">
+          <property name="geometry">
+           <rect>
+            <x>154</x>
+            <y>248</y>
+            <width>876</width>
+            <height>361</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>876</width>
+            <height>450</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QTableView" name="tvRegistrosTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>2</x>
+             <y>12</y>
+             <width>871</width>
+             <height>341</height>
+            </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>430</height>
+            </size>
+           </property>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frameInferiorTipoServicio">
+          <property name="geometry">
+           <rect>
+            <x>150</x>
+            <y>620</y>
+            <width>876</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>876</width>
+            <height>130</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QPushButton" name="botonRegresarSeccionTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>10</y>
+             <width>200</width>
+             <height>35</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Regresar</string>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../../recursos/qtRecursosIconos.qrc"/>
+  <include location="../../../recursos/qtRecursosLogos.qrc"/>
+ </resources>
+ <connections/>
+</ui>
