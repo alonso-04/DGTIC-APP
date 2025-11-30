@@ -1,4 +1,5 @@
 import sys
+import os
 
 # Para que el archivo generado por pyuic5 encuentre los recursos correctamente le asignamos
 # la clave exacta que espera el archivo generado (qtRecursosIconos_rc y qtRecursosLogos_rc)
@@ -10,7 +11,17 @@ sys.modules["qtRecursosLogos_rc"] = recursos_logos_rc
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# Si la aplicación se ejecuta como un ejecutable de PyInstaller
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    # La ruta del .env será el directorio temporal de PyInstaller
+    dotenv_path = os.path.join(sys._MEIPASS, '.env')
+else:
+    # En modo de desarrollo, la ruta es la del script
+    dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+    
+# Cargar las variables de entorno
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path = dotenv_path)
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo
