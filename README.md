@@ -21,5 +21,6 @@ un archivo `.env` para cargar la configuración de la base de datos.<br><br>
 Para esto te situas en el mismo directorio que está el archivo `.env.ejemplo` y copias su contenido en el nuevo archivo llamado `.env`.<br><br>
 
 4. **Ejecutar la aplicación:** <br>
+
 Situandose en la carpeta `src` ejecutamos el siguiente comando: `python main.py` e iniciamos sesión con el usuario y contraseña que se estableció por defecto en el `.env` que crearon
 que están en `NOMBRE_USUARIO_ADMIN_DEFECTO` y `CLAVE_USUARIO_ADMIN_DEFECTO`.
