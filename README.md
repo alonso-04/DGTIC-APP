@@ -12,13 +12,14 @@ Esta aplicación fue hecha en `Python 3.8.10`, por lo que los pasos serían los 
 
 2. **Configuración para la base de datos:** <br>
 
-Hay que tener para esto se necesita tener instalado XAMPP y activar los servicios de Apache y MySQL, utilizar el archivo que está ubicado en `src/infraestructura/base_datos/estructura_bd.sql`, para poder cargarlo en el gestor de base de datos<br> 
+Hay que tener para esto instalado XAMPP y activar los servicios de Apache y MySQL, utilizar el archivo que está ubicado en `src/infraestructura/base_datos/estructura_bd.sql`, para poder cargarlo en el gestor de base de datos<br> 
 de tu preferencia (como phpMyAdmin por ejemplo). Si el usuario que creaste en tu gestor es el predeterminado, que si `usuario: root` y `clave: ""`, entonces lo siguiente es crear 
 un archivo `.env` para cargar la configuración de la base de datos.<br><br>
 
 3. **Crear el archivo `.env`:** <br>
 
-Para esto te situas en el mismo directorio que está el archivo `.env.ejemplo` y copias su contenido en el nuevo archivo llamado `.env`.<br><br>
+Para esto te situas en el mismo directorio que está el archivo `.env.ejemplo` y copias su contenido en el nuevo archivo llamado `.env`. Importante el nombre que le des a la base de datos sea el mismo
+que el que vayas a poner en `NOMBRE_BD`.<br><br>
 
 4. **Ejecutar la aplicación:** <br>
 
