@@ -17,7 +17,7 @@ if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
     dotenv_path = os.path.join(sys._MEIPASS, '.env')
 else:
     # En modo de desarrollo, la ruta es la del script
-    dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+    dotenv_path = os.path.join(os.path.dirname(__file__), "..", '.env')
     
 # Cargar las variables de entorno
 if os.path.exists(dotenv_path):
