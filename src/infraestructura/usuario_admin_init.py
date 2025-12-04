@@ -38,9 +38,9 @@ def inicializar_usuario_admin_bd():
             CLAVE_USUARIO_ADMIN_HASHEADA = hashear_contenido(CLAVE_USUARIO_ADMIN_DEFECTO)
             
             cursor.execute("""
-                INSERT INTO tb_usuarios(rol_id, nombre_usuario, clave_usuario)
-                VALUES (%s, %s, %s);
-            """, (1, NOMBRE_USUARIO_ADMIN_DEFECTO, CLAVE_USUARIO_ADMIN_HASHEADA))
+                INSERT INTO tb_usuarios(usuario_id, rol_id, nombre_usuario, clave_usuario)
+                VALUES (%s, %s, %s, %s);
+            """, (1, 1, NOMBRE_USUARIO_ADMIN_DEFECTO, CLAVE_USUARIO_ADMIN_HASHEADA))
             
             conexion.commit()
             

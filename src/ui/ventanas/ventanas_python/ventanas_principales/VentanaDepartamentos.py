@@ -90,6 +90,7 @@ class VentanaDepartamentos:
             
             if not(departamentos):
                 self.departamento_data = []
+                self.limpiar_tabla("")
                 return
             
             modelo_datos = QStandardItemModel(len(departamentos), 1)

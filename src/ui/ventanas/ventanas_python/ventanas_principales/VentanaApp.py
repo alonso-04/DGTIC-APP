@@ -230,6 +230,7 @@ class VentanaApp:
                     modelo_datos.setItem(fila, col, item)
                         
             self.tvRegistros.setModel(modelo_datos)
+            self.labelErrorFiltro.clear()
         except ServicioValidacionError as error:
             self.limpiar_tabla("\n".join(error.errores))
             self.servicio_data = []

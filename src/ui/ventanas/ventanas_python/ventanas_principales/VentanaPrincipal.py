@@ -66,15 +66,18 @@ class VentanaPrincipal(QWidget, Ui_ventanaPrincipal):
             for departamento in departamentos:
                 nombres_departamentos.append(departamento["nombre_departamento"])
 
-        if (nombres_departamentos):
+        if not(nombres_departamentos):
+            completer_departamentos = QCompleter([])
+        else:
             completer_departamentos = QCompleter(nombres_departamentos)
-            completer_departamentos.setCaseSensitivity(Qt.CaseInsensitive)
-            completer_departamentos.setFilterMode(Qt.MatchContains)
-            completer_departamentos.setCompletionMode(QCompleter.PopupCompletion)
             
-            self.inputDepartamento.setCompleter(completer_departamentos)
-            self.inputFiltroDepartamento.setCompleter(completer_departamentos)
-            self.inputBuscarDepartamento.setCompleter(completer_departamentos)
+        completer_departamentos.setCaseSensitivity(Qt.CaseInsensitive)
+        completer_departamentos.setFilterMode(Qt.MatchContains)
+        completer_departamentos.setCompletionMode(QCompleter.PopupCompletion)
+            
+        self.inputDepartamento.setCompleter(completer_departamentos)
+        self.inputFiltroDepartamento.setCompleter(completer_departamentos)
+        self.inputBuscarDepartamento.setCompleter(completer_departamentos)
     
     def cargar_completer_tipos_servicio(self):
         tipos_servicio = self.servicio_controlador.filtrar_todos_tipos_servicio_controlador()
@@ -84,12 +87,15 @@ class VentanaPrincipal(QWidget, Ui_ventanaPrincipal):
             for tipo_servicio in tipos_servicio:
                 nombres_tipo_servicio.append(tipo_servicio["tipo_servicio_prestado"])
         
-        if (tipos_servicio):
+        if not(nombres_tipo_servicio):
+            completer_tipos_servicio = QCompleter([])
+        else:
             completer_tipos_servicio = QCompleter(nombres_tipo_servicio)
-            completer_tipos_servicio.setCaseSensitivity(Qt.CaseInsensitive)
-            completer_tipos_servicio.setFilterMode(Qt.MatchContains)
-            completer_tipos_servicio.setCompletionMode(QCompleter.PopupCompletion)
             
-            self.inputServicioPrestado.setCompleter(completer_tipos_servicio)
-            self.inputFiltroServicioPrestado.setCompleter(completer_tipos_servicio)
-            self.inputFiltroTipoServicio.setCompleter(completer_tipos_servicio)
+        completer_tipos_servicio.setCaseSensitivity(Qt.CaseInsensitive)
+        completer_tipos_servicio.setFilterMode(Qt.MatchContains)
+        completer_tipos_servicio.setCompletionMode(QCompleter.PopupCompletion)
+            
+        self.inputServicioPrestado.setCompleter(completer_tipos_servicio)
+        self.inputFiltroServicioPrestado.setCompleter(completer_tipos_servicio)
+        self.inputFiltroTipoServicio.setCompleter(completer_tipos_servicio)

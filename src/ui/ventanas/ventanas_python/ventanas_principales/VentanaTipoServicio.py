@@ -88,6 +88,7 @@ class VentanaTipoServicio:
             
             if not(tipos_servicio):
                 self.tipo_servicio_data = []
+                self.limpiar_tabla("")
                 return
             
             modelo_datos = QStandardItemModel(len(tipos_servicio), 1)

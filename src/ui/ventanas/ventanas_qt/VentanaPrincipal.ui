@@ -784,10 +784,10 @@ background-repeat: no-repeat;
           <widget class="Line" name="lineaSeparadoraSeccionApp">
            <property name="geometry">
             <rect>
-             <x>-10</x>
-             <y>150</y>
-             <width>1161</width>
-             <height>16</height>
+             <x>0</x>
+             <y>130</y>
+             <width>1141</width>
+             <height>20</height>
             </rect>
            </property>
            <property name="orientation">
@@ -798,7 +798,7 @@ background-repeat: no-repeat;
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>10</y>
+             <y>0</y>
              <width>1081</width>
              <height>125</height>
             </rect>
@@ -1016,8 +1016,8 @@ background-repeat: no-repeat;
           <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
-             <x>182</x>
-             <y>170</y>
+             <x>180</x>
+             <y>140</y>
              <width>821</width>
              <height>62</height>
             </rect>
@@ -1148,6 +1148,22 @@ background-repeat: no-repeat;
              <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
            </property>
           </widget>
+          <widget class="QLabel" name="labelErrorFiltro">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>200</y>
+             <width>821</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </widget>
          <widget class="QFrame" name="frameRegistros">
           <property name="geometry">
@@ -1176,27 +1192,11 @@ background-repeat: no-repeat;
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QLabel" name="labelErrorFiltro">
-           <property name="geometry">
-            <rect>
-             <x>12</x>
-             <y>12</y>
-             <width>16</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
           <widget class="QTableView" name="tvRegistros">
            <property name="geometry">
             <rect>
-             <x>12</x>
-             <y>11</y>
+             <x>10</x>
+             <y>10</y>
              <width>1111</width>
              <height>321</height>
             </rect>

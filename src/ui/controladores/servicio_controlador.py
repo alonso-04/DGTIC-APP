@@ -214,6 +214,9 @@ class ServicioControlador:
             if (nombres_tecnicos):
                 nombres_tecnicos = nombres_tecnicos.upper()
             
+            if (observaciones_adicionales):
+                observaciones_adicionales = observaciones_adicionales.upper()
+            
             nuevos_datos = {
                 "departamento_id": departamento_id,
                 "fecha_servicio": fecha_servicio,
@@ -304,6 +307,9 @@ class ServicioControlador:
     
     def actualizar_info_departamento_controlador(self, departamento_id: int, nuevo_nombre_departamento: str):
         try:
+            if (nuevo_nombre_departamento):
+                nuevo_nombre_departamento = nuevo_nombre_departamento.upper()
+            
             nuevos_datos = {
                 "nombre_departamento": nuevo_nombre_departamento
             }
@@ -384,6 +390,9 @@ class ServicioControlador:
     
     def actualizar_tipo_servicio_controlador(self, tipo_servicio_id: int, nuevo_tipo_servicio_prestado: str):
         try:
+            if (nuevo_tipo_servicio_prestado):
+                nuevo_tipo_servicio_prestado = nuevo_tipo_servicio_prestado.upper()
+            
             nuevos_datos = {
                 "tipo_servicio_prestado": nuevo_tipo_servicio_prestado
             }
