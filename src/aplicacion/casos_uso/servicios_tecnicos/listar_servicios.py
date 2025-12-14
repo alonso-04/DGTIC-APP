@@ -91,6 +91,47 @@ class ListarServicios:
             except Exception as error:
                 raise error
     
+    def obtener_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date) -> Optional[Generator[List[Tuple], None, None]]:
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                errores = []
+                
+                servicios_resultado = list(unidad_trabajo.servicio.obtener_por_rango_fecha(fecha_desde, fecha_hasta))
+                
+                if not (servicios_resultado):
+                    errores.append("No hay servicios dentro de ese rango.")
+                
+                if (fecha_desde > fecha_hasta):
+                    errores.append("La fecha de inicio no puede ser mayor que la fecha de fin.")
+                
+                if (errores):
+                    raise ServicioValidacionError(errores)
+                
+                return servicios_resultado
+            except ServicioValidacionError as error:
+                raise error
+            except Exception as error:
+                raise error
+    
+    def obtener_por_anio(self, anio: str) -> Optional[Generator[List[Tuple], None, None]]:
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                errores = []
+                
+                servicios_resultado = list(unidad_trabajo.servicio.obtener_por_anio(anio))
+                
+                if not(servicios_resultado):
+                    errores.append("No hay servicios realizados en este año.")
+                
+                if (errores):
+                    raise ServicioValidacionError(errores)
+                
+                return servicios_resultado
+            except ServicioValidacionError as error:
+                raise error
+            except Exception as error:
+                raise error
+    
     def obtener_por_fecha_o_departamento_o_tipo_servicio(self, fecha_servicio: date, nombre_departamento: Optional[str] = None, tipo_servicio_prestado: str = None) -> Generator[List[Tuple], None, None]:
         with self.unidad_trabajo() as unidad_trabajo:
             try:
@@ -112,39 +153,49 @@ class ListarServicios:
     
     def obtener_conteo_tipos_servicios_realizados(self, mes_anio: str) -> Generator[List[Tuple], None, None]:
         with self.unidad_trabajo() as unidad_trabajo:
-            try:
-                errores = []
-                
+            try:                
                 conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_tipos_servicios_realizados(mes_anio))
-                
-                if not(conteo_resultado):
-                    errores.append("No hay resultados en el conteo de servicios realizados.")
-                
-                if (errores):
-                    raise ServicioValidacionError(errores)
-                
                 return conteo_resultado
-            except ServicioValidacionError as error:
+            except Exception as error:
                 raise error
+    
+    def obtener_conteo_tipos_servicios_realizados_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date) -> Generator[List[Tuple], None, None]:
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_tipos_servicios_realizados_por_rango_fecha(fecha_desde, fecha_hasta))
+                return conteo_resultado
+            except Exception as error:
+                raise error
+    
+    def obtener_conteo_tipos_servicios_realizados_por_anio(self, anio: str) -> Generator[List[Tuple], None, None]:
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_tipos_servicios_realizados_por_anio(anio))
+                return conteo_resultado
             except Exception as error:
                 raise error
     
     def obtener_conteo_servicios_x_departamento(self, mes_anio: str) -> Generator[List[Tuple], None, None]:
         with self.unidad_trabajo() as unidad_trabajo:
             try:
-                errores = []
-                
                 conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_servicios_x_departamento(mes_anio))
-                
-                if not(conteo_resultado):
-                    errores.append("No hay resultados en el conteo de servicios realizados x departamento.")
-                
-                if (errores):
-                    raise ServicioValidacionError(errores)
-                
                 return conteo_resultado
-            except ServicioValidacionError as error:
+            except Exception as error:
                 raise error
+    
+    def obtener_conteo_servicios_x_departamento_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date):
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta))
+                return conteo_resultado
+            except Exception as error:
+                raise error
+    
+    def obtener_conteo_servicios_x_departamento_por_anio(self, anio: str):
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_servicios_x_departamento_por_anio(anio))
+                return conteo_resultado
             except Exception as error:
                 raise error
 

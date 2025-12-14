@@ -115,6 +115,61 @@ class ServicioAdaptador(ServicioPuerto):
             yield servicio
         return None
     
+    def obtener_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date) -> Optional[Generator[List[Tuple], None, None]]:
+        consulta = """
+            SELECT
+                servicio_id,
+                departamento_id,
+                tipo_servicio_id,
+                nombre_departamento,
+                DATE_FORMAT(fecha_servicio, '%m-%Y') AS mes_anio,
+                fecha_servicio,
+                falla_presenta,
+                tipo_servicio_prestado,
+                nombres_tecnicos,
+                observaciones_adicionales
+            FROM vw_servicios_prestados
+            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta;
+        """
+        
+        parametros = {
+            "fecha_desde": fecha_desde,
+            "fecha_hasta": fecha_hasta
+        }
+        
+        servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for servicio in servicios_modelo:
+            yield servicio
+        return None
+    
+    def obtener_por_anio(self, anio: str) -> Optional[Generator[List[Tuple], None, None]]:
+        anio = int(anio)
+        
+        consulta = """
+            SELECT
+                servicio_id,
+                departamento_id,
+                tipo_servicio_id,
+                nombre_departamento,
+                DATE_FORMAT(fecha_servicio, '%m-%Y') AS mes_anio,
+                fecha_servicio,
+                falla_presenta,
+                tipo_servicio_prestado,
+                nombres_tecnicos,
+                observaciones_adicionales
+            FROM vw_servicios_prestados
+            WHERE YEAR(fecha_servicio) = :anio;
+        """
+        
+        parametros = {"anio": anio}
+        
+        servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for servicio in servicios_modelo:
+            yield servicio
+        return None
+    
     def obtener_por_fecha_o_departamento_o_tipo_servicio(self, fecha_servicio: date, nombre_departamento: Optional[str] = None, tipo_servicio_prestado: str = None) -> Optional[Generator[List[Tuple], None, None]]:
         consulta = """
             SELECT
@@ -177,6 +232,45 @@ class ServicioAdaptador(ServicioPuerto):
             yield conteo_servicio
         return None
     
+    def obtener_conteo_tipos_servicios_realizados_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date) -> Optional[Generator[List[Tuple], None, None]]:
+        consulta = """
+            SELECT
+                tipo_servicio_prestado,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta
+            GROUP BY tipo_servicio_prestado;
+        """
+        
+        parametros = {
+            "fecha_desde": fecha_desde,
+            "fecha_hasta": fecha_hasta
+        }
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
+    def obtener_conteo_tipos_servicios_realizados_por_anio(self, anio: str) -> Optional[Generator[List[Tuple], None, None]]:
+        consulta = """
+            SELECT
+                tipo_servicio_prestado,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE YEAR(fecha_servicio) = :anio
+            GROUP BY tipo_servicio_prestado;
+        """
+        
+        parametros = {"anio": anio}
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
     def obtener_conteo_servicios_x_departamento(self, mes_anio: str) -> Optional[Generator[List[Tuple], None, None]]:
         mes, anio = mes_anio.split("-")
         mes = int(mes)
@@ -196,6 +290,47 @@ class ServicioAdaptador(ServicioPuerto):
             "mes": mes,
             "anio": anio
         }
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
+    def obtener_conteo_servicios_x_departamento_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date) -> Optional[Generator[List[Tuple], None, None]]:
+        consulta = """
+            SELECT
+                nombre_departamento,
+                tipo_servicio_prestado,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta
+            GROUP BY nombre_departamento, tipo_servicio_prestado;
+        """
+        parametros = {
+            "fecha_desde": fecha_desde,
+            "fecha_hasta": fecha_hasta
+        }
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
+    def obtener_conteo_servicios_x_departamento_por_anio(self, anio: str) -> Optional[Generator[List[Tuple], None, None]]:
+        anio = int(anio)
+        
+        consulta = """
+            SELECT
+                nombre_departamento,
+                tipo_servicio_prestado,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE YEAR(fecha_servicio) = :anio
+            GROUP BY nombre_departamento, tipo_servicio_prestado;
+        """
+        parametros = {"anio": anio}
         
         conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
         

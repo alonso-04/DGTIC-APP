@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5.QtCore import QDate, Qt, QThread, pyqtSignal
 from ui.ventanas.ventanas_pyuic.VentanaGenerarReportePyuic import Ui_VentanaGenerarReporte
 from dominio.excepciones import ServicioValidacionError
+from typing import Optional
+from datetime import date
 
 
 class ReporteTrabajador(QThread):
@@ -10,21 +12,39 @@ class ReporteTrabajador(QThread):
     SENIAL_ERROR = pyqtSignal(Exception)
     SENIAL_ACTUALIZAR_ESTADO = pyqtSignal(str)
     
-    def __init__(self, generador_reporte_mensual, mes_anio: str):
+    def __init__(
+        self,
+        generador_reporte_servicios,
+        opcion_seleccionada: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None
+    ):
         super().__init__()
-        self.generador_reporte_mensual = generador_reporte_mensual
+        self.generador_reporte_servicios = generador_reporte_servicios
+        self.opcion_seleccionada = opcion_seleccionada
         self.mes_anio = mes_anio
+        self.fecha_desde = fecha_desde
+        self.fecha_hasta = fecha_hasta
+        self.anio = anio
     
     def run(self):
         try:            
             # CARGA DE DATOS
-            datos = self.generador_reporte_mensual.cargar_datos(self.mes_anio)
+            datos = self.generador_reporte_servicios.cargar_datos(
+                self.opcion_seleccionada,
+                self.mes_anio,
+                self.fecha_desde,
+                self.fecha_hasta,
+                self.anio
+            )
             
             #1. NOTIFICAR ESTADO: EXPORTACIÓN
             self.SENIAL_ACTUALIZAR_ESTADO.emit("Exportando reporte a archivo...")
             
             # EXPORTACIÓN
-            self.generador_reporte_mensual.exportar(datos)
+            self.generador_reporte_servicios.exportar(datos)
             
             #2. ÉXITO: EMITIR SEÑAL DE FINALIZACIÓN EXITOSA
             self.SENIAL_EXITO.emit()
@@ -34,7 +54,7 @@ class ReporteTrabajador(QThread):
 
 
 class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
-    def __init__(self, generador_reporte_mensual):
+    def __init__(self, generador_reporte_servicios):
         super().__init__()
         self.setupUi(self)
         
@@ -44,18 +64,53 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
             Qt.WindowCloseButtonHint
         )
         
-        self.generador_reporte_mensual = generador_reporte_mensual
+        self.generador_reporte_servicios = generador_reporte_servicios
         self.configuracion()
         
         self.reporte_trabajador = None
     
     def configuracion(self):
+        self.cbTipoReporte.currentIndexChanged.connect(self.seleccionar_opcion)
+        
         self.deFechaReporte.setDate(QDate.currentDate())
+        self.deFechaDesde.setDate(QDate.currentDate())
+        self.deFechaHasta.setDate(QDate.currentDate())
+        self.deOpcionAnual.setDate(QDate.currentDate())
         
         self.botonGenerarReporteServicio.clicked.connect(self.generar_reporte)
         self.botonCancelarReporteServicio.clicked.connect(self.reject)
         
         self.barraProgresoReporte.hide()
+        
+        self.seleccionar_opcion(0)
+    
+    def seleccionar_opcion(self, indice):
+        opcion_seleccionada = self.cbTipoReporte.itemText(indice)
+        
+        if (indice == 0):
+            self.deFechaDesde.setEnabled(False)
+            self.deFechaHasta.setEnabled(False)
+            self.deOpcionAnual.setEnabled(False)
+            
+            self.deFechaReporte.setEnabled(True)
+        
+        if (indice == 1):
+            opcion_seleccionada = "RANGO_FECHA"
+            
+            self.deOpcionAnual.setEnabled(False)
+            self.deFechaReporte.setEnabled(False)
+            
+            self.deFechaDesde.setEnabled(True)
+            self.deFechaHasta.setEnabled(True)
+        
+        if (indice == 2):
+            self.deFechaReporte.setEnabled(False)
+            self.deFechaDesde.setEnabled(False)
+            self.deFechaHasta.setEnabled(False)
+            
+            self.deOpcionAnual.setEnabled(True)
+        
+        return opcion_seleccionada
     
     def establecer_modo_ocupado(self, ocupado, texto_estado: str = ""):
         self.botonGenerarReporteServicio.setEnabled(not ocupado)
@@ -72,19 +127,42 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
     
     def generar_reporte(self):
         try:
-            mes_anio_reporte_date = self.deFechaReporte.date()
-            mes_anio_reporte_string = mes_anio_reporte_date.toString("MM-yyyy")
+            indice_opcion_seleccionada = self.cbTipoReporte.currentIndex()
+            opcion_seleccionada = self.seleccionar_opcion(indice_opcion_seleccionada)
             
-            #1. CONFIGURAR LA UI A ESTADO DE "OCUPADO"
+            if (indice_opcion_seleccionada == 0):
+                mes_anio_reporte_date = self.deFechaReporte.date()
+                mes_anio_reporte_string = mes_anio_reporte_date.toString("MM-yyyy")
+                
+                self.reporte_trabajador = ReporteTrabajador(
+                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    opcion_seleccionada = opcion_seleccionada,
+                    mes_anio = mes_anio_reporte_string
+                )
+            
+            if (indice_opcion_seleccionada == 1):
+                fecha_desde = self.deFechaDesde.date().toPyDate()
+                fecha_hasta = self.deFechaHasta.date().toPyDate()
+                
+                self.reporte_trabajador = ReporteTrabajador(
+                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    opcion_seleccionada = opcion_seleccionada,
+                    fecha_desde = fecha_desde,
+                    fecha_hasta = fecha_hasta
+                )
+            
+            if (indice_opcion_seleccionada == 2):
+                anio_date = self.deOpcionAnual.date()
+                anio_string = anio_date.toString("yyyy")
+                
+                self.reporte_trabajador = ReporteTrabajador(
+                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    opcion_seleccionada = opcion_seleccionada,
+                    anio = anio_string
+                )
+            
             self.establecer_modo_ocupado(True, "Iniciando...")
             
-            #2. INICIAR Y CONFIGURAR EL TRABAJADOR
-            self.reporte_trabajador = ReporteTrabajador(
-                self.generador_reporte_mensual,
-                mes_anio_reporte_string
-            )
-            
-            #3. CONECTAR LAS SEÑALES A LOS SLOTS
             self.reporte_trabajador.SENIAL_ACTUALIZAR_ESTADO.connect(self.actualizar_mensaje_estado)
             self.reporte_trabajador.SENIAL_EXITO.connect(self.reporte_exitoso)
             self.reporte_trabajador.SENIAL_ERROR.connect(self.reporte_fallido)

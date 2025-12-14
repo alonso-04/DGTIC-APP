@@ -7,7 +7,7 @@ from ui.ventanas.ventanas_python.ventanas_emergentes.VentanaGenerarReporte impor
 from ui.ventanas.ventanas_python.ventanas_emergentes.VentanaImportacionBd import VentanaImportacionBd
 from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionError, TipoServicioValidacionError
 from infraestructura.conexiones.respaldo import RespaldoLocal
-from infraestructura.reportes.reporte_mensual_servicios import ReporteMensualServicios
+from infraestructura.reportes.reporte_servicios import ReporteServicios
 from typing import Dict
 from pathlib import Path
 
@@ -326,7 +326,7 @@ class VentanaApp:
     def generar_reporte(self):
         try:
             ventana_generar_reporte = VentanaGenerarReporte(
-                generador_reporte_mensual = ReporteMensualServicios()
+                generador_reporte_servicios = ReporteServicios()
             )
             
             ventana_generar_reporte.exec_()

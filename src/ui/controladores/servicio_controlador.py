@@ -3,6 +3,14 @@ from dominio.entidades.departamento import Departamento
 from dominio.entidades.tipo_servicio import TipoServicio
 from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionError, TipoServicioValidacionError
 from datetime import date
+from typing import Optional
+
+
+OPCIONES_TIPO_REPORTE = {
+    "MENSUAL": 1,
+    "RANGO_FECHA": 2,
+    "ANUAL": 3
+}
 
 
 class ServicioControlador:
@@ -79,9 +87,25 @@ class ServicioControlador:
         except TipoServicioValidacionError as error:
             raise error
     
-    def filtrar_mensual_servicios_controlador(self, mes_anio: str):
+    def filtrar_reporte_servicios_controlador(
+        self,
+        indice_opcion_tipo_reporte: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None
+    ):
         try:
-            servicios = self.listar_servicios.obtener_por_mes_anio(mes_anio)
+            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            
+            if (opcion_tipo_reporte == 1):
+                servicios = self.listar_servicios.obtener_por_mes_anio(mes_anio)
+            
+            if (opcion_tipo_reporte == 2):
+                servicios = self.listar_servicios.obtener_por_rango_fecha(fecha_desde, fecha_hasta)
+            
+            if (opcion_tipo_reporte == 3):
+                servicios = self.listar_servicios.obtener_por_anio(anio)
             
             lista_dict_servicios = []
             
@@ -140,9 +164,26 @@ class ServicioControlador:
         except ServicioValidacionError as error:
             raise error
     
-    def conteo_tipos_servicios_realizados_controlador(self, mes_anio: str):
+    def conteo_tipos_servicios_realizados_controlador(
+        self,
+        indice_opcion_tipo_reporte: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None
+    ):
         try:
-            conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados(mes_anio)
+            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            
+            if (opcion_tipo_reporte == 1):
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados(mes_anio)
+            
+            if (opcion_tipo_reporte == 2):
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_rango_fecha(fecha_desde, fecha_hasta)
+            
+            if (opcion_tipo_reporte == 3):
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_anio(anio)
+            
             lista_dict_conteo_servicios_realizados = []
             
             for conteo in conteo_servicios_realizados:
@@ -154,12 +195,29 @@ class ServicioControlador:
                 lista_dict_conteo_servicios_realizados.append(elemento)
             
             return lista_dict_conteo_servicios_realizados
-        except ServicioValidacionError as error:
+        except Exception as error:
             raise error
     
-    def conteo_servicios_realizados_x_departamento_controlador(self, mes_anio: str):
+    def conteo_servicios_realizados_x_departamento_controlador(
+        self,
+        indice_opcion_tipo_reporte: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None
+    ):
         try:
-            conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento(mes_anio)
+            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            
+            if (opcion_tipo_reporte == 1):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento(mes_anio)
+            
+            if (opcion_tipo_reporte == 2):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta)
+            
+            if (opcion_tipo_reporte == 3):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_anio(anio)
+            
             lista_dict_servicios_realizados_x_departamento = []
             
             for conteo in conteo_servicios_realizaods_x_departamento:
@@ -172,7 +230,7 @@ class ServicioControlador:
                 lista_dict_servicios_realizados_x_departamento.append(elemento)
             
             return lista_dict_servicios_realizados_x_departamento
-        except ServicioValidacionError as error:
+        except Exception as error:
             raise error
     
     def seleccionar_servicio_controlador(self, servicio_id: int):
