@@ -135,7 +135,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 mes_anio_reporte_string = mes_anio_reporte_date.toString("MM-yyyy")
                 
                 self.reporte_trabajador = ReporteTrabajador(
-                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     mes_anio = mes_anio_reporte_string
                 )
@@ -145,7 +145,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 fecha_hasta = self.deFechaHasta.date().toPyDate()
                 
                 self.reporte_trabajador = ReporteTrabajador(
-                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     fecha_desde = fecha_desde,
                     fecha_hasta = fecha_hasta
@@ -156,7 +156,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 anio_string = anio_date.toString("yyyy")
                 
                 self.reporte_trabajador = ReporteTrabajador(
-                    generador_reporte_mensual = self.generador_reporte_mensual,
+                    generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     anio = anio_string
                 )
