@@ -1,6 +1,7 @@
 import os
 import sys
 from userpaths import get_my_documents
+from utilidades.tipos_reporte import TiposReporte
 
 
 def obtener_ruta_base():
@@ -19,13 +20,17 @@ def obtener_ruta_sesion_json() -> str:
     ruta_final_sesion_json = os.path.join(RUTA_BASE, ruta_absoluta_sesion_json)
     return ruta_final_sesion_json
 
-def obtener_ruta_reportes() -> str:
+def obtener_ruta_reportes(indice_opcion_tipo_reporte: str) -> str:
     ruta_documentos = get_my_documents()
     ruta_reportes = os.path.join(ruta_documentos, "REPORTES_SERVICIOS")
     
+    opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"]
+    ruta_tipo_reporte = os.path.join(ruta_reportes, opcion_tipo_reporte.value)
+    
     try:
         os.makedirs(ruta_reportes, exist_ok = True)
-        return ruta_reportes
+        os.makedirs(ruta_tipo_reporte, exist_ok = True)
+        return ruta_tipo_reporte
     except OSError:
         return None
 

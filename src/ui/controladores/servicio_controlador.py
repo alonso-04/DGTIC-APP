@@ -2,15 +2,9 @@ from dominio.entidades.servicio import Servicio
 from dominio.entidades.departamento import Departamento
 from dominio.entidades.tipo_servicio import TipoServicio
 from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionError, TipoServicioValidacionError
+from utilidades.tipos_reporte import TiposReporte
 from datetime import date
 from typing import Optional
-
-
-OPCIONES_TIPO_REPORTE = {
-    "MENSUAL": 1,
-    "RANGO_FECHA": 2,
-    "ANUAL": 3
-}
 
 
 class ServicioControlador:
@@ -96,15 +90,15 @@ class ServicioControlador:
         anio: Optional[str] = None
     ):
         try:
-            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
-            if (opcion_tipo_reporte == 1):
+            if (opcion_tipo_reporte == "MENSUAL"):
                 servicios = self.listar_servicios.obtener_por_mes_anio(mes_anio)
             
-            if (opcion_tipo_reporte == 2):
+            if (opcion_tipo_reporte == "RANGO_FECHA"):
                 servicios = self.listar_servicios.obtener_por_rango_fecha(fecha_desde, fecha_hasta)
             
-            if (opcion_tipo_reporte == 3):
+            if (opcion_tipo_reporte == "ANUAL"):
                 servicios = self.listar_servicios.obtener_por_anio(anio)
             
             lista_dict_servicios = []
@@ -173,15 +167,15 @@ class ServicioControlador:
         anio: Optional[str] = None
     ):
         try:
-            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
-            if (opcion_tipo_reporte == 1):
+            if (opcion_tipo_reporte == "MENSUAL"):
                 conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados(mes_anio)
             
-            if (opcion_tipo_reporte == 2):
+            if (opcion_tipo_reporte == "RANGO_FECHA"):
                 conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_rango_fecha(fecha_desde, fecha_hasta)
             
-            if (opcion_tipo_reporte == 3):
+            if (opcion_tipo_reporte == "ANUAL"):
                 conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_anio(anio)
             
             lista_dict_conteo_servicios_realizados = []
@@ -207,15 +201,15 @@ class ServicioControlador:
         anio: Optional[str] = None
     ):
         try:
-            opcion_tipo_reporte = OPCIONES_TIPO_REPORTE.get(indice_opcion_tipo_reporte)
+            opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
-            if (opcion_tipo_reporte == 1):
+            if (opcion_tipo_reporte == "MENSUAL"):
                 conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento(mes_anio)
             
-            if (opcion_tipo_reporte == 2):
+            if (opcion_tipo_reporte == "RANGO_FECHA"):
                 conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta)
             
-            if (opcion_tipo_reporte == 3):
+            if (opcion_tipo_reporte == "ANUAL"):
                 conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_anio(anio)
             
             lista_dict_servicios_realizados_x_departamento = []
