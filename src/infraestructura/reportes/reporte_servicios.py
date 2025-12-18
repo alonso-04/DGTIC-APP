@@ -9,22 +9,16 @@ from typing import Optional, List, Any
 
 from infraestructura.dependencias import contenedor_dependencias
 from utilidades.cargar_meses import cargar_mes
+from utilidades.tipos_reporte import TiposReporte
 from configuraciones.rutas import obtener_ruta_reportes
 from dominio.excepciones import ServicioValidacionError
 from infraestructura.reportes.reporte_base import ReporteBase
 
 
 SERVICIO_CONTROLADOR = contenedor_dependencias.obtener_servicio_controlador()
-OPCIONES_TIPO_REPORTE = [
-    "MENSUAL",
-    "RANGO_FECHA",
-    "ANUAL"
-]
+
 
 class ReporteServicios(ReporteBase):
-    def __init__(self):
-        self.RUTA_REPORTES_SERVICOS = obtener_ruta_reportes()
-    
     def crear_libro(self):
         libro = Workbook()
         return libro
@@ -135,20 +129,22 @@ class ReporteServicios(ReporteBase):
         fecha_hasta: Optional[date] = None,
         anio: Optional[date] = None
     ):
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[0]):
+        opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+        
+        if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 mes_anio = mes_anio
             )
         
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[1]):
+        if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
                 fecha_hasta = fecha_hasta
             )
             
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[2]):
+        if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 anio = anio
@@ -191,20 +187,22 @@ class ReporteServicios(ReporteBase):
         fecha_hasta: Optional[date] = None,
         anio: Optional[date] = None
     ):
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[0]):
+        opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+        
+        if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 mes_anio = mes_anio
             )
             
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[1]):
+        if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
                 fecha_hasta = fecha_hasta
             )
         
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[2]):
+        if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 anio = anio
@@ -243,20 +241,22 @@ class ReporteServicios(ReporteBase):
         fecha_hasta: Optional[date] = None,
         anio: Optional[str] = None
     ):
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[0]):
+        opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+        
+        if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 mes_anio = mes_anio
             )
             
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[1]):
+        if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
                 fecha_hasta = fecha_hasta
             )
             
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[2]):
+        if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 anio = anio
@@ -294,20 +294,22 @@ class ReporteServicios(ReporteBase):
         fecha_hasta: Optional[date] = None,
         anio: Optional[str] = None
     ):
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[0]):
+        opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+        
+        if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 mes_anio = mes_anio
             )
         
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[1]):
+        if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
                 fecha_hasta = fecha_hasta
             )
         
-        if (indice_opcion_tipo_reporte == OPCIONES_TIPO_REPORTE[2]):
+        if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 anio = anio
@@ -401,11 +403,13 @@ class ReporteServicios(ReporteBase):
                 bottom = tipo_borde
             )
             
+            opcion_tipo_reporte = TiposReporte[f"{INDICE_OPCION_TIPO_REPORTE}"].name
+            
             if (FECHA_DESDE and FECHA_HASTA):
                 FECHA_DESDE = FECHA_DESDE.strftime("%Y-%m-%d")
                 FECHA_HASTA = FECHA_HASTA.strftime("%Y-%m-%d")
             
-            if (INDICE_OPCION_TIPO_REPORTE == OPCIONES_TIPO_REPORTE[0]):
+            if (opcion_tipo_reporte == "MENSUAL"):
                 mes = cargar_mes(MES_ANIO).upper()
 
                 _, anio = MES_ANIO.split("-")
@@ -413,10 +417,10 @@ class ReporteServicios(ReporteBase):
                 
                 nombre_archivo = f"REPORTE SERVICIOS - {mes} {anio}"
             
-            if (INDICE_OPCION_TIPO_REPORTE == OPCIONES_TIPO_REPORTE[1]):
+            if (opcion_tipo_reporte == "RANGO_FECHA"):
                 nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE} HASTA {FECHA_HASTA}"
             
-            if (INDICE_OPCION_TIPO_REPORTE == OPCIONES_TIPO_REPORTE[2]):
+            if (opcion_tipo_reporte == "ANUAL"):
                 nombre_archivo = f"REPORTE SERVICIOS - {ANIO}"
             
             self.cargar_configuraciones_excel(hoja_1, hoja_2)
@@ -470,7 +474,8 @@ class ReporteServicios(ReporteBase):
                 ANIO
             )
             
-            RUTA_ARCHIVO_EXCEL = f"{self.RUTA_REPORTES_SERVICOS}/{nombre_archivo}.xlsx"
+            RUTA_REPORTES_SERVICOS = obtener_ruta_reportes(INDICE_OPCION_TIPO_REPORTE)
+            RUTA_ARCHIVO_EXCEL = f"{RUTA_REPORTES_SERVICOS}/{nombre_archivo}.xlsx"
             
             libro.save(RUTA_ARCHIVO_EXCEL)
             
