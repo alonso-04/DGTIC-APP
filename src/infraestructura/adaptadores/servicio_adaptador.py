@@ -101,7 +101,8 @@ class ServicioAdaptador(ServicioPuerto):
                 observaciones_adicionales
             FROM vw_servicios_prestados
             WHERE MONTH(fecha_servicio) = :mes
-            AND YEAR(fecha_servicio)  = :anio;
+            AND YEAR(fecha_servicio)  = :anio
+            ORDER BY fecha_servicio;
         """
         
         parametros = {
@@ -129,7 +130,8 @@ class ServicioAdaptador(ServicioPuerto):
                 nombres_tecnicos,
                 observaciones_adicionales
             FROM vw_servicios_prestados
-            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta;
+            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta
+            ORDER BY fecha_servicio;
         """
         
         parametros = {
@@ -159,7 +161,8 @@ class ServicioAdaptador(ServicioPuerto):
                 nombres_tecnicos,
                 observaciones_adicionales
             FROM vw_servicios_prestados
-            WHERE YEAR(fecha_servicio) = :anio;
+            WHERE YEAR(fecha_servicio) = :anio
+            ORDER BY fecha_servicio;
         """
         
         parametros = {"anio": anio}

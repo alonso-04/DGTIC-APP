@@ -9,6 +9,7 @@ from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionE
 from infraestructura.conexiones.respaldo import RespaldoLocal
 from infraestructura.reportes.reporte_servicios import ReporteServicios
 from typing import Dict
+from datetime import datetime
 from pathlib import Path
 
 
@@ -209,6 +210,7 @@ class VentanaApp:
                 
             for fila, servicio in enumerate(servicios):
                 observacion_adicional = servicio["observaciones_adicionales"]
+                
                 if (self.esta_vacio(observacion_adicional)):
                     observacion_adicional = ""
                 

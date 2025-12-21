@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import xlwings as xw
-from datetime import date
+from datetime import date, datetime
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -330,7 +330,7 @@ class ReporteServicios(ReporteBase):
         ax.set_title("CONTEO DE SERVICIOS")
         ax.tick_params(
             axis = "x",
-            rotation = 45
+            rotation = 90
         )
         
         figura.tight_layout()
@@ -418,7 +418,13 @@ class ReporteServicios(ReporteBase):
                 nombre_archivo = f"REPORTE SERVICIOS - {mes} {anio}"
             
             if (opcion_tipo_reporte == "RANGO_FECHA"):
-                nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE} HASTA {FECHA_HASTA}"
+                FECHA_DESDE_DATE = datetime.strptime(FECHA_DESDE, "%Y-%m-%d")
+                FECHA_HASTA_DATE = datetime.strptime(FECHA_HASTA, "%Y-%m-%d")
+                
+                FECHA_DESDE_FORMATEADO = FECHA_DESDE_DATE.strftime("%d-%m-%Y")
+                FECHA_HASTA_FORMATEADO = FECHA_HASTA_DATE.strftime("%d-%m-%Y")
+                
+                nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE_FORMATEADO} HASTA {FECHA_HASTA_FORMATEADO}"
             
             if (opcion_tipo_reporte == "ANUAL"):
                 nombre_archivo = f"REPORTE SERVICIOS - {ANIO}"
