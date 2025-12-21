@@ -107,13 +107,15 @@ class ServicioControlador:
                 return []
             
             for servicio in servicios:
+                fecha_servicio_formateada = servicio[5].strftime("%d-%m-%Y")
+                
                 elemento = {
                     "servicio_id": servicio[0],
                     "departamento_id": servicio[1],
                     "tipo_servicio_id": servicio[2],
                     "nombre_departamento": servicio[3],
                     "mes_anio": servicio[4],
-                    "fecha_servicio": servicio[5],
+                    "fecha_servicio": fecha_servicio_formateada,
                     "falla_presenta": servicio[6],
                     "tipo_servicio_prestado": servicio[7],
                     "nombres_tecnicos": servicio[8],
@@ -140,12 +142,14 @@ class ServicioControlador:
                 return []
             
             for servicio in servicios:
+                fecha_servicio_formateada = servicio[4].strftime("%d-%m-%Y")
+                
                 elemento = {
                     "servicio_id": servicio[0],
                     "departamento_id": servicio[1],
                     "tipo_servicio_id": servicio[2],
                     "nombre_departamento": servicio[3],
-                    "fecha_servicio": servicio[4],
+                    "fecha_servicio": fecha_servicio_formateada,
                     "falla_presenta": servicio[5],
                     "tipo_servicio_prestado": servicio[6],
                     "nombres_tecnicos": servicio[7],

@@ -9,6 +9,7 @@ from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionE
 from infraestructura.conexiones.respaldo import RespaldoLocal
 from infraestructura.reportes.reporte_servicios import ReporteServicios
 from typing import Dict
+from datetime import datetime
 from pathlib import Path
 
 
@@ -209,12 +210,17 @@ class VentanaApp:
                 
             for fila, servicio in enumerate(servicios):
                 observacion_adicional = servicio["observaciones_adicionales"]
+                
+                fecha_servicio_str = servicio["fecha_servicio"]
+                fecha_servicio_date = datetime.strptime(fecha_servicio_str, "%d-%m-%Y").date()
+                fecha_servicio_formateada = fecha_servicio_date.strftime("%d-%m-%Y")
+                
                 if (self.esta_vacio(observacion_adicional)):
                     observacion_adicional = ""
                 
                 items = [
                     QStandardItem(str(servicio["nombre_departamento"])),
-                    QStandardItem(str(servicio["fecha_servicio"])),
+                    QStandardItem(fecha_servicio_formateada),
                     QStandardItem(str(servicio["falla_presenta"])),
                     QStandardItem(str(servicio["tipo_servicio_prestado"])),
                     QStandardItem(str(servicio["nombres_tecnicos"])),

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QDialog, QMessageBox, QCompleter
 from PyQt5.QtCore import Qt
 from ui.ventanas.ventanas_pyuic.VentanaInfoServicioPyuic import Ui_ventanaInfoServicio
 from typing import Dict
+from datetime import datetime
 from dominio.excepciones import ServicioValidacionError, DepartamentoValidacionError, TipoServicioValidacionError
 
 
@@ -30,8 +31,11 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
         self.botonEliminarServicio.clicked.connect(self.eliminar_servicio)
         self.botonCancelar.clicked.connect(self.reject)
     
-    def cargar_datos(self): 
-        self.deInfoFechaServicio.setDate(self.servicio_data["fecha_servicio"])
+    def cargar_datos(self):
+        fecha_servicio_str = self.servicio_data["fecha_servicio"]
+        fecha_servicio_date = datetime.strptime(fecha_servicio_str, "%d-%m-%Y").date()
+        
+        self.deInfoFechaServicio.setDate(fecha_servicio_date)
         self.inputInfoNombreDepartamento.setText(self.servicio_data["nombre_departamento"])
         self.inputInfoFallaPresenta.setText(self.servicio_data["falla_presenta"])
         self.inputInfoServicioPrestado.setText(self.servicio_data["tipo_servicio_prestado"])
