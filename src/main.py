@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 # Si la aplicación se ejecuta como un ejecutable de PyInstaller
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
     # La ruta del .env será el directorio temporal de PyInstaller
-    dotenv_path = os.path.join(sys._MEIPASS, '.env')
+    dotenv_path = os.path.join(sys._MEIPASS, '.env.ejemplo')
 else:
     # En modo de desarrollo, la ruta es la del script
     dotenv_path = os.path.join(os.path.dirname(__file__), "..", '.env')
