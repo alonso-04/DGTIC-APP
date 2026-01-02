@@ -376,7 +376,7 @@ class ReporteServicios(ReporteBase):
         
         return datos
     
-    def exportar(self, datos: List) -> Any:
+    def exportar(self, datos: List) -> str:
         try:
             libro = self.crear_libro()
             hoja_1, hoja_2 = self.crear_hojas(libro)
