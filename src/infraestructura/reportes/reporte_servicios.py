@@ -376,7 +376,7 @@ class ReporteServicios(ReporteBase):
         
         return datos
     
-    def exportar(self, datos: List) -> Any:
+    def exportar(self, datos: List) -> str:
         try:
             libro = self.crear_libro()
             hoja_1, hoja_2 = self.crear_hojas(libro)
@@ -493,6 +493,8 @@ class ReporteServicios(ReporteBase):
                 fecha_hasta = FECHA_HASTA,
                 anio = ANIO
             )
+            
+            return RUTA_ARCHIVO_EXCEL
         except ServicioValidacionError as error:
             raise error
 
