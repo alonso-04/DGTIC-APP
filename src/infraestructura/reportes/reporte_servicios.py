@@ -493,6 +493,8 @@ class ReporteServicios(ReporteBase):
                 fecha_hasta = FECHA_HASTA,
                 anio = ANIO
             )
+            
+            return RUTA_ARCHIVO_EXCEL
         except ServicioValidacionError as error:
             raise error
 

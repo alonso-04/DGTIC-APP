@@ -6,9 +6,9 @@ from typing import Optional
 from datetime import date
 
 
-class ReporteTrabajador(QThread):
+class HiloReporteServicio(QThread):
     # SEÑALES QUE SE USARÁN PARA COMUNICAR EL ESTADO A LA UI
-    SENIAL_EXITO = pyqtSignal()
+    SENIAL_EXITO = pyqtSignal(str)
     SENIAL_ERROR = pyqtSignal(Exception)
     SENIAL_ACTUALIZAR_ESTADO = pyqtSignal(str)
     
@@ -44,10 +44,10 @@ class ReporteTrabajador(QThread):
             self.SENIAL_ACTUALIZAR_ESTADO.emit("Exportando reporte a archivo...")
             
             # EXPORTACIÓN
-            self.generador_reporte_servicios.exportar(datos)
+            RUTA_REPORTE_GENERADO = self.generador_reporte_servicios.exportar(datos)
             
             #2. ÉXITO: EMITIR SEÑAL DE FINALIZACIÓN EXITOSA
-            self.SENIAL_EXITO.emit()
+            self.SENIAL_EXITO.emit(RUTA_REPORTE_GENERADO)
         except Exception as error:
             #3. ERROR: EMITIR SEÑAL DE ERROR EN CASO DE FALLAS 
             self.SENIAL_ERROR.emit(error)
@@ -134,7 +134,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 mes_anio_reporte_date = self.deFechaReporte.date()
                 mes_anio_reporte_string = mes_anio_reporte_date.toString("MM-yyyy")
                 
-                self.reporte_trabajador = ReporteTrabajador(
+                self.reporte_trabajador = HiloReporteServicio(
                     generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     mes_anio = mes_anio_reporte_string
@@ -144,7 +144,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 fecha_desde = self.deFechaDesde.date().toPyDate()
                 fecha_hasta = self.deFechaHasta.date().toPyDate()
                 
-                self.reporte_trabajador = ReporteTrabajador(
+                self.reporte_trabajador = HiloReporteServicio(
                     generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     fecha_desde = fecha_desde,
@@ -155,7 +155,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 anio_date = self.deOpcionAnual.date()
                 anio_string = anio_date.toString("yyyy")
                 
-                self.reporte_trabajador = ReporteTrabajador(
+                self.reporte_trabajador = HiloReporteServicio(
                     generador_reporte_servicios = self.generador_reporte_servicios,
                     opcion_seleccionada = opcion_seleccionada,
                     anio = anio_string
@@ -175,10 +175,10 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
     def actualizar_mensaje_estado(self, mensaje: str):
         self.labelEstadoReporte.setText(mensaje)
     
-    def reporte_exitoso(self):
+    def reporte_exitoso(self, RUTA_REPORTE_GENERADO: str):
         self.establecer_modo_ocupado(False, "Reporte generado con éxito")
         
-        QMessageBox.information(self, "Éxito", "Se ha generado el reporte correctamente.")
+        QMessageBox.information(self, "Éxito", f"Se ha generado el reporte correctamente en {RUTA_REPORTE_GENERADO}")
         self.accept()
     
     def reporte_fallido(self, error):
