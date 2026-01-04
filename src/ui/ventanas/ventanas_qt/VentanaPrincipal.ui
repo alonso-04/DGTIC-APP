@@ -36,6 +36,40 @@
 }
 
 
+/* BOTÓN DE MANUAL DE USUARIO  */
+
+#botonManualUsuarioSeccionIniciarSesion,
+#frameSuperior #botonManualUsuarioSeccionApp,
+#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos,
+#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios,
+#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio {
+	background-image: url(:/iconos/iconos/help.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #fff;
+	border-radius: 20px;
+	border: 1px solid #000000;
+}
+
+
+#botonManualUsuarioSeccionIniciarSesion::hover,
+#frameSuperior #botonManualUsuarioSeccionApp::hover,
+#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos::hover,
+#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios::hover,
+#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio::hover {
+	background-color: #dadada;
+}
+
+
+#botonManualUsuarioSeccionIniciarSesion::pressed,
+#frameSuperior #botonManualUsuarioSeccionApp::pressed,
+#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos::pressed,
+#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios::pressed,
+#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio::pressed {
+	background-color: #a3a3a3;
+}
+
+
 /* PÁGINA DE INICIAR SESIÓN */
 
 #frameCamposInicioSesion {
@@ -292,7 +326,7 @@ QWidget{
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+   <item>
     <widget class="QStackedWidget" name="ventanas">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -312,8 +346,11 @@ QWidget{
        <height>700</height>
       </size>
      </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="paginaIniciarSesion">
       <property name="styleSheet">
@@ -324,13 +361,13 @@ QWidget{
         <widget class="QFrame" name="frameGeneralIniciarSesion">
          <property name="minimumSize">
           <size>
-           <width>922</width>
+           <width>1159</width>
            <height>400</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>922</width>
+           <width>1159</width>
            <height>865</height>
           </size>
          </property>
@@ -549,6 +586,28 @@ background-repeat: no-repeat;
              </property>
              <property name="scaledContents">
               <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="botonManualUsuarioSeccionIniciarSesion">
+             <property name="geometry">
+              <rect>
+               <x>512</x>
+               <y>10</y>
+               <width>40</width>
+               <height>40</height>
+              </rect>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </widget>
@@ -799,7 +858,7 @@ background-repeat: no-repeat;
             <rect>
              <x>40</x>
              <y>0</y>
-             <width>1081</width>
+             <width>1041</width>
              <height>125</height>
             </rect>
            </property>
@@ -1164,6 +1223,25 @@ background-repeat: no-repeat;
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
+          <widget class="QPushButton" name="botonManualUsuarioSeccionApp">
+           <property name="geometry">
+            <rect>
+             <x>1100</x>
+             <y>0</y>
+             <width>40</width>
+             <height>40</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
          <widget class="QFrame" name="frameRegistros">
           <property name="geometry">
@@ -1396,6 +1474,25 @@ background-repeat: no-repeat;
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="botonManualUsuarioSeccionUsuarios">
+           <property name="geometry">
+            <rect>
+             <x>1100</x>
+             <y>10</y>
+             <width>40</width>
+             <height>40</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </widget>
@@ -1704,6 +1801,25 @@ background-repeat: no-repeat;
              <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
            </property>
           </widget>
+          <widget class="QPushButton" name="botonManualUsuarioSeccionDepartamentos">
+           <property name="geometry">
+            <rect>
+             <x>1100</x>
+             <y>10</y>
+             <width>40</width>
+             <height>40</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
          <widget class="QFrame" name="frameListaDepartamentos">
           <property name="geometry">
@@ -1998,6 +2114,25 @@ background-repeat: no-repeat;
              <normaloff>:/iconos/iconos/reload.png</normaloff>:/iconos/iconos/reload.png</iconset>
            </property>
           </widget>
+          <widget class="QPushButton" name="botonManualUsuarioSeccionTipoServicio">
+           <property name="geometry">
+            <rect>
+             <x>1100</x>
+             <y>10</y>
+             <width>40</width>
+             <height>40</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </widget>
          <widget class="QFrame" name="frameRegistrosTipoServicio">
           <property name="geometry">
@@ -2093,8 +2228,8 @@ background-repeat: no-repeat;
   </layout>
  </widget>
  <resources>
-  <include location="../../../recursos/qtRecursosIconos.qrc"/>
   <include location="../../../recursos/qtRecursosLogos.qrc"/>
+  <include location="../../../recursos/qtRecursosIconos.qrc"/>
  </resources>
  <connections/>
 </ui>

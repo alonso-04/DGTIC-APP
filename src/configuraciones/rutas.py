@@ -1,5 +1,8 @@
 import os
 import sys
+import shutil
+import platform
+import subprocess
 from userpaths import get_my_documents
 from utilidades.tipos_reporte import TiposReporte
 
@@ -43,6 +46,32 @@ def obtener_ruta_respaldos_bd() -> str:
         return ruta_respaldos
     except OSError:
         return None
+
+def obtener_ruta_manual_usuario() -> str:
+    ruta_original_manual_usuario = os.path.join(os.getcwd(), "recursos", "manual_usuario", "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
+    
+    ruta_documentos = get_my_documents()
+    ruta_carpeta_manual_usuario = os.path.join(ruta_documentos, "MANUAL_USUARIO")
+    ruta_destino_manual_usuario = os.path.join(ruta_carpeta_manual_usuario, "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
+    
+    try:
+        if not(os.path.exists(ruta_carpeta_manual_usuario)):
+            os.makedirs(ruta_carpeta_manual_usuario, exist_ok = True)
+        
+        if not(os.path.exists(ruta_destino_manual_usuario)):
+            if (os.path.exists(ruta_original_manual_usuario)):
+                shutil.copy2(ruta_original_manual_usuario, ruta_destino_manual_usuario)
+        
+        if (platform.system() == "Windows"):
+            os.startfile(ruta_destino_manual_usuario)
+        elif (platform.system() == "Darwin"):
+            subprocess.call(("open", ruta_destino_manual_usuario))
+        else:
+            subprocess.call(("xdg-open", ruta_destino_manual_usuario))
+        
+        return ruta_destino_manual_usuario
+    except Exception as error:
+        raise error
 
 
 if __name__ == "__main__":

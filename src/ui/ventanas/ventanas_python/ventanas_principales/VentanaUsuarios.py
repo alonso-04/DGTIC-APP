@@ -24,6 +24,8 @@ class VentanaUsuarios:
         self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
         self.esta_vacio = self.ventana_principal.esta_vacio
         self.botonRefrescarUsuarios = self.ventana_principal.botonRefrescarUsuarios
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
+        self.botonManualUsuarioSeccionUsuarios = self.ventana_principal.botonManualUsuarioSeccionUsuarios
         
         # SECCIÓN DE REGISTRAR
         self.inputRegistrarNombreUsuario = self.ventana_principal.inputRegistrarNombreUsuario
@@ -44,6 +46,7 @@ class VentanaUsuarios:
     
     def configurar(self):
         self.botonRefrescarUsuarios.clicked.connect(self.refrescar_pagina_usuarios)
+        self.botonManualUsuarioSeccionUsuarios.clicked.connect(self.ver_manual_usuario)
         self.botonRegresarSeccionUsuarios.clicked.connect(self.ir_pagina_app)
         self.tvUsuarios.clicked.connect(self.seleccionar_usuario)
         self.botonRegistrarUsuario.clicked.connect(self.registrar_nuevo_usuario)
@@ -52,6 +55,9 @@ class VentanaUsuarios:
     
     def refrescar_pagina_usuarios(self):
         self.filtrar_todos_usuarios()
+    
+    def ver_manual_usuario(self):
+        self.cargar_manual_usuario()
     
     def ir_pagina_app(self):
         self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaApp)

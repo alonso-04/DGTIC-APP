@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="iconos">
+    <file>iconos/help.png</file>
     <file>iconos/reload.png</file>
     <file>iconos/icono-app-dgtic.png</file>
     <file>iconos/padlock.png</file>

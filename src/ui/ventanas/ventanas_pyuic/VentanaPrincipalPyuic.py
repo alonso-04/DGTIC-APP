@@ -30,6 +30,40 @@ class Ui_ventanaPrincipal(object):
 "}\n"
 "\n"
 "\n"
+"/* BOTÓN DE MANUAL DE USUARIO  */\n"
+"\n"
+"#botonManualUsuarioSeccionIniciarSesion,\n"
+"#frameSuperior #botonManualUsuarioSeccionApp,\n"
+"#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos,\n"
+"#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios,\n"
+"#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio {\n"
+"    background-image: url(:/iconos/iconos/help.png);\n"
+"    background-repeat: no-repeat;\n"
+"    background-position: center;\n"
+"    background-color: #fff;\n"
+"    border-radius: 20px;\n"
+"    border: 1px solid #000000;\n"
+"}\n"
+"\n"
+"\n"
+"#botonManualUsuarioSeccionIniciarSesion::hover,\n"
+"#frameSuperior #botonManualUsuarioSeccionApp::hover,\n"
+"#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos::hover,\n"
+"#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios::hover,\n"
+"#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio::hover {\n"
+"    background-color: #dadada;\n"
+"}\n"
+"\n"
+"\n"
+"#botonManualUsuarioSeccionIniciarSesion::pressed,\n"
+"#frameSuperior #botonManualUsuarioSeccionApp::pressed,\n"
+"#frameSeccionRegistrarDepartamento #botonManualUsuarioSeccionDepartamentos::pressed,\n"
+"#frameSeccionRegistrarUsuario #botonManualUsuarioSeccionUsuarios::pressed,\n"
+"#frameSuperiorTipoServicio #botonManualUsuarioSeccionTipoServicio::pressed {\n"
+"    background-color: #a3a3a3;\n"
+"}\n"
+"\n"
+"\n"
 "/* PÁGINA DE INICIAR SESIÓN */\n"
 "\n"
 "#frameCamposInicioSesion {\n"
@@ -294,6 +328,7 @@ class Ui_ventanaPrincipal(object):
         self.ventanas.setSizePolicy(sizePolicy)
         self.ventanas.setMinimumSize(QtCore.QSize(1184, 700))
         self.ventanas.setMaximumSize(QtCore.QSize(1184, 700))
+        self.ventanas.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.ventanas.setObjectName("ventanas")
         self.paginaIniciarSesion = QtWidgets.QWidget()
         self.paginaIniciarSesion.setStyleSheet("")
@@ -301,8 +336,8 @@ class Ui_ventanaPrincipal(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.paginaIniciarSesion)
         self.verticalLayout.setObjectName("verticalLayout")
         self.frameGeneralIniciarSesion = QtWidgets.QFrame(self.paginaIniciarSesion)
-        self.frameGeneralIniciarSesion.setMinimumSize(QtCore.QSize(922, 400))
-        self.frameGeneralIniciarSesion.setMaximumSize(QtCore.QSize(922, 865))
+        self.frameGeneralIniciarSesion.setMinimumSize(QtCore.QSize(1159, 400))
+        self.frameGeneralIniciarSesion.setMaximumSize(QtCore.QSize(1159, 865))
         self.frameGeneralIniciarSesion.setStyleSheet("")
         self.frameGeneralIniciarSesion.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameGeneralIniciarSesion.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -385,6 +420,13 @@ class Ui_ventanaPrincipal(object):
         self.labelImgLogo.setPixmap(QtGui.QPixmap(":/logos/logos/logo_dgtic.png"))
         self.labelImgLogo.setScaledContents(True)
         self.labelImgLogo.setObjectName("labelImgLogo")
+        self.botonManualUsuarioSeccionIniciarSesion = QtWidgets.QPushButton(self.frameLogoDepartamento)
+        self.botonManualUsuarioSeccionIniciarSesion.setGeometry(QtCore.QRect(512, 10, 40, 40))
+        self.botonManualUsuarioSeccionIniciarSesion.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.botonManualUsuarioSeccionIniciarSesion.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.botonManualUsuarioSeccionIniciarSesion.setStyleSheet("")
+        self.botonManualUsuarioSeccionIniciarSesion.setText("")
+        self.botonManualUsuarioSeccionIniciarSesion.setObjectName("botonManualUsuarioSeccionIniciarSesion")
         self.horizontalLayout.addWidget(self.frameLogoDepartamento)
         self.verticalLayout.addWidget(self.frameGeneralIniciarSesion, 0, QtCore.Qt.AlignHCenter)
         self.ventanas.addWidget(self.paginaIniciarSesion)
@@ -488,7 +530,7 @@ class Ui_ventanaPrincipal(object):
         self.lineaSeparadoraSeccionApp.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.lineaSeparadoraSeccionApp.setObjectName("lineaSeparadoraSeccionApp")
         self.layoutWidget2 = QtWidgets.QWidget(self.frameSuperior)
-        self.layoutWidget2.setGeometry(QtCore.QRect(40, 0, 1081, 125))
+        self.layoutWidget2.setGeometry(QtCore.QRect(40, 0, 1041, 125))
         self.layoutWidget2.setObjectName("layoutWidget2")
         self.hlCamposRegistrarServicio = QtWidgets.QHBoxLayout(self.layoutWidget2)
         self.hlCamposRegistrarServicio.setContentsMargins(0, 0, 0, 0)
@@ -656,6 +698,12 @@ class Ui_ventanaPrincipal(object):
         self.labelErrorFiltro.setText("")
         self.labelErrorFiltro.setAlignment(QtCore.Qt.AlignCenter)
         self.labelErrorFiltro.setObjectName("labelErrorFiltro")
+        self.botonManualUsuarioSeccionApp = QtWidgets.QPushButton(self.frameSuperior)
+        self.botonManualUsuarioSeccionApp.setGeometry(QtCore.QRect(1100, 0, 40, 40))
+        self.botonManualUsuarioSeccionApp.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.botonManualUsuarioSeccionApp.setStyleSheet("")
+        self.botonManualUsuarioSeccionApp.setText("")
+        self.botonManualUsuarioSeccionApp.setObjectName("botonManualUsuarioSeccionApp")
         self.frameRegistros = QtWidgets.QFrame(self.frameApp)
         self.frameRegistros.setGeometry(QtCore.QRect(12, 256, 1131, 341))
         self.frameRegistros.setMinimumSize(QtCore.QSize(0, 300))
@@ -738,6 +786,12 @@ class Ui_ventanaPrincipal(object):
         self.lineaSeparadoraSeccionUsuarios.setFrameShape(QtWidgets.QFrame.HLine)
         self.lineaSeparadoraSeccionUsuarios.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.lineaSeparadoraSeccionUsuarios.setObjectName("lineaSeparadoraSeccionUsuarios")
+        self.botonManualUsuarioSeccionUsuarios = QtWidgets.QPushButton(self.frameSeccionRegistrarUsuario)
+        self.botonManualUsuarioSeccionUsuarios.setGeometry(QtCore.QRect(1100, 10, 40, 40))
+        self.botonManualUsuarioSeccionUsuarios.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.botonManualUsuarioSeccionUsuarios.setStyleSheet("")
+        self.botonManualUsuarioSeccionUsuarios.setText("")
+        self.botonManualUsuarioSeccionUsuarios.setObjectName("botonManualUsuarioSeccionUsuarios")
         self.frameInferiorSeccionUsuarios = QtWidgets.QFrame(self.frameGeneralUsuarios)
         self.frameInferiorSeccionUsuarios.setGeometry(QtCore.QRect(10, 620, 1160, 61))
         self.frameInferiorSeccionUsuarios.setMinimumSize(QtCore.QSize(876, 0))
@@ -861,6 +915,12 @@ class Ui_ventanaPrincipal(object):
         self.botonRefrescarDepartamentos.setText("")
         self.botonRefrescarDepartamentos.setIcon(icon1)
         self.botonRefrescarDepartamentos.setObjectName("botonRefrescarDepartamentos")
+        self.botonManualUsuarioSeccionDepartamentos = QtWidgets.QPushButton(self.frameSeccionRegistrarDepartamento)
+        self.botonManualUsuarioSeccionDepartamentos.setGeometry(QtCore.QRect(1100, 10, 40, 40))
+        self.botonManualUsuarioSeccionDepartamentos.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.botonManualUsuarioSeccionDepartamentos.setStyleSheet("")
+        self.botonManualUsuarioSeccionDepartamentos.setText("")
+        self.botonManualUsuarioSeccionDepartamentos.setObjectName("botonManualUsuarioSeccionDepartamentos")
         self.frameListaDepartamentos = QtWidgets.QFrame(self.frameGeneralDepartamentos)
         self.frameListaDepartamentos.setGeometry(QtCore.QRect(154, 248, 876, 371))
         self.frameListaDepartamentos.setMaximumSize(QtCore.QSize(876, 450))
@@ -967,6 +1027,12 @@ class Ui_ventanaPrincipal(object):
         self.botonRefrescarTiposServicio.setText("")
         self.botonRefrescarTiposServicio.setIcon(icon1)
         self.botonRefrescarTiposServicio.setObjectName("botonRefrescarTiposServicio")
+        self.botonManualUsuarioSeccionTipoServicio = QtWidgets.QPushButton(self.frameSuperiorTipoServicio)
+        self.botonManualUsuarioSeccionTipoServicio.setGeometry(QtCore.QRect(1100, 10, 40, 40))
+        self.botonManualUsuarioSeccionTipoServicio.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.botonManualUsuarioSeccionTipoServicio.setStyleSheet("")
+        self.botonManualUsuarioSeccionTipoServicio.setText("")
+        self.botonManualUsuarioSeccionTipoServicio.setObjectName("botonManualUsuarioSeccionTipoServicio")
         self.frameRegistrosTipoServicio = QtWidgets.QFrame(self.frameGeneralTipoServicio)
         self.frameRegistrosTipoServicio.setGeometry(QtCore.QRect(154, 248, 876, 361))
         self.frameRegistrosTipoServicio.setMaximumSize(QtCore.QSize(876, 450))
@@ -991,10 +1057,10 @@ class Ui_ventanaPrincipal(object):
         self.botonRegresarSeccionTipoServicio.setObjectName("botonRegresarSeccionTipoServicio")
         self.verticalLayout_9.addWidget(self.frameGeneralTipoServicio, 0, QtCore.Qt.AlignHCenter)
         self.ventanas.addWidget(self.paginaTiposServicio)
-        self.verticalLayout_2.addWidget(self.ventanas, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_2.addWidget(self.ventanas)
 
         self.retranslateUi(ventanaPrincipal)
-        self.ventanas.setCurrentIndex(1)
+        self.ventanas.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(ventanaPrincipal)
 
     def retranslateUi(self, ventanaPrincipal):
