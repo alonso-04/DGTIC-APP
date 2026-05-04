@@ -16,7 +16,9 @@ class VentanaTipoServicio:
         self.esta_vacio = self.ventana_principal.esta_vacio
         self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
         self.cargar_completer_tipos_servicio = self.ventana_principal.cargar_completer_tipos_servicio
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
         self.botonRefrescarTiposServicio = self.ventana_principal.botonRefrescarTiposServicio
+        self.botonManualUsuarioSeccionTipoServicio = self.ventana_principal.botonManualUsuarioSeccionTipoServicio
         
         # CONTROLADORES
         self.servicio_controlador = self.ventana_principal.servicio_controlador
@@ -44,6 +46,7 @@ class VentanaTipoServicio:
     
     def configuracion(self):
         self.botonRefrescarTiposServicio.clicked.connect(self.refrescar_pagina_tipos_servicio)
+        self.botonManualUsuarioSeccionTipoServicio.clicked.connect(self.ver_manual_usuario)
         self.botonRegresarSeccionTipoServicio.clicked.connect(self.ir_pagina_app)
         self.botonBuscarTipoServicio.clicked.connect(self.filtrar_tipos_servicio)
         self.botonRegistrarTipoServicio.clicked.connect(self.registrar_tipo_servicio)
@@ -52,6 +55,9 @@ class VentanaTipoServicio:
     def refrescar_pagina_tipos_servicio(self):
         self.filtrar_tipos_servicio()
         self.cargar_completer_tipos_servicio()
+    
+    def ver_manual_usuario(self):
+        self.cargar_manual_usuario()
     
     def ir_pagina_app(self):
         self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaApp)

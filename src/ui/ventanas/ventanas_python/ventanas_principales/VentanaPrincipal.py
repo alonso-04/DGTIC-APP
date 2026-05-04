@@ -1,8 +1,8 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox, QCompleter
+from PyQt5.QtWidgets import QWidget, QMessageBox, QCompleter
 from PyQt5.QtCore import QDate, Qt
 from ui.ventanas.ventanas_pyuic.VentanaPrincipalPyuic import Ui_ventanaPrincipal
 from dominio.excepciones import UsuarioValidacionError
+from configuraciones.rutas import obtener_ruta_manual_usuario
 
 
 class VentanaPrincipal(QWidget, Ui_ventanaPrincipal):
@@ -17,6 +17,14 @@ class VentanaPrincipal(QWidget, Ui_ventanaPrincipal):
     def configuracion(self):
         self.ventanas.setCurrentWidget(self.paginaIniciarSesion)
         self.botonAcceder.clicked.connect(self.iniciar_sesion)
+        self.botonManualUsuarioSeccionIniciarSesion.clicked.connect(self.ver_manual_usuario)
+    
+    def ver_manual_usuario(self):
+        try:
+            RUTA_MANUAL_GENERADO = obtener_ruta_manual_usuario()
+            self.mostrar_mensaje_info(f"Se generó el manual de usuario en la ruta {RUTA_MANUAL_GENERADO} en caso de querer consultar más tarde.")
+        except Exception as error:
+            self.mostrar_mensaje_error(f"Error al generar el manual de usuario: {error}")
     
     def iniciar_sesion(self):
         try:

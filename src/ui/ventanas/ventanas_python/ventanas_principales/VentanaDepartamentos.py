@@ -16,7 +16,9 @@ class VentanaDepartamentos:
         self.esta_vacio = self.ventana_principal.esta_vacio
         self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
         self.cargar_completer_departamento = self.ventana_principal.cargar_completer_departamento
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
         self.botonRefrescarDepartamentos = self.ventana_principal.botonRefrescarDepartamentos
+        self.botonManualUsuarioSeccionDepartamentos = self.ventana_principal.botonManualUsuarioSeccionDepartamentos
         
         # CONTROLADORES
         self.servicio_controlador = self.ventana_principal.servicio_controlador
@@ -44,6 +46,7 @@ class VentanaDepartamentos:
     
     def configuracion(self):
         self.botonRefrescarDepartamentos.clicked.connect(self.refrescar_pagina_departamentos)
+        self.botonManualUsuarioSeccionDepartamentos.clicked.connect(self.ver_manual_usuario)
         self.botonRegresarSeccionDepartamentos.clicked.connect(self.ir_pagina_app)
         self.botonBuscarDepartamento.clicked.connect(self.filtrar_departamentos)
         self.botonRegistrarDepartamento.clicked.connect(self.registrar_departamento)
@@ -52,6 +55,9 @@ class VentanaDepartamentos:
     def refrescar_pagina_departamentos(self):
         self.filtrar_departamentos()
         self.cargar_completer_departamento()
+    
+    def ver_manual_usuario(self):
+        self.cargar_manual_usuario()
     
     def ir_pagina_app(self):
         self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaApp)

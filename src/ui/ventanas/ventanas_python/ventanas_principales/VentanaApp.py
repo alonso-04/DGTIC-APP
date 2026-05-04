@@ -43,7 +43,9 @@ class VentanaApp:
         self.labelErrorFiltro = self.ventana_principal.labelErrorFiltro
         self.cargar_completer_departamento = self.ventana_principal.cargar_completer_departamento
         self.cargar_completer_tipos_servicio = self.ventana_principal.cargar_completer_tipos_servicio
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
         self.botonRefrescarApp = self.ventana_principal.botonRefrescarApp
+        self.botonManualUsuarioSeccionApp = self.ventana_principal.botonManualUsuarioSeccionApp
         
         # CONTROLADORES
         self.usuario_controlador = self.ventana_principal.usuario_controlador
@@ -88,6 +90,7 @@ class VentanaApp:
         self.cargar_completer_tipos_servicio()
         
         self.botonRefrescarApp.clicked.connect(self.refrescar_pagina_app)
+        self.botonManualUsuarioSeccionApp.clicked.connect(self.ver_manual_usuario)
         
         self.tbOtroDepartamento.clicked.connect(self.ir_pagina_crear_departamento)
         self.tbOtroServicioPrestado.clicked.connect(self.ir_pagina_crear_tipo_servicio)
@@ -108,6 +111,9 @@ class VentanaApp:
         self.filtrar_servicios()
         self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
+    
+    def ver_manual_usuario(self):
+        self.cargar_manual_usuario()
     
     def cerrar_sesion(self):
         self.usuario_controlador.cerrar_sesion_controlador()
