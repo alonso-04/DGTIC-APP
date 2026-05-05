@@ -6,7 +6,7 @@ from sqlalchemy.orm import declarative_base
 
 
 URL_BASE_DATOS_MYSQL = (
-    f"mysql+mysqlconnector://"
+    f"mysql+pymysql://"
     f"{os.environ.get('NOMBRE_USUARIO_BD')}:"
     f"{os.environ.get('CLAVE_USUARIO_BD')}@"
     f"{os.environ.get('HOST_BD')}:"

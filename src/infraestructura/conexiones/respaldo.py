@@ -1,5 +1,5 @@
 import os
-from mysql import connector
+import pymysql
 from pathlib import Path
 from infraestructura.conexiones.respaldo_base import RespaldoBase
 from datetime import datetime, date
@@ -13,7 +13,7 @@ def _obtener_parametros_conexion_mysql():
     NOMBRE_USUARIO_BD = os.getenv('NOMBRE_USUARIO_BD')
     CLAVE_USUARIO_BD = os.getenv('CLAVE_USUARIO_BD')
     HOST_BD = os.getenv('HOST_BD')
-    PUERTO_BD = os.getenv('PUERTO_BD', '3306')
+    PUERTO_BD = os.getenv('PUERTO_BD', 3306)
     NOMBRE_BD = os.getenv('NOMBRE_BD')
     
     if not all([NOMBRE_USUARIO_BD, CLAVE_USUARIO_BD, HOST_BD, NOMBRE_BD]):
@@ -33,7 +33,7 @@ class RespaldoLocal(RespaldoBase):
     def _obtener_conexion_bd(self):
         try:
             parametros = _obtener_parametros_conexion_mysql()
-            return connector.connect(**parametros)
+            return pymysql.connect(**parametros)
         except Exception as error:
             raise Exception(f"ERROR AL CONECTARSE A LA BASE DE DATOS. VERIFIQUE LAS CREDENCIALES. ERROR: {error}")
     

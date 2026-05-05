@@ -1,5 +1,5 @@
 import os
-import mysql.connector
+import pymysql
 from utilidades.hasher import hashear_contenido
 
 
@@ -8,14 +8,14 @@ def inicializar_usuario_admin_bd():
     cursor = None
     
     try:
-        conexion = mysql.connector.connect(
+        conexion = pymysql.connect(
             host = os.getenv("HOST_BD"),
             user = os.getenv("NOMBRE_USUARIO_BD"),
             password = os.getenv("CLAVE_USUARIO_BD"),
             database = os.getenv("NOMBRE_BD")
         )
         
-        if not(conexion.is_connected()):
+        if not(conexion):
             print("NO SE PUDO REALIZAR LA CONEXIÓN A LA BASE DE DATOS.")
             return
         
@@ -53,5 +53,5 @@ def inicializar_usuario_admin_bd():
         if (cursor):
             cursor.close()
             
-        if (conexion and conexion.is_connected()):
+        if (conexion):
             conexion.close()
