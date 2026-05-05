@@ -87,19 +87,20 @@ class ServicioControlador:
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[str] = None
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         try:
             opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
             if (opcion_tipo_reporte == "MENSUAL"):
-                servicios = self.listar_servicios.obtener_por_mes_anio(mes_anio)
+                servicios = self.listar_servicios.obtener_por_mes_anio(mes_anio, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "RANGO_FECHA"):
-                servicios = self.listar_servicios.obtener_por_rango_fecha(fecha_desde, fecha_hasta)
+                servicios = self.listar_servicios.obtener_por_rango_fecha(fecha_desde, fecha_hasta, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "ANUAL"):
-                servicios = self.listar_servicios.obtener_por_anio(anio)
+                servicios = self.listar_servicios.obtener_por_anio(anio, tipo_servicio_prestado)
             
             lista_dict_servicios = []
             
@@ -168,19 +169,20 @@ class ServicioControlador:
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[str] = None
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         try:
             opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
             if (opcion_tipo_reporte == "MENSUAL"):
-                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados(mes_anio)
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados(mes_anio, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "RANGO_FECHA"):
-                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_rango_fecha(fecha_desde, fecha_hasta)
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_rango_fecha(fecha_desde, fecha_hasta, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "ANUAL"):
-                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_anio(anio)
+                conteo_servicios_realizados = self.listar_servicios.obtener_conteo_tipos_servicios_realizados_por_anio(anio, tipo_servicio_prestado)
             
             lista_dict_conteo_servicios_realizados = []
             
@@ -202,19 +204,20 @@ class ServicioControlador:
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[str] = None
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         try:
             opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
             
             if (opcion_tipo_reporte == "MENSUAL"):
-                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento(mes_anio)
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento(mes_anio, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "RANGO_FECHA"):
-                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta)
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta, tipo_servicio_prestado)
             
             if (opcion_tipo_reporte == "ANUAL"):
-                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_anio(anio)
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_servicios_x_departamento_por_anio(anio, tipo_servicio_prestado)
             
             lista_dict_servicios_realizados_x_departamento = []
             
