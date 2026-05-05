@@ -267,7 +267,7 @@ class ServicioAdaptador(ServicioPuerto):
         if (condiciones_adicionales):
             consulta += " AND " + " AND ".join(condiciones_adicionales)
         
-        consulta += " GROUP BY tipo_servicio_prestado"
+        consulta += " GROUP BY tipo_servicio_prestado ORDER BY cantidad DESC "
         
         conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
         
@@ -298,7 +298,7 @@ class ServicioAdaptador(ServicioPuerto):
         if (condiciones_adicionales):
             consulta += " AND " + " AND ".join(condiciones_adicionales)
         
-        consulta += " GROUP BY tipo_servicio_prestado"
+        consulta += " GROUP BY tipo_servicio_prestado ORDER BY cantidad DESC "
         
         conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
         
@@ -326,7 +326,7 @@ class ServicioAdaptador(ServicioPuerto):
         if (condiciones_adicionales):
             consulta += " AND " + " AND ".join(condiciones_adicionales)
         
-        consulta += " GROUP BY tipo_servicio_prestado"
+        consulta += " GROUP BY tipo_servicio_prestado ORDER BY cantidad DESC "
         
         conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
         
@@ -431,6 +431,100 @@ class ServicioAdaptador(ServicioPuerto):
             yield conteo_servicio
         return None
     
+    def obtener_conteo_agrupado_servicios_x_departamento(self, mes_anio: str, tipo_servicio_prestado: Optional[str] = None) -> Optional[Generator[List[Tuple], None, None]]:
+        mes, anio = mes_anio.split("-")
+        mes = int(mes)
+        anio = int(anio)
+        
+        consulta = """
+            SELECT
+                nombre_departamento,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE MONTH(fecha_servicio) = :mes
+            AND YEAR(fecha_servicio) = :anio
+        """
+        parametros = {
+            "mes": mes,
+            "anio": anio
+        }
+        
+        condiciones_adicionales = []
+        
+        if (tipo_servicio_prestado):
+            condiciones_adicionales.append("tipo_servicio_prestado = :tipo_servicio_prestado")
+            parametros["tipo_servicio_prestado"] = tipo_servicio_prestado
+        
+        if (condiciones_adicionales):
+            consulta += " AND " + " AND ".join(condiciones_adicionales)
+        
+        consulta += " GROUP BY nombre_departamento ORDER BY cantidad DESC "
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
+    def obtener_conteo_agrupado_servicios_x_departamento_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date, tipo_servicio_prestado: Optional[str] = None) -> Optional[Generator[List[Tuple], None, None]]:
+        consulta = """
+            SELECT
+                nombre_departamento,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta
+        """
+        parametros = {
+            "fecha_desde": fecha_desde,
+            "fecha_hasta": fecha_hasta
+        }
+        
+        condiciones_adicionales = []
+        
+        if (tipo_servicio_prestado):
+            condiciones_adicionales.append("tipo_servicio_prestado = :tipo_servicio_prestado")
+            parametros["tipo_servicio_prestado"] = tipo_servicio_prestado
+        
+        if (condiciones_adicionales):
+            consulta += " AND " + " AND ".join(condiciones_adicionales)
+        
+        consulta += " GROUP BY nombre_departamento ORDER BY cantidad DESC "
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
+    def obtener_conteo_agrupado_servicios_x_departamento_por_anio(self, anio: str, tipo_servicio_prestado: Optional[str] = None) -> Optional[Generator[List[Tuple], None, None]]:
+        anio = int(anio)
+        
+        consulta = """
+            SELECT
+                nombre_departamento,
+                COUNT(*) AS cantidad
+            FROM vw_servicios_prestados
+            WHERE YEAR(fecha_servicio) = :anio
+        """
+        parametros = {"anio": anio}
+        
+        condiciones_adicionales = []
+        
+        if (tipo_servicio_prestado):
+            condiciones_adicionales.append("tipo_servicio_prestado = :tipo_servicio_prestado")
+            parametros["tipo_servicio_prestado"] = tipo_servicio_prestado
+        
+        if (condiciones_adicionales):
+            consulta += " AND " + " AND ".join(condiciones_adicionales)
+        
+        consulta += " GROUP BY nombre_departamento ORDER BY cantidad DESC "
+        
+        conteo_servicios_modelo = self._sesion.execute(text(consulta), parametros).yield_per(100)
+        
+        for conteo_servicio in conteo_servicios_modelo:
+            yield conteo_servicio
+        return None
+    
     def actualizar(self, servicio: Servicio) -> None:
         servicio_modelo = self._sesion.query(ServicioModelo).filter_by(servicio_id = servicio.servicio_id).first()
         
@@ -451,7 +545,7 @@ class ServicioAdaptador(ServicioPuerto):
             raise ValueError("Este servicio no existe.")
         
         self._sesion.delete(servicio_modelo)
-        
+
 
 if __name__ == "__main__":
     try:

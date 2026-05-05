@@ -234,6 +234,41 @@ class ServicioControlador:
         except Exception as error:
             raise error
     
+    def conteo_agrupado_servicios_realizados_x_departamento_controlador(
+        self,
+        indice_opcion_tipo_reporte: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
+    ):
+        try:
+            opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+            
+            if (opcion_tipo_reporte == "MENSUAL"):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_agrupado_servicios_x_departamento(mes_anio, tipo_servicio_prestado)
+            
+            if (opcion_tipo_reporte == "RANGO_FECHA"):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_agrupado_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta, tipo_servicio_prestado)
+            
+            if (opcion_tipo_reporte == "ANUAL"):
+                conteo_servicios_realizaods_x_departamento = self.listar_servicios.obtener_conteo_agrupado_servicios_x_departamento_por_anio(anio, tipo_servicio_prestado)
+            
+            lista_dict_servicios_realizados_x_departamento = []
+            
+            for conteo in conteo_servicios_realizaods_x_departamento:
+                elemento = {
+                    "nombre_departamento": conteo[0],
+                    "cantidad": conteo[1]
+                }
+                
+                lista_dict_servicios_realizados_x_departamento.append(elemento)
+            
+            return lista_dict_servicios_realizados_x_departamento
+        except Exception as error:
+            raise error
+    
     def seleccionar_servicio_controlador(self, servicio_id: int):
         try:
             servicio = self.listar_servicios.obtener_por_id(servicio_id)

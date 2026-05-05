@@ -198,6 +198,30 @@ class ListarServicios:
                 return conteo_resultado
             except Exception as error:
                 raise error
+    
+    def obtener_conteo_agrupado_servicios_x_departamento(self, mes_anio: str, tipo_servicio_prestado: Optional[str] = None) -> Generator[List[Tuple], None, None]:
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_agrupado_servicios_x_departamento(mes_anio, tipo_servicio_prestado))
+                return conteo_resultado
+            except Exception as error:
+                raise error
+    
+    def obtener_conteo_agrupado_servicios_x_departamento_por_rango_fecha(self, fecha_desde: date, fecha_hasta: date, tipo_servicio_prestado: Optional[str] = None):
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_agrupado_servicios_x_departamento_por_rango_fecha(fecha_desde, fecha_hasta, tipo_servicio_prestado))
+                return conteo_resultado
+            except Exception as error:
+                raise error
+    
+    def obtener_conteo_agrupado_servicios_x_departamento_por_anio(self, anio: str, tipo_servicio_prestado: Optional[str] = None):
+        with self.unidad_trabajo() as unidad_trabajo:
+            try:
+                conteo_resultado = list(unidad_trabajo.servicio.obtener_conteo_agrupado_servicios_x_departamento_por_anio(anio, tipo_servicio_prestado))
+                return conteo_resultado
+            except Exception as error:
+                raise error
 
 
 if __name__ == "__main__":

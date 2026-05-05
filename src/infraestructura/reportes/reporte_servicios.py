@@ -84,6 +84,11 @@ class ReporteServicios(ReporteBase):
             "CANTIDAD"
         ]
         
+        encabezados_conteo_agrupado_servicios_realizados_x_departamento = [
+            "NOMBRE DEL DEPARTAMENTO",
+            "CANTIDAD"
+        ]
+        
         
         # BUCLE DE ENCABEZADOS DE CONTEO DE TIPOS DE SERVICIOS REALIZADOS
         for i, encabezado in enumerate(encabezados_conteo_tipos_servicios_realizados, start = 1):
@@ -106,6 +111,21 @@ class ReporteServicios(ReporteBase):
         
         # BUCLE DE ENCABEZADOS DE CONTEO DE SERVICIOS REALIZADOS X DEPARTAMENTO
         for i, encabezado in enumerate(encabezados_conteo_servicios_realizados_x_departamento, start = 4):
+            letra_columna = get_column_letter(i)
+            
+            celda = hoja_2[f"{letra_columna}1"]
+            longitud_encabezado = len(encabezado)
+            
+            celda.border = borde_celda
+            celda.font = fuente_negrita
+            celda.value = encabezado
+            celda.alignment = alineacion_centrada
+            celda.fill = relleno_encabezados
+            
+            hoja_2.column_dimensions[letra_columna].width = longitud_encabezado + 10
+
+        # BUCLE DE ENCABEZADOS DE CONTEO AGRUPADO DE SERVICIOS REALIZADOS X DEPARTAMENTO
+        for i, encabezado in enumerate(encabezados_conteo_agrupado_servicios_realizados_x_departamento, start = 8):
             letra_columna = get_column_letter(i)
             
             celda = hoja_2[f"{letra_columna}1"]
@@ -312,6 +332,64 @@ class ReporteServicios(ReporteBase):
             
             fila_actual += 1
     
+    def cargar_conteo_agrupado_servicios_x_departamento(
+        self,
+        hoja_2,
+        alineacion_centrada,
+        borde_celda,
+        indice_opcion_tipo_reporte: str,
+        mes_anio: Optional[str] = None,
+        fecha_desde: Optional[date] = None,
+        fecha_hasta: Optional[date] = None,
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
+    ):
+        opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
+        
+        if (opcion_tipo_reporte == "MENSUAL"):
+            lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_agrupado_servicios_realizados_x_departamento_controlador(
+                indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
+                mes_anio = mes_anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
+            )
+            
+        if (opcion_tipo_reporte == "RANGO_FECHA"):
+            lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_agrupado_servicios_realizados_x_departamento_controlador(
+                indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
+                fecha_desde = fecha_desde,
+                fecha_hasta = fecha_hasta,
+                tipo_servicio_prestado = tipo_servicio_prestado
+            )
+            
+        if (opcion_tipo_reporte == "ANUAL"):
+            lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_agrupado_servicios_realizados_x_departamento_controlador(
+                indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
+                anio = anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
+            )
+        
+        datafrmae_servicios_realizados_x_departamento = pd.DataFrame(lista_dict_servicios_realizados_x_departamento)
+        
+        fila_actual = 2
+        
+        for registro in datafrmae_servicios_realizados_x_departamento.itertuples():
+            fila = [
+                registro.nombre_departamento,
+                registro.cantidad
+            ]
+            
+            for indice_columna, valor_celda in enumerate(fila, start = 8):
+                celda = hoja_2.cell(
+                    row = fila_actual,
+                    column = indice_columna,
+                    value = valor_celda
+                )
+                
+                celda.alignment = alineacion_centrada
+                celda.border = borde_celda
+            
+            fila_actual += 1
+    
     def cargar_grafico_conteo_tipos_servicio(
         self,
         ruta_archivo: str,
@@ -373,8 +451,8 @@ class ReporteServicios(ReporteBase):
         hoja_reporte_grafico.pictures.add(
             figura,
             name = "MIGRAFICO",
-            top = hoja_reporte_grafico.range("H1").top,
-            left = hoja_reporte_grafico.range("H1").left
+            top = hoja_reporte_grafico.range("K1").top,
+            left = hoja_reporte_grafico.range("K1").left
         )
         
         libro_xw.save(ruta_archivo)
@@ -518,6 +596,18 @@ class ReporteServicios(ReporteBase):
             )
             
             self.cargar_conteo_servicios_x_departamento(
+                hoja_2,
+                alineacion_centrada,
+                borde_celda,
+                INDICE_OPCION_TIPO_REPORTE,
+                MES_ANIO,
+                FECHA_DESDE,
+                FECHA_HASTA,
+                ANIO,
+                TIPO_SERVICIO_PRESTADO
+            )
+            
+            self.cargar_conteo_agrupado_servicios_x_departamento(
                 hoja_2,
                 alineacion_centrada,
                 borde_celda,
