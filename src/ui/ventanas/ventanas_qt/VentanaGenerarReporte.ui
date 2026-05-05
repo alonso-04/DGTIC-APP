@@ -98,7 +98,7 @@
       <widget class="QProgressBar" name="barraProgresoReporte">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>300</x>
          <y>240</y>
          <width>281</width>
          <height>31</height>
@@ -163,7 +163,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>300</x>
@@ -267,7 +267,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>610</x>
@@ -317,10 +317,10 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>470</x>
+         <x>610</x>
          <y>220</y>
          <width>231</width>
          <height>58</height>
@@ -368,6 +368,33 @@
            </property>
           </item>
          </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>220</y>
+         <width>251</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="vlFiltroTipoServicio">
+        <item>
+         <widget class="QLabel" name="labelTipoServicio">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Tipo de servicio</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="inputTipoServicio"/>
         </item>
        </layout>
       </widget>

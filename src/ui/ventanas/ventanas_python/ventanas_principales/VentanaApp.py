@@ -334,7 +334,8 @@ class VentanaApp:
     def generar_reporte(self):
         try:
             ventana_generar_reporte = VentanaGenerarReporte(
-                generador_reporte_servicios = ReporteServicios()
+                generador_reporte_servicios = ReporteServicios(),
+                servicio_controlador = self.servicio_controlador
             )
             
             ventana_generar_reporte.exec_()

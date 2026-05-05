@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from typing import Optional, List, Any
 
+
 from infraestructura.dependencias import contenedor_dependencias
 from utilidades.cargar_meses import cargar_mes
 from utilidades.tipos_reporte import TiposReporte
@@ -127,27 +128,31 @@ class ReporteServicios(ReporteBase):
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[date] = None
+        anio: Optional[date] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
         
         if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                mes_anio = mes_anio
+                mes_anio = mes_anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
-                fecha_hasta = fecha_hasta
+                fecha_hasta = fecha_hasta,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
             
         if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_servicios_realizados = SERVICIO_CONTROLADOR.filtrar_reporte_servicios_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                anio = anio
+                anio = anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         datafrmae_servicios_realizados = pd.DataFrame(lista_dict_servicios_realizados)
@@ -181,42 +186,50 @@ class ReporteServicios(ReporteBase):
         hoja_2,
         alineacion_centrada,
         borde_celda,
+        fuente_negrita,
         indice_opcion_tipo_reporte: str,
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[date] = None
+        anio: Optional[date] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
         
         if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                mes_anio = mes_anio
+                mes_anio = mes_anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
             
         if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
-                fecha_hasta = fecha_hasta
+                fecha_hasta = fecha_hasta,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                anio = anio
+                anio = anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         dataframe_tipos_servicios_realizados = pd.DataFrame(lista_dict_tipos_servicios_realizados)
         
         fila_actual = 2
+        total_servicios_acumulados = 0
         
         for registro in dataframe_tipos_servicios_realizados.itertuples():
             fila = [
                 registro.tipo_servicio_prestado,
                 registro.cantidad
             ]
+            
+            total_servicios_acumulados += registro.cantidad
             
             for indice_columna, valor_celda in enumerate(fila, start = 1):
                 celda = hoja_2.cell(
@@ -229,6 +242,16 @@ class ReporteServicios(ReporteBase):
                 celda.border = borde_celda
             
             fila_actual += 1
+        
+        celda_total_label = hoja_2.cell(row = fila_actual, column = 1, value = "TOTAL")
+        celda_total_label.alignment = alineacion_centrada
+        celda_total_label.border = borde_celda
+        celda_total_label.font = fuente_negrita
+
+        celda_total_valor = hoja_2.cell(row = fila_actual, column = 2, value = total_servicios_acumulados)
+        celda_total_valor.alignment = alineacion_centrada
+        celda_total_valor.border = borde_celda
+        celda_total_valor.font = fuente_negrita
     
     def cargar_conteo_servicios_x_departamento(
         self,
@@ -239,27 +262,31 @@ class ReporteServicios(ReporteBase):
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[str] = None
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
         
         if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                mes_anio = mes_anio
+                mes_anio = mes_anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
             
         if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
-                fecha_hasta = fecha_hasta
+                fecha_hasta = fecha_hasta,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
             
         if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_servicios_realizados_x_departamento = SERVICIO_CONTROLADOR.conteo_servicios_realizados_x_departamento_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                anio = anio
+                anio = anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         datafrmae_servicios_realizados_x_departamento = pd.DataFrame(lista_dict_servicios_realizados_x_departamento)
@@ -292,27 +319,31 @@ class ReporteServicios(ReporteBase):
         mes_anio: Optional[str] = None,
         fecha_desde: Optional[date] = None,
         fecha_hasta: Optional[date] = None,
-        anio: Optional[str] = None
+        anio: Optional[str] = None,
+        tipo_servicio_prestado: Optional[str] = None
     ):
         opcion_tipo_reporte = TiposReporte[f"{indice_opcion_tipo_reporte}"].name
         
         if (opcion_tipo_reporte == "MENSUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                mes_anio = mes_anio
+                mes_anio = mes_anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         if (opcion_tipo_reporte == "RANGO_FECHA"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
                 fecha_desde = fecha_desde,
-                fecha_hasta = fecha_hasta
+                fecha_hasta = fecha_hasta,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         if (opcion_tipo_reporte == "ANUAL"):
             lista_dict_tipos_servicios_realizados = SERVICIO_CONTROLADOR.conteo_tipos_servicios_realizados_controlador(
                 indice_opcion_tipo_reporte = indice_opcion_tipo_reporte,
-                anio = anio
+                anio = anio,
+                tipo_servicio_prestado = tipo_servicio_prestado
             )
         
         dataframe_tipos_servicios_realizados = pd.DataFrame(lista_dict_tipos_servicios_realizados)
@@ -355,7 +386,8 @@ class ReporteServicios(ReporteBase):
             mes_anio: Optional[str] = None,
             fecha_desde: Optional[date] = None,
             fecha_hasta: Optional[date] = None,
-            anio: Optional[str] = None
+            anio: Optional[str] = None,
+            tipo_servicio_prestado: Optional[str] = None
         ) -> Optional[List[Any]]:
         datos = []
         
@@ -374,6 +406,9 @@ class ReporteServicios(ReporteBase):
         # POSICIÓN 4: AÑO
         datos.append(anio)
         
+        # POSICIÓN 5: TIPO DE SERVICIO PRESTADO
+        datos.append(tipo_servicio_prestado)
+        
         return datos
     
     def exportar(self, datos: List) -> str:
@@ -386,6 +421,7 @@ class ReporteServicios(ReporteBase):
             FECHA_DESDE = datos[2]
             FECHA_HASTA = datos[3]
             ANIO = datos[4]
+            TIPO_SERVICIO_PRESTADO = datos[5]
             
             fuente_negrita = Font(bold = True)
             relleno_encabezados = PatternFill(start_color = "00B0F0", end_color = "00B0F0", fill_type = "solid")
@@ -415,7 +451,10 @@ class ReporteServicios(ReporteBase):
                 _, anio = MES_ANIO.split("-")
                 anio = int(anio)
                 
-                nombre_archivo = f"REPORTE SERVICIOS - {mes} {anio}"
+                if (TIPO_SERVICIO_PRESTADO is not None):
+                    nombre_archivo = f"REPORTE SERVICIOS - {mes} {anio} ({TIPO_SERVICIO_PRESTADO})"
+                else:
+                    nombre_archivo = f"REPORTE SERVICIOS - {mes} {anio}"
             
             if (opcion_tipo_reporte == "RANGO_FECHA"):
                 FECHA_DESDE_DATE = datetime.strptime(FECHA_DESDE, "%Y-%m-%d")
@@ -424,10 +463,16 @@ class ReporteServicios(ReporteBase):
                 FECHA_DESDE_FORMATEADO = FECHA_DESDE_DATE.strftime("%d-%m-%Y")
                 FECHA_HASTA_FORMATEADO = FECHA_HASTA_DATE.strftime("%d-%m-%Y")
                 
-                nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE_FORMATEADO} HASTA {FECHA_HASTA_FORMATEADO}"
+                if (TIPO_SERVICIO_PRESTADO is not None):
+                    nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE_FORMATEADO} HASTA {FECHA_HASTA_FORMATEADO} ({TIPO_SERVICIO_PRESTADO})"
+                else:
+                    nombre_archivo = f"REPORTE SERVICIOS - DESDE {FECHA_DESDE_FORMATEADO} HASTA {FECHA_HASTA_FORMATEADO}"
             
             if (opcion_tipo_reporte == "ANUAL"):
-                nombre_archivo = f"REPORTE SERVICIOS - {ANIO}"
+                if (TIPO_SERVICIO_PRESTADO is not None):
+                    nombre_archivo = f"REPORTE SERVICIOS - {ANIO} ({TIPO_SERVICIO_PRESTADO})"
+                else:
+                    nombre_archivo = f"REPORTE SERVICIOS - {ANIO}"
             
             self.cargar_configuraciones_excel(hoja_1, hoja_2)
             
@@ -455,18 +500,21 @@ class ReporteServicios(ReporteBase):
                 MES_ANIO,
                 FECHA_DESDE,
                 FECHA_HASTA,
-                ANIO
+                ANIO,
+                TIPO_SERVICIO_PRESTADO
             )
             
             self.cargar_conteo_tipos_servicios(
                 hoja_2,
                 alineacion_centrada,
                 borde_celda,
+                fuente_negrita,
                 INDICE_OPCION_TIPO_REPORTE,
                 MES_ANIO,
                 FECHA_DESDE,
                 FECHA_HASTA,
-                ANIO
+                ANIO,
+                TIPO_SERVICIO_PRESTADO
             )
             
             self.cargar_conteo_servicios_x_departamento(
@@ -477,7 +525,8 @@ class ReporteServicios(ReporteBase):
                 MES_ANIO,
                 FECHA_DESDE,
                 FECHA_HASTA,
-                ANIO
+                ANIO,
+                TIPO_SERVICIO_PRESTADO
             )
             
             RUTA_REPORTES_SERVICOS = obtener_ruta_reportes(INDICE_OPCION_TIPO_REPORTE)
@@ -491,7 +540,8 @@ class ReporteServicios(ReporteBase):
                 mes_anio = MES_ANIO,
                 fecha_desde = FECHA_DESDE,
                 fecha_hasta = FECHA_HASTA,
-                anio = ANIO
+                anio = ANIO,
+                tipo_servicio_prestado = TIPO_SERVICIO_PRESTADO
             )
             
             return RUTA_ARCHIVO_EXCEL
@@ -504,7 +554,11 @@ if __name__ == "__main__":
     
     try:
         MES_ANIO = "09-2025"
-        datos = reporte_servicios.cargar_datos(MES_ANIO)
+        datos = reporte_servicios.cargar_datos(
+            indice_opcion_tipo_reporte = "MENSUAL",
+            mes_anio = MES_ANIO,
+            tipo_servicio_prestado = "RECARGA DE IMPRESORA"
+        )
         reporte_servicios.exportar(datos)
     except ServicioValidacionError as error:
         print("\n".join(error.errores))
