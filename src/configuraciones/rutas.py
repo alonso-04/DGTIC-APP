@@ -48,7 +48,7 @@ def obtener_ruta_respaldos_bd() -> str:
         return None
 
 def obtener_ruta_manual_usuario() -> str:
-    ruta_original_manual_usuario = os.path.join(os.getcwd(), "recursos", "manual_usuario", "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
+    ruta_original_manual_usuario = os.path.join(RUTA_BASE, "..", "recursos", "manual_usuario", "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
     
     ruta_documentos = get_my_documents()
     ruta_carpeta_manual_usuario = os.path.join(ruta_documentos, "MANUAL_USUARIO")
