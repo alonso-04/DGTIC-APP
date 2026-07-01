@@ -23,7 +23,7 @@ def _obtener_parametros_conexion_mysql():
         "user": NOMBRE_USUARIO_BD,
         "password": CLAVE_USUARIO_BD,
         "host": HOST_BD,
-        "port": PUERTO_BD,
+        "port": int(PUERTO_BD),
         "database": NOMBRE_BD,
         "charset": "utf8mb4"
     }
