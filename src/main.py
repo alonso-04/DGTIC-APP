@@ -23,18 +23,14 @@ else:
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path = dotenv_path)
 
+
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo
-from ui.ventanas.ventanas_python.ventanas_principales.VentanaPrincipal import VentanaPrincipal
-from ui.ventanas.ventanas_python.ventanas_principales.VentanaApp import VentanaApp
-from ui.ventanas.ventanas_python.ventanas_principales.VentanaUsuarios import VentanaUsuarios
-from ui.ventanas.ventanas_python.ventanas_principales.VentanaDepartamentos import VentanaDepartamentos
-from ui.ventanas.ventanas_python.ventanas_principales.VentanaTipoServicio import VentanaTipoServicio
-from infraestructura.dependencias import contenedor_dependencias
-from infraestructura.usuario_admin_init import inicializar_usuario_admin_bd
 
-USUARIO_CONTROLADOR = contenedor_dependencias.obtener_usuario_controlador()
-SERVICIO_CONTROLADOR = contenedor_dependencias.obtener_servicio_controlador()
+from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from configuraciones.dependencias import contenedor_dependencias
+from configuraciones.usuario_admin_init import inicializar_usuario_admin_bd
+
 
 def main():
     app = QApplication(sys.argv)
@@ -46,23 +42,19 @@ def main():
     if translator_base.load(QLocale.system(), "qtbase", "_", path):
         app.installTranslator(translator_base)
     
+    try:
+        inicializar_usuario_admin_bd()
+    except Exception as e:
+        print(f"Advertencia al inicializar base de datos: {e}")
+    
+    servicios = contenedor_dependencias.obtener_servicios()
+    
     # Creo la instancia de la ventana principal que contiene todas las demaás
-    ventana_principal = VentanaPrincipal(
-        usuario_controlador = USUARIO_CONTROLADOR,
-        servicio_controlador = SERVICIO_CONTROLADOR
-    )
-    
-    # Creo la instancia de cada ventana por separado pasandole por inyección de dependencias la ventana_principal
-    ventana_app = VentanaApp(ventana_principal)
-    ventana_usuarios = VentanaUsuarios(ventana_principal)
-    ventana_departamentos = VentanaDepartamentos(ventana_principal)
-    ventana_tipo_servicio = VentanaTipoServicio(ventana_principal)
-    
+    ventana_principal = VentanaPrincipal(servicios)
     ventana_principal.show()
     
     app.exec_()
 
 
 if __name__ == "__main__":
-    inicializar_usuario_admin_bd()
     main()
