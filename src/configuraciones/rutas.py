@@ -60,12 +60,10 @@ def obtener_ruta_manual_usuario() -> str:
     ruta_destino_manual_usuario = os.path.join(ruta_carpeta_manual_usuario, "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
     
     try:
-        if not(os.path.exists(ruta_carpeta_manual_usuario)):
-            os.makedirs(ruta_carpeta_manual_usuario, exist_ok = True)
+        os.makedirs(ruta_carpeta_manual_usuario, exist_ok = True)
         
-        if not(os.path.exists(ruta_destino_manual_usuario)):
-            if (os.path.exists(ruta_original_manual_usuario)):
-                shutil.copy2(ruta_original_manual_usuario, ruta_destino_manual_usuario)
+        if (os.path.exists(ruta_original_manual_usuario)):
+            shutil.copy2(ruta_original_manual_usuario, ruta_destino_manual_usuario)
         
         if (platform.system() == "Windows"):
             os.startfile(ruta_destino_manual_usuario)
