@@ -1,7 +1,7 @@
 from typing import List, Tuple
 from pathlib import Path
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor, QRegExpValidator
+from PyQt5.QtCore import QThread, pyqtSignal, QRegExp, QEvent
 from PyQt5.QtWidgets import QHeaderView, QDialog, QFileDialog
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
@@ -52,7 +52,14 @@ class VentanaApp:
         self.tbOtroDepartamento = self.ventana_principal.tbOtroDepartamento
         self.inputFallaPresenta = self.ventana_principal.inputFallaPresenta
         self.inputNombreTecnico = self.ventana_principal.inputNombreTecnico
+        
         self.spCantidad = self.ventana_principal.spCantidad
+        self.lineEditspCantidad = self.spCantidad.lineEdit()
+        regex = QRegExp("[0-9]+")
+        validador = QRegExpValidator(regex, self.lineEditspCantidad)
+        self.lineEditspCantidad.setValidator(validador)
+        self.lineEditspCantidad.installEventFilter(self.ventana_principal)
+        
         self.teDescripcion = self.ventana_principal.teDescripcion
         self.inputServicioPrestado = self.ventana_principal.inputServicioPrestado
         self.tbOtroServicioPrestado = self.ventana_principal.tbOtroServicioPrestado
@@ -81,6 +88,12 @@ class VentanaApp:
         self.botonCerrarSesion = self.ventana_principal.botonCerrarSesion
         
         self.configuracion()
+    
+    def eventFilter(self, obj, event):
+        if obj is self.lineEditspCantidad and event.type() == QEvent.KeyPress:
+            if event.text() == ',':
+                return True  # Bloquea la coma del spCantidad
+        return super().eventFilter(obj, event)
     
     def configuracion(self):
         self.cargar_completer_departamento()
@@ -172,7 +185,7 @@ class VentanaApp:
             self.inputDepartamento.clear()
             self.inputFallaPresenta.clear()
             self.inputNombreTecnico.clear()
-            self.spCantidad.value = 1
+            self.spCantidad.setValue(1)
             self.teDescripcion.clear()
             self.inputServicioPrestado.clear()
             self.teObservacionesAdicionales.clear()

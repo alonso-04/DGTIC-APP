@@ -1,7 +1,8 @@
 from typing import Tuple
 from datetime import datetime
 from PyQt5.QtWidgets import QDialog, QMessageBox, QCompleter
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QRegExp, QEvent
+from PyQt5.QtGui import QRegExpValidator
 
 from vistas.vistas_pyuic.VentanaInfoServicioPyuic import Ui_ventanaInfoServicio
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
@@ -21,7 +22,19 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
         self.servicio_data = servicio_data
         self._servicios = servicios
         
+        self.lineEditspInfoCantidad = self.spInfoCantidad.lineEdit()
+        regex = QRegExp("[0-9]+")
+        validador = QRegExpValidator(regex, self.lineEditspInfoCantidad)
+        self.lineEditspInfoCantidad.setValidator(validador)
+        self.lineEditspInfoCantidad.installEventFilter(self)
+        
         self.configuracion()
+    
+    def eventFilter(self, obj, event):
+        if obj is self.lineEditspInfoCantidad and event.type() == QEvent.KeyPress:
+            if event.text() == ',':
+                return True  # Bloquea la coma del spInfoCantidad
+        return super().eventFilter(obj, event)
     
     def configuracion(self):
         self.cargar_completer_departamentos()
