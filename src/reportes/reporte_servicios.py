@@ -520,8 +520,8 @@ class ReporteServicios:
                 legendas_formateadas,
                 title = "Tipos de Servicio (Cantidad)",
                 loc = "upper center",
-                bbox_to_anchor = (0.5, -0.05), # Desplaza la leyenda justo debajo de la torta
-                ncol = 1,                      # Cambia a 2 si tienes demasiados elementos y quieres dos columnas
+                bbox_to_anchor = (0.5, -0.05),
+                ncol = 2,
                 fontsize = 8,
                 frameon = True
             )
@@ -540,7 +540,8 @@ class ReporteServicios:
             )
             
             plt.close(figura)
-            # Incrementamos 20 filas aproximadamente para que los gráficos no se encimen
+            
+            # Incrementamos 8 columnas para que los gráficos no se encimen
             columna_inicial += 8
         
         libro_xw.save(ruta_archivo)
@@ -729,10 +730,13 @@ if __name__ == "__main__":
         FECHA_DESDE = date(2026, 1, 1)
         FECHA_HASTA = date(2026, 6, 30)
         MES_ANIO = "06-2026"
+        ANIO = "2026"
+        TIPO_SERVICIO = "IMPRESIÓN +50"
+        
         datos = reporte_servicios.cargar_datos(
-            indice_opcion_tipo_reporte = "RANGO_FECHA",
-            fecha_desde = FECHA_DESDE,
-            fecha_hasta = FECHA_HASTA
+            indice_opcion_tipo_reporte = "ANUAL",
+            anio = ANIO,
+            tipo_servicio_prestado = TIPO_SERVICIO
         )
         reporte_servicios.exportar(datos)
     except NoEncontradoError as error:

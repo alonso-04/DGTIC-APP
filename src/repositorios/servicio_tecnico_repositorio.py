@@ -393,7 +393,7 @@ class ServicioTecnicoRepositorio:
             condiciones_adicionales = []
             
             if (tipo_servicio_prestado):
-                condiciones_adicionales.append("tipos_servicio.tipo_servicio_prestado = :tipo_servicio_prestado")
+                condiciones_adicionales.append("tipo_servicio_prestado = :tipo_servicio_prestado")
                 parametros["tipo_servicio_prestado"] = tipo_servicio_prestado
             
             if (condiciones_adicionales):
