@@ -1,5 +1,17 @@
 <RCC>
   <qresource prefix="iconos">
+    <file>iconos/icono-cancelar.png</file>
+    <file>iconos/icono-editar.png</file>
+    <file>iconos/icono-eliminar.png</file>
+    <file>iconos/icono-agregar.png</file>
+    <file>iconos/icono-buscar.png</file>
+    <file>iconos/icono-cerrar-sesion.png</file>
+    <file>iconos/icono-crear-respaldo.png</file>
+    <file>iconos/icono-generar-reporte.png</file>
+    <file>iconos/icono-importar-respaldo.png</file>
+    <file>iconos/icono-iniciar-sesion.png</file>
+    <file>iconos/icono-regresar.png</file>
+    <file>iconos/icono-usuarios.png</file>
     <file>iconos/help.png</file>
     <file>iconos/reload.png</file>
     <file>iconos/icono-app-dgtic.png</file>
