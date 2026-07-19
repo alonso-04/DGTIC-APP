@@ -51,7 +51,7 @@ class VentanaInfoTipoServicio(QDialog, Ui_VentanaInfoTipoServicio):
             self._servicios["tipo_servicio_tecnico_servicio"].actualizar(
                 tipo_servicio_id,
                 nuevo_categoria_tipo_servicio,
-                nuevo_nombre_tipo_servicio
+                nuevo_nombre_tipo_servicio.upper()
             )
             
             QMessageBox.information(self, "Éxito", "La información del tipo de servicio se ha actualizado correctamente.")

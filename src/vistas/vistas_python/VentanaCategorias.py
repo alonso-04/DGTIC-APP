@@ -68,7 +68,7 @@ class VentanaCategorias:
     def registrar_categoria(self):
         try:
             nombre_categoria = self.inputRegistrarCategoriaTipoServicio.text()
-            self._servicios["categoria_tipo_servicio_tecnico_servicio"].registrar(nombre_categoria)
+            self._servicios["categoria_tipo_servicio_tecnico_servicio"].registrar(nombre_categoria.upper())
             
             self.inputRegistrarCategoriaTipoServicio.clear()
             self.filtrar_categorias()

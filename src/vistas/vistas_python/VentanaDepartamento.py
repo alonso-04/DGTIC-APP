@@ -69,7 +69,7 @@ class VentanaDepartamentos:
     def registrar_departamento(self):
         try:
             nombre_departamento = self.inputNombreDepartamento.text()
-            self._servicios["departamento_servicio"].registrar(nombre_departamento)
+            self._servicios["departamento_servicio"].registrar(nombre_departamento.upper())
             
             self.inputNombreDepartamento.clear()
             self.filtrar_departamentos()

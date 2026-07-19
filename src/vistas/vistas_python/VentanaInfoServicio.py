@@ -110,12 +110,12 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
                 servicio_id,
                 nuevo_nombre_departamento,
                 nueva_fecha_servicio,
-                nueva_falla_presenta,
+                nueva_falla_presenta.upper(),
                 nuevo_servicio_prestado,
-                nuevo_nombres_tecnicos,
+                nuevo_nombres_tecnicos.upper(),
                 nuevo_cantidad,
-                nuevo_descripcion,
-                nueva_observacion_adicional
+                nuevo_descripcion.upper(),
+                nueva_observacion_adicional.upper()
             )
             
             QMessageBox.information(self, "Éxito", "La información del servicio se ha actualizado correctamente.")

@@ -85,7 +85,7 @@ class VentanaTipoServicio:
             tipo_servicio_prestado = self.inputRegistrarTipoServicio.text()
             categoria = self.inputRegistrarCategoria.text()
             
-            self._servicios["tipo_servicio_tecnico_servicio"].registrar(categoria, tipo_servicio_prestado)
+            self._servicios["tipo_servicio_tecnico_servicio"].registrar(categoria, tipo_servicio_prestado.upper())
             
             self.inputRegistrarTipoServicio.clear()
             self.inputRegistrarCategoria.clear()

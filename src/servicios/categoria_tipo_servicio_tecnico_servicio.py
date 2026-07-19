@@ -20,7 +20,7 @@ class CategoriaTipoServicioTecnicoServicio:
             raise ValidacionError(["Categoría de tipo de servicio: No puede contener más de 120 caracteres."])
         
         try:
-            nuevo_categoria_tipo_servicio = CategoriaTipoServicioTecnicoModelo(nombre_categoria = nombre_categoria)
+            nuevo_categoria_tipo_servicio = CategoriaTipoServicioTecnicoModelo(nombre_categoria = categoria_tipo_servicio_prestado_limpio)
             self._categoria_tipo_servicio_tecnico_repositorio.registrar(nuevo_categoria_tipo_servicio)
         except IntegrityError:
             raise ValidacionError(["Esta categoría de tipo de servicio ya existe."])

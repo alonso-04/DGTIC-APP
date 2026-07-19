@@ -174,12 +174,12 @@ class VentanaApp:
             self._servicios["servicio_tecnico_servicio"].registrar(
                 nombre_departamento,
                 fecha_servicio,
-                falla_presenta,
+                falla_presenta.upper(),
                 servicio_prestado,
-                nombres_tecnicos,
+                nombres_tecnicos.upper(),
                 cantidad,
-                descripcion,
-                observaciones_adicionales
+                descripcion.upper(),
+                observaciones_adicionales.upper()
             )
             
             self.inputDepartamento.clear()

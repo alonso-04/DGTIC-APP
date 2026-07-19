@@ -47,7 +47,7 @@ class VentanaInfoDepartamento(QDialog, Ui_VentanaInfoDepartamento):
             
             self._servicios["departamento_servicio"].actualizar(
                 departamento_id,
-                nuevo_nombre_departamento
+                nuevo_nombre_departamento.upper()
             )
             
             QMessageBox.information(self, "Éxito", "La información del departamento se ha actualizado correctamente.")
