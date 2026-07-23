@@ -9,7 +9,6 @@ load_dotenv()
 
 
 TABLAS_RESPALDO = ["tb_departamentos", "tb_tipos_servicio", "tb_servicios"]
-ORDEN_TABLAS_LIMPIAR = ["tb_servicios", "tb_tipos_servicio", "tb_departamentos"]
 
 def _obtener_parametros_conexion_mysql():
     NOMBRE_USUARIO_BD = os.getenv('NOMBRE_USUARIO_BD')
@@ -66,15 +65,12 @@ class RespaldoLocal:
                         for valor in fila:
                             if valor is None:
                                 valores_listos.append('NULL')
-
                             elif isinstance(valor, (datetime, date)):
                                 # Asegura formato de fecha (comillas necesarias)
                                 valores_listos.append(f"'{valor.strftime('%Y-%m-%d')}'")
-
                             elif isinstance(valor, (int, float)):
                                 # Los números se insertan sin comillas
                                 valores_listos.append(str(valor))
-
                             else:
                                 # Manejar texto, bytes y otros tipos
                                 if isinstance(valor, bytes):

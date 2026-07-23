@@ -11,7 +11,9 @@ def obtener_ruta_base():
     if getattr(sys, "frozen", False):
         return sys._MEIPASS
     else:
-        return os.path.abspath(os.path.dirname(__file__))
+        carpeta_configuraciones = os.path.abspath(os.path.dirname(__file__))
+        raiz_proyecto = os.path.abspath(os.path.join(carpeta_configuraciones, ".."))
+        return raiz_proyecto
 
 RUTA_BASE = obtener_ruta_base()
 
@@ -48,22 +50,25 @@ def obtener_ruta_respaldos_bd() -> str:
         return None
 
 def obtener_ruta_manual_usuario() -> str:
-    # Si es un ejecutable
-    if getattr(sys, "frozen", False):
-        ruta_original_manual_usuario = os.path.join(RUTA_BASE, "recursos", "manual_usuario", "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
-    # Si es un script normal
-    else:
-        ruta_original_manual_usuario = os.path.normpath(os.path.join(RUTA_BASE, "..", "recursos", "manual_usuario", "MANUAL_USUARIO_SISTEMA_DGTIC.pdf"))
+    nombre_manual = "MANUAL_USUARIO_SISTEMA_DGTIC.pdf"
+    
+    ruta_original_manual_usuario = os.path.normpath(
+        os.path.join(RUTA_BASE, "recursos", "manual_usuario", nombre_manual)
+    )
+    
+    # Verificación de existencia con mensaje claro si falla
+    if not os.path.exists(ruta_original_manual_usuario):
+        raise FileNotFoundError(
+            f"No se encontró el manual en: {ruta_original_manual_usuario}"
+        )
     
     ruta_documentos = get_my_documents()
     ruta_carpeta_manual_usuario = os.path.join(ruta_documentos, "MANUAL_USUARIO")
-    ruta_destino_manual_usuario = os.path.join(ruta_carpeta_manual_usuario, "MANUAL_USUARIO_SISTEMA_DGTIC.pdf")
+    ruta_destino_manual_usuario = os.path.join(ruta_carpeta_manual_usuario, nombre_manual)
     
     try:
         os.makedirs(ruta_carpeta_manual_usuario, exist_ok = True)
-        
-        if (os.path.exists(ruta_original_manual_usuario)):
-            shutil.copy2(ruta_original_manual_usuario, ruta_destino_manual_usuario)
+        shutil.copy2(ruta_original_manual_usuario, ruta_destino_manual_usuario)
         
         if (platform.system() == "Windows"):
             os.startfile(ruta_destino_manual_usuario)
@@ -79,14 +84,7 @@ def obtener_ruta_manual_usuario() -> str:
 
 if __name__ == "__main__":
     try:
-        directorio_reportes = obtener_ruta_reportes()
-        directorio_respaldos = obtener_ruta_respaldos_bd()
-        
-        if (directorio_reportes):
-            print(f"El directorio se creó correctamente. La ruta es: {directorio_reportes}")
-        
-        if (directorio_respaldos):
-            print(f"El directorio se creó correctamente para los respaldos en: {directorio_respaldos}")
+        obtener_ruta_manual_usuario()
     except OSError as error:
         print(f"ERROR AL CREAR LA CARPETA: {error}")
     except Exception as error:
