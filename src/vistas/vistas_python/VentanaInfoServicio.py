@@ -1,10 +1,11 @@
 from typing import Tuple
 from datetime import datetime
-from PyQt5.QtWidgets import QDialog, QMessageBox, QCompleter
+from PyQt5.QtWidgets import QDialog, QMessageBox
 from PyQt5.QtCore import Qt, QRegExp, QEvent
 from PyQt5.QtGui import QRegExpValidator
 
 from vistas.vistas_pyuic.VentanaInfoServicioPyuic import Ui_ventanaInfoServicio
+from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
 
 
@@ -28,6 +29,26 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
         self.lineEditspInfoCantidad.setValidator(validador)
         self.lineEditspInfoCantidad.installEventFilter(self)
         
+        lista_campos_departamento_completers = [
+            self.inputInfoNombreDepartamento
+        ]
+                
+        lista_campos_tipos_servicio_completers = [
+            self.inputInfoServicioPrestado
+        ]
+                
+        self.cargar_completer_departamento = lambda: cargar_completer(
+            self._servicios["departamento_servicio"],
+            lista_campos_departamento_completers,
+            "departamento"
+        )
+                
+        self.cargar_completer_tipos_servicio = lambda: cargar_completer(
+            self._servicios["tipo_servicio_tecnico_servicio"],
+            lista_campos_tipos_servicio_completers,
+            "tipo_servicio"
+        )
+        
         self.configuracion()
     
     def eventFilter(self, obj, event):
@@ -37,7 +58,7 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
         return super().eventFilter(obj, event)
     
     def configuracion(self):
-        self.cargar_completer_departamentos()
+        self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
         
         self.botonAcualizarInfoServicio.clicked.connect(self.actualizar_info_servicio)
@@ -60,38 +81,6 @@ class VentanaInfoServicio(QDialog, Ui_ventanaInfoServicio):
         self.teInfoDescripcion.setText(self.servicio_data[8])
         self.spInfoCantidad.setValue(self.servicio_data[9])
         self.teInfoObservacionesAdicionales.setText(self.servicio_data[10])
-    
-    def cargar_completer_departamentos(self):
-        departamento_servicio = self._servicios["departamento_servicio"]
-        departamentos = departamento_servicio.obtener_todos()
-        nombres_departamentos = []
-        
-        for departamento in departamentos:
-            nombres_departamentos.append(departamento.nombre_departamento)
-
-        if (nombres_departamentos):
-            completer_departamentos = QCompleter(nombres_departamentos)
-            completer_departamentos.setCaseSensitivity(Qt.CaseInsensitive)
-            completer_departamentos.setFilterMode(Qt.MatchContains)
-            completer_departamentos.setCompletionMode(QCompleter.PopupCompletion)
-            
-            self.inputInfoNombreDepartamento.setCompleter(completer_departamentos)
-    
-    def cargar_completer_tipos_servicio(self):
-        tipos_servicio_tecnico_servicio = self._servicios["tipo_servicio_tecnico_servicio"]
-        tipos_servicio = tipos_servicio_tecnico_servicio.obtener_todos()
-        nombres_tipo_servicio = []
-        
-        for tipo_servicio in tipos_servicio:
-            nombres_tipo_servicio.append(tipo_servicio.tipo_servicio_prestado)
-        
-        if (tipos_servicio):
-            completer_tipos_servicio = QCompleter(nombres_tipo_servicio)
-            completer_tipos_servicio.setCaseSensitivity(Qt.CaseInsensitive)
-            completer_tipos_servicio.setFilterMode(Qt.MatchContains)
-            completer_tipos_servicio.setCompletionMode(QCompleter.PopupCompletion)
-            
-            self.inputInfoServicioPrestado.setCompleter(completer_tipos_servicio)
     
     def actualizar_info_servicio(self):
         try:

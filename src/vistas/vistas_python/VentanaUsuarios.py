@@ -4,6 +4,9 @@ from PyQt5.QtWidgets import QHeaderView, QDialog
 
 from modelos.usuario_modelo import UsuarioModelo
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.registrar import registrar_campos
+from vistas.utilidades_gui.limpiar_campos import limpiar_campos
+from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -64,18 +67,17 @@ class VentanaUsuarios:
     
     def registrar_nuevo_usuario(self):
         try:
-            nombre_usuario = self.inputRegistrarNombreUsuario.text()
-            tipo_rol = self.cbRolesRegistrarUsuario.currentText()
-            clave_usuario = self.inputRegistrarClaveUsuario.text()
+            campos_a_registrar = [
+                (self.inputRegistrarNombreUsuario, "nombre_usuario"),
+                (self.inputRegistrarClaveUsuario, "clave_usuario"),
+                (self.cbRolesRegistrarUsuario, "tipo_rol")
+            ]
             
-            self._servicios["usuario_servicio"].registrar(
-                tipo_rol,
-                nombre_usuario,
-                clave_usuario
-            )
-            
-            self.inputRegistrarNombreUsuario.clear()
-            self.inputRegistrarClaveUsuario.clear()
+            registrar_campos(self._servicios["usuario_servicio"], campos_a_registrar)
+            limpiar_campos([
+                self.inputRegistrarNombreUsuario,
+                self.inputRegistrarClaveUsuario
+            ])
             
             self.filtrar_todos_usuarios()
         except NoEncontradoError as error:
@@ -86,24 +88,16 @@ class VentanaUsuarios:
             self.mostrar_mensaje_error("\n".join(error.errores))
     
     def filtrar_todos_usuarios(self):
-        usuarios = self._servicios["usuario_servicio"].obtener_todos()
-        self.usuario_data = usuarios
-            
-        modelo_datos = QStandardItemModel(len(usuarios), 2)
-        modelo_datos.setHorizontalHeaderLabels([
-            "Nombre de usuario",
-            "Tipo de rol"
-        ])
-            
-        for fila, usuario in enumerate(usuarios):
-            items = [
-                QStandardItem(str(usuario.nombre_usuario)),
-                QStandardItem(str(usuario.rol.tipo_rol))
-            ]
-                
-            for columna, item in enumerate(items):
-                modelo_datos.setItem(fila, columna, item)
-            
+        nombres_labels = ["Nombre de usuario", "Tipo de rol"]
+        nombres_columnas = ["nombre_usuario", "tipo_rol"]
+        
+        modelo_datos, registros = obtener_modelo_datos_y_data(
+            self._servicios["usuario_servicio"].obtener_todos,
+            nombres_labels,
+            nombres_columnas
+        )
+        
+        self.usuario_data = registros
         self.tvUsuarios.setModel(modelo_datos)
             
         header = self.tvUsuarios.horizontalHeader()

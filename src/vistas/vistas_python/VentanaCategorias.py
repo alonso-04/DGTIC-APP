@@ -1,9 +1,13 @@
 from typing import Tuple
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QHeaderView, QDialog
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
+from vistas.utilidades_gui.registrar import registrar_campos
+from vistas.utilidades_gui.limpiar_campos import limpiar_campos
+from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
 
 
@@ -11,13 +15,6 @@ class VentanaCategorias:
     def __init__(self, ventana_principal: VentanaPrincipal):
         super().__init__()
         self.ventana_principal = ventana_principal
-        
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.cargar_completer_categorias = self.ventana_principal.cargar_completer_categorias
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        self.botonRefrescarCategoriasTiposServicio = self.ventana_principal.botonRefrescarCategoriaTiposServicio
-        self.botonManualUsuarioSeccionCategoriasTipoServicio = self.ventana_principal.botonManualUsuarioSeccionCategoriaTipoServicio
         
         
         # CONTROLADORES
@@ -37,6 +34,26 @@ class VentanaCategorias:
         # SECCIÓN DE LA TABLA DE TIPOS DE SERVICIO
         self.tvRegistrosCategoriasTipoServicio = self.ventana_principal.tvRegistrosCategoriaTipoServicio
         self.categoria_data = []
+        
+        
+        # FUNCIONES Y ELEMENTOS DE UTILIDAD
+        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
+        
+        lista_campos_categorias_completers = [
+            self.ventana_principal.inputRegistrarCategoria,
+            self.ventana_principal.inputFiltroCategoria,
+            self.inputFiltroCategoriaTipoServicio
+        ]
+        
+        self.cargar_completer_categorias = lambda: cargar_completer(
+            self._servicios["categoria_tipo_servicio_tecnico_servicio"],
+            lista_campos_categorias_completers,
+            "categoria"
+        )
+        
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
+        self.botonRefrescarCategoriasTiposServicio = self.ventana_principal.botonRefrescarCategoriaTiposServicio
+        self.botonManualUsuarioSeccionCategoriasTipoServicio = self.ventana_principal.botonManualUsuarioSeccionCategoriaTipoServicio
         
         
         # BOTOES INFERIORES
@@ -67,12 +84,11 @@ class VentanaCategorias:
     
     def registrar_categoria(self):
         try:
-            nombre_categoria = self.inputRegistrarCategoriaTipoServicio.text()
-            self._servicios["categoria_tipo_servicio_tecnico_servicio"].registrar(nombre_categoria.upper())
+            campos_a_registrar = [(self.inputRegistrarCategoriaTipoServicio, "nombre_categoria")]
+            registrar_campos(self._servicios["categoria_tipo_servicio_tecnico_servicio"], campos_a_registrar)
+            limpiar_campos([self.inputRegistrarCategoriaTipoServicio])
             
-            self.inputRegistrarCategoriaTipoServicio.clear()
-            self.filtrar_categorias()
-            self.cargar_completer_categorias()
+            self.refrescar_pagina_categorias()
         except ValidacionError as error:
             self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
@@ -80,25 +96,18 @@ class VentanaCategorias:
     
     def filtrar_categorias(self):
         try:
-            nombre_categoria = self.inputFiltroCategoriaTipoServicio.text()
-            categorias = self._servicios["categoria_tipo_servicio_tecnico_servicio"].obtener_por_categoria_o_todos(nombre_categoria)
+            lista_campos_filtrar = [(self.inputFiltroCategoriaTipoServicio, "nombre_categoria")]
+            nombres_labels = ["Nombre de la categoría"]
+            nombres_columnas = ["nombre_categoria"]
             
-            self.categoria_data = categorias
+            modelo_datos, registros = obtener_modelo_datos_y_data(
+                self._servicios["categoria_tipo_servicio_tecnico_servicio"].obtener_por_categoria_o_todos,
+                lista_campos_filtrar,
+                nombres_labels,
+                nombres_columnas
+            )
             
-            modelo_datos = QStandardItemModel(len(categorias), 1)
-            modelo_datos.setHorizontalHeaderLabels([
-                "Nombre de la categoría"
-            ])
-            
-            for fila, categoria in enumerate(categorias):
-                items = [
-                    QStandardItem(str(categoria[1]))
-                ]
-                
-                for columna, item in enumerate(items):
-                    item.setToolTip(item.text())
-                    modelo_datos.setItem(fila, columna, item)
-            
+            self.categoria_data = registros
             self.tvRegistrosCategoriasTipoServicio.setModel(modelo_datos)
             self.labelFiltroCategoriaTipoServicio.clear()
             

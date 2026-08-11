@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 
 from vistas.vistas_pyuic.VentanaInfoCategoriaPyuic import Ui_VentanaInfoCategoria
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,7 +23,17 @@ class VentanaInfoCategoria(QDialog, Ui_VentanaInfoCategoria):
         self.ventana_principal = ventana_principal
         self._servicios = self.ventana_principal._servicios
         
-        self.cargar_completer_categorias = self.ventana_principal.cargar_completer_categorias
+        lista_completers_categorias = [
+            self.ventana_principal.inputFiltroSeccionCategoriaTipoServicio,
+            self.ventana_principal.inputRegistrarCategoria
+        ]
+        
+        self.cargar_completer_categorias = lambda: cargar_completer(
+            self._servicios["categoria_tipo_servicio_tecnico_servicio"],
+            lista_completers_categorias,
+            "categoria"
+        )
+        
         self.filtrar_tipos_servicio = self.ventana_principal.botonBuscarTipoServicio.click
         
         self.configuracion()
