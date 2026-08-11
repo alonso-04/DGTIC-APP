@@ -1,9 +1,13 @@
 from typing import List, Tuple
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QHeaderView, QDialog
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
+from vistas.utilidades_gui.registrar import registrar_campos
+from vistas.utilidades_gui.limpiar_campos import limpiar_campos
+from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -12,12 +16,6 @@ class VentanaDepartamentos:
         super().__init__()
         self.ventana_principal = ventana_principal
         
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.cargar_completer_departamento = self.ventana_principal.cargar_completer_departamento
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        self.botonRefrescarDepartamentos = self.ventana_principal.botonRefrescarDepartamentos
-        self.botonManualUsuarioSeccionDepartamentos = self.ventana_principal.botonManualUsuarioSeccionDepartamentos
         
         # SERVICIOS
         self._servicios = self.ventana_principal._servicios
@@ -36,6 +34,26 @@ class VentanaDepartamentos:
         # SECCIÓN DE LA TABLA DEPARTAMENTOS
         self.tvDepartamentos = self.ventana_principal.tvDepartamentos
         self.departamento_data = []
+        
+        
+        # FUNCIONES Y ELEMENTOS DE UTILIDAD
+        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
+        
+        lista_campos_departamento_completers = [
+            self.ventana_principal.inputDepartamento, 
+            self.ventana_principal.inputFiltroDepartamento,
+            self.inputBuscarDepartamento
+        ]
+        
+        self.cargar_completer_departamento = lambda: cargar_completer(
+            self._servicios["departamento_servicio"],
+            lista_campos_departamento_completers,
+            "departamento"
+        )
+        
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
+        self.botonRefrescarDepartamentos = self.ventana_principal.botonRefrescarDepartamentos
+        self.botonManualUsuarioSeccionDepartamentos = self.ventana_principal.botonManualUsuarioSeccionDepartamentos
         
         
         # BOTONES INFERIORES
@@ -68,12 +86,11 @@ class VentanaDepartamentos:
     
     def registrar_departamento(self):
         try:
-            nombre_departamento = self.inputNombreDepartamento.text()
-            self._servicios["departamento_servicio"].registrar(nombre_departamento.upper())
+            campos_a_registrar = [(self.inputNombreDepartamento, "nombre_departamento")]
+            registrar_campos(self._servicios["departamento_servicio"], campos_a_registrar)
+            limpiar_campos([self.inputNombreDepartamento])
             
-            self.inputNombreDepartamento.clear()
-            self.filtrar_departamentos()
-            self.cargar_completer_departamento()
+            self.refrescar_pagina_departamentos()
         except ValidacionError as error:
             self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
@@ -81,25 +98,18 @@ class VentanaDepartamentos:
     
     def filtrar_departamentos(self):
         try:
-            nombre_departamento = self.inputBuscarDepartamento.text()
-            departamentos = self._servicios["departamento_servicio"].obtener_por_nombre_o_todos(nombre_departamento)
+            lista_campos_filtrar = [(self.inputBuscarDepartamento, "nombre_departamento")]
+            nombres_labels = ["Nombre del departamento"]
+            nombres_columnas = ["nombre_departamento"]
             
-            self.departamento_data = departamentos
+            modelo_datos, registros = obtener_modelo_datos_y_data(
+                self._servicios["departamento_servicio"].obtener_por_nombre_o_todos,
+                lista_campos_filtrar,
+                nombres_labels,
+                nombres_columnas
+            )
             
-            modelo_datos = QStandardItemModel(len(departamentos), 1)
-            modelo_datos.setHorizontalHeaderLabels([
-                "Nombre del departamento"
-            ])
-            
-            for fila, departamento in enumerate(departamentos):
-                items = [
-                    QStandardItem(str(departamento.nombre_departamento))
-                ]
-                
-                for columna, item in enumerate(items):
-                    item.setToolTip(item.text())
-                    modelo_datos.setItem(fila, columna, item)
-            
+            self.departamento_data = registros
             self.tvDepartamentos.setModel(modelo_datos)
             self.labelFiltroSeccionDepartamento.clear()
             

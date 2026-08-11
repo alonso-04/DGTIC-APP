@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 
 from vistas.vistas_pyuic.VentanaInfoTipoServicioPyuic import Ui_VentanaInfoTipoServicio
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,7 +23,17 @@ class VentanaInfoTipoServicio(QDialog, Ui_VentanaInfoTipoServicio):
         self.ventana_principal = ventana_principal
         self._servicios = self.ventana_principal._servicios
         
-        self.cargar_completer_tipos_servicio = self.ventana_principal.cargar_completer_tipos_servicio
+        lista_campos_tipos_servicio_completers = [
+            self.ventana_principal.inputServicioPrestado,
+            self.ventana_principal.inputFiltroServicioPrestado,
+            self.ventana_principal.inputFiltroTipoServicio
+        ]
+        
+        self.cargar_completer_tipos_servicio = lambda: cargar_completer(
+            self._servicios["tipo_servicio_tecnico_servicio"],
+            lista_campos_tipos_servicio_completers,
+            "tipo_servicio"
+        )
         
         self.configuracion()
     

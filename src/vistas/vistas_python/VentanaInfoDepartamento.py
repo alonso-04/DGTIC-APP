@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 
 from vistas.vistas_pyuic.VentanaInfoDepartamentoPyuic import Ui_VentanaInfoDepartamento
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,7 +23,17 @@ class VentanaInfoDepartamento(QDialog, Ui_VentanaInfoDepartamento):
         self.ventana_principal = ventana_principal
         self._servicios = self.ventana_principal._servicios
         
-        self.cargar_completer_departamento = self.ventana_principal.cargar_completer_departamento
+        lista_campos_departamento_completers = [
+            self.ventana_principal.inputDepartamento,
+            self.ventana_principal.inputFiltroDepartamento,
+            self.ventana_principal.inputBuscarDepartamento,
+        ]
+        
+        self.cargar_completer_departamento = lambda: cargar_completer(
+            self._servicios["departamento_servicio"],
+            lista_campos_departamento_completers,
+            "departamento"
+        )
         
         self.configuracion()
     

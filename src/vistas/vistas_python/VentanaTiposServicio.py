@@ -1,9 +1,13 @@
 from typing import Tuple
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QHeaderView, QDialog
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
+from vistas.utilidades_gui.registrar import registrar_campos
+from vistas.utilidades_gui.limpiar_campos import limpiar_campos
+from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
 
 
@@ -12,13 +16,6 @@ class VentanaTipoServicio:
         super().__init__()
         self.ventana_principal = ventana_principal
         
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.cargar_completer_tipos_servicio = self.ventana_principal.cargar_completer_tipos_servicio
-        self.cargar_completer_categorias = self.ventana_principal.cargar_completer_categorias
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        self.botonRefrescarTiposServicio = self.ventana_principal.botonRefrescarTiposServicio
-        self.botonManualUsuarioSeccionTipoServicio = self.ventana_principal.botonManualUsuarioSeccionTipoServicio
         
         # CONTROLADORES
         self._servicios = self.ventana_principal._servicios
@@ -40,6 +37,37 @@ class VentanaTipoServicio:
         # SECCIÓN DE LA TABLA DE TIPOS DE SERVICIO
         self.tvRegistrosTipoServicio = self.ventana_principal.tvRegistrosTipoServicio
         self.tipo_servicio_data = []
+        
+        
+        # FUNCIONES Y ELEMENTOS DE UTILIDAD
+        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
+        
+        lista_campos_tipos_servicio_completers = [
+            self.ventana_principal.inputServicioPrestado,
+            self.ventana_principal.inputFiltroServicioPrestado,
+            self.inputFiltroTipoServicio
+        ]
+        
+        lista_campos_categorias_completers = [
+            self.inputRegistrarCategoria,
+            self.inputFiltroCategoria
+        ]
+        
+        self.cargar_completer_tipos_servicio = lambda: cargar_completer(
+            self._servicios["tipo_servicio_tecnico_servicio"],
+            lista_campos_tipos_servicio_completers,
+            "tipo_servicio"
+        )
+        
+        self.cargar_completer_categorias = lambda: cargar_completer(
+            self._servicios["categoria_tipo_servicio_tecnico_servicio"],
+            lista_campos_categorias_completers,
+            "categoria"
+        )
+        
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
+        self.botonRefrescarTiposServicio = self.ventana_principal.botonRefrescarTiposServicio
+        self.botonManualUsuarioSeccionTipoServicio = self.ventana_principal.botonManualUsuarioSeccionTipoServicio
         
         
         # BOTOES INFERIORES
@@ -82,15 +110,15 @@ class VentanaTipoServicio:
     
     def registrar_tipo_servicio(self):
         try:
-            tipo_servicio_prestado = self.inputRegistrarTipoServicio.text()
-            categoria = self.inputRegistrarCategoria.text()
+            campos_a_registrar = [
+                (self.inputRegistrarTipoServicio, "tipo_servicio_prestado"),
+                (self.inputRegistrarCategoria, "nombre_categoria")
+            ]
             
-            self._servicios["tipo_servicio_tecnico_servicio"].registrar(categoria, tipo_servicio_prestado.upper())
+            registrar_campos(self._servicios["tipo_servicio_tecnico_servicio"], campos_a_registrar)
+            limpiar_campos([self.inputRegistrarTipoServicio, self.inputRegistrarCategoria])
             
-            self.inputRegistrarTipoServicio.clear()
-            self.inputRegistrarCategoria.clear()
-            self.filtrar_tipos_servicio()
-            self.cargar_completer_tipos_servicio()
+            self.refrescar_pagina_tipos_servicio()
         except ValidacionError as error:
             self.mostrar_mensaje_error("\n".join(error.errores))
         except NoEncontradoError as error:
@@ -100,29 +128,22 @@ class VentanaTipoServicio:
     
     def filtrar_tipos_servicio(self):
         try:
-            nombre_tipo_servicio = self.inputFiltroTipoServicio.text()
-            nombre_categoria = self.inputFiltroCategoria.text()
+            lista_campos_filtrar = [
+                (self.inputFiltroTipoServicio, "tipo_servicio_prestado"),
+                (self.inputFiltroCategoria, "nombre_categoria")
+            ]
             
-            tipos_servicio = self._servicios["tipo_servicio_tecnico_servicio"].obtener_por_tipo_categoria_o_todos(nombre_tipo_servicio, nombre_categoria)
+            nombres_labels = ["Nombre del tipo de servicio", "Categoría"]
+            nombres_columnas = ["tipo_servicio_prestado", "nombre_categoria"]
             
-            self.tipo_servicio_data = tipos_servicio
+            modelo_datos, registros = obtener_modelo_datos_y_data(
+                self._servicios["tipo_servicio_tecnico_servicio"].obtener_por_tipo_categoria_o_todos,
+                lista_campos_filtrar,
+                nombres_labels,
+                nombres_columnas
+            )
             
-            modelo_datos = QStandardItemModel(len(tipos_servicio), 1)
-            modelo_datos.setHorizontalHeaderLabels([
-                "Nombre del tipo de servicio",
-                "Categoría"
-            ])
-            
-            for fila, tipo_servicio in enumerate(tipos_servicio):
-                items = [
-                    QStandardItem(str(tipo_servicio[1])),
-                    QStandardItem(str(tipo_servicio[2]))
-                ]
-                
-                for columna, item in enumerate(items):
-                    item.setToolTip(item.text())
-                    modelo_datos.setItem(fila, columna, item)
-            
+            self.tipo_servicio_data = registros
             self.tvRegistrosTipoServicio.setModel(modelo_datos)
             self.labelFiltroSeccionTipoServicio.clear()
             

@@ -1,10 +1,14 @@
 from typing import List, Tuple
 from pathlib import Path
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor, QRegExpValidator
+from PyQt5.QtGui import QStandardItemModel, QColor, QRegExpValidator
 from PyQt5.QtCore import QThread, pyqtSignal, QRegExp, QEvent
 from PyQt5.QtWidgets import QHeaderView, QDialog, QFileDialog
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
+from vistas.utilidades_gui.cargar_completers import cargar_completer
+from vistas.utilidades_gui.registrar import registrar_campos
+from vistas.utilidades_gui.limpiar_campos import limpiar_campos
+from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.respaldo import RespaldoLocal
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 from reportes.reporte_servicios import ReporteServicios
@@ -35,16 +39,6 @@ class VentanaApp:
         self._servicios = ventana_principal._servicios
         
         self.respaldo_local = RespaldoLocal
-        
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
-        self.labelErrorFiltro = self.ventana_principal.labelErrorFiltro
-        self.cargar_completer_departamento = self.ventana_principal.cargar_completer_departamento
-        self.cargar_completer_tipos_servicio = self.ventana_principal.cargar_completer_tipos_servicio
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        self.botonRefrescarApp = self.ventana_principal.botonRefrescarApp
-        self.botonManualUsuarioSeccionApp = self.ventana_principal.botonManualUsuarioSeccionApp
         
         
         # SECCIÓN DE REGISTRAR NUEVO SERVICIO
@@ -79,6 +73,37 @@ class VentanaApp:
         self.tvRegistros = self.ventana_principal.tvRegistros
         self.servicio_data = []
         
+        # FUNCIONES Y ELEMENTOS DE UTILIDAD
+        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
+        self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
+        self.labelErrorFiltro = self.ventana_principal.labelErrorFiltro
+        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
+        self.botonRefrescarApp = self.ventana_principal.botonRefrescarApp
+        self.botonManualUsuarioSeccionApp = self.ventana_principal.botonManualUsuarioSeccionApp
+        
+        lista_campos_departamento_completers = [
+            self.inputDepartamento, 
+            self.inputFiltroDepartamento,
+            self.ventana_principal.inputBuscarDepartamento
+        ]
+        
+        lista_campos_tipos_servicio_completers = [
+            self.inputServicioPrestado,
+            self.inputFiltroServicioPrestado,
+            self.ventana_principal.inputFiltroTipoServicio
+        ]
+        
+        self.cargar_completer_departamento = lambda: cargar_completer(
+            self._servicios["departamento_servicio"],
+            lista_campos_departamento_completers,
+            "departamento"
+        )
+        
+        self.cargar_completer_tipos_servicio = lambda: cargar_completer(
+            self._servicios["tipo_servicio_tecnico_servicio"],
+            lista_campos_tipos_servicio_completers,
+            "tipo_servicio"
+        )
         
         # BOTONES INFERIORES
         self.botonCrearUsuario = self.ventana_principal.botonCrearUsuario
@@ -162,33 +187,28 @@ class VentanaApp:
     
     def registrar_nuevo_servicio(self):
         try:
-            nombre_departamento = self.inputDepartamento.text()
-            falla_presenta = self.inputFallaPresenta.text()
-            nombres_tecnicos = self.inputNombreTecnico.text()
-            cantidad = self.spCantidad.value()
-            descripcion = self.teDescripcion.toPlainText()
-            servicio_prestado = self.inputServicioPrestado.text()
-            fecha_servicio = self.deFecha.date().toPyDate()
-            observaciones_adicionales = self.teObservacionesAdicionales.toPlainText()
+            campos_a_registrar = [
+                (self.inputDepartamento, "nombre_departamento"),
+                (self.inputFallaPresenta, "falla_presenta"),
+                (self.inputNombreTecnico, "nombres_tecnicos"),
+                (self.spCantidad, "cantidad"),
+                (self.teDescripcion, "descripcion"),
+                (self.inputServicioPrestado, "tipo_servicio_prestado"),
+                (self.deFecha, "fecha_servicio"),
+                (self.teObservacionesAdicionales, "observaciones_adicionales")
+            ]
             
-            self._servicios["servicio_tecnico_servicio"].registrar(
-                nombre_departamento,
-                fecha_servicio,
-                falla_presenta.upper(),
-                servicio_prestado,
-                nombres_tecnicos.upper(),
-                cantidad,
-                descripcion.upper(),
-                observaciones_adicionales.upper()
-            )
+            registrar_campos(self._servicios["servicio_tecnico_servicio"], campos_a_registrar)
             
-            self.inputDepartamento.clear()
-            self.inputFallaPresenta.clear()
-            self.inputNombreTecnico.clear()
-            self.spCantidad.setValue(1)
-            self.teDescripcion.clear()
-            self.inputServicioPrestado.clear()
-            self.teObservacionesAdicionales.clear()
+            limpiar_campos([
+                self.inputDepartamento,
+                self.inputFallaPresenta,
+                self.inputNombreTecnico,
+                self.spCantidad,
+                self.teDescripcion,
+                self.inputServicioPrestado,
+                self.teObservacionesAdicionales
+            ])
             
             self.filtrar_servicios()
         except NoEncontradoError as error:
@@ -200,20 +220,13 @@ class VentanaApp:
     
     def filtrar_servicios(self):
         try:
-            fecha_servicio = self.deFiltroFecha.date().toPyDate()
-            nombre_departamento = self.inputFiltroDepartamento.text()
-            tipo_servicio_prestado = self.inputFiltroServicioPrestado.text()
-                
-            servicios = self._servicios["servicio_tecnico_servicio"].obtener_por_fecha_o_departamento_o_tipo_servicio(
-                fecha_servicio,
-                nombre_departamento,
-                tipo_servicio_prestado
-            )
+            lista_campos_filtrar = [
+                (self.deFiltroFecha, "fecha_servicio"),
+                (self.inputFiltroDepartamento, "nombre_departamento"),
+                (self.inputFiltroServicioPrestado, "tipo_servicio_prestado")
+            ]
             
-            self.servicio_data = servicios
-            
-            modelo_datos = QStandardItemModel(len(servicios), 6)
-            modelo_datos.setHorizontalHeaderLabels([
+            nombres_labels = [
                 "Departamento",
                 "Fecha",
                 "Falla que presenta",
@@ -222,34 +235,31 @@ class VentanaApp:
                 "Descripción",
                 "Cantidad",
                 "Observaciones"
-            ])
+            ]
             
-            COLOR_RESALTE = QColor(255, 240, 180)
+            nombres_columnas = [
+                "nombre_departamento",
+                "fecha_servicio",
+                "falla_presenta",
+                "tipo_servicio_prestado",
+                "nombres_tecnicos",
+                "descripcion",
+                "cantidad",
+                "observaciones_adicionales"
+            ]
             
-            for fila, servicio in enumerate(servicios):
-                descripcion = servicio[8] if servicio[8] else ""
-                observacion_adicional = servicio[10] if servicio[10] else ""
-                fecha_servicio_formateada = servicio[4].strftime("%d-%m-%Y")
-                
-                items = [
-                    QStandardItem(str(servicio[3])),
-                    QStandardItem(fecha_servicio_formateada),
-                    QStandardItem(str(servicio[5])),
-                    QStandardItem(str(servicio[6])),
-                    QStandardItem(str(servicio[7])),
-                    QStandardItem(descripcion),
-                    QStandardItem(str(servicio[9])),
-                    QStandardItem(observacion_adicional)
-                ]
-                
-                if (observacion_adicional):
-                    for item in items:
-                        item.setBackground(COLOR_RESALTE)
-                
-                for col, item in enumerate(items):
-                    item.setToolTip(item.text())
-                    modelo_datos.setItem(fila, col, item)
+            # Resaltar la columna de "Observaciones"
+            FILAS_A_RESALTAR = {"color": QColor(255, 240, 180), "nombre_columna": nombres_columnas[7]}
             
+            modelo_datos, registros = obtener_modelo_datos_y_data(
+                self._servicios["servicio_tecnico_servicio"].obtener_por_fecha_o_departamento_o_tipo_servicio,
+                lista_campos_filtrar,
+                nombres_labels,
+                nombres_columnas,
+                FILAS_A_RESALTAR
+            )
+            
+            self.servicio_data = registros
             self.tvRegistros.setModel(modelo_datos)
             self.labelErrorFiltro.clear()
             
