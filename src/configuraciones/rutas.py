@@ -17,10 +17,14 @@ def obtener_ruta_base():
 
 RUTA_BASE = obtener_ruta_base()
 
+def obtener_ruta_icono_app() -> str:
+    ruta_icono = os.path.join("recursos", "iconos", "app-dgtic.ico")
+    ruta_final = os.path.join(RUTA_BASE, ruta_icono)
+    
+    return ruta_final
+
 def obtener_ruta_sesion_json() -> str:
-    ruta_absoluta_sesion_json = os.path.join(
-        "sesion_usuario.json"
-    )
+    ruta_absoluta_sesion_json = os.path.join("configuraciones", "sesion_usuario.json")
     
     ruta_final_sesion_json = os.path.join(RUTA_BASE, ruta_absoluta_sesion_json)
     return ruta_final_sesion_json

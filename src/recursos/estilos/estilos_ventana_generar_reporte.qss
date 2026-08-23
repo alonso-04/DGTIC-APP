@@ -1,0 +1,164 @@
+QDialog {
+    background-color: #fff;
+}
+
+QDialog > QLineEdit,
+QDateEdit {
+    padding: 8px;
+    border-radius: 9px;
+    border: 1px solid #777;
+    font-size: 14px;
+}
+
+QLabel {
+    font-size: 15px;
+}
+
+QLabel#lbl_titulo_reporte_mensual,
+QLabel#lbl_titulo_reporte_rango_fecha,
+QLabel#lbl_titulo_reporte_anual {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+QDateEdit#de_fecha_reporte_desde::drop-down,
+QDateEdit#de_fecha_reporte_hasta::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: center right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 2px 2px 2px 0;
+}
+
+QDateEdit#de_fecha_reporte_desde::down-arrow,
+QDateEdit#de_fecha_reporte_hasta::down-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-abajo.svg")
+}
+
+QDateEdit#de_fecha_reporte_mensual::up-button,
+QDateEdit#de_fecha_reporte_anual::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    border-top-right-radius: 6px; 
+    margin: 2px 2px 0px 0px;
+}
+
+QDateEdit#de_fecha_reporte_mensual::down-button,
+QDateEdit#de_fecha_reporte_anual::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-bottom-right-radius: 6px;
+    margin: 0px 2px 2px 0px;
+}
+
+QDateEdit#de_fecha_reporte_mensual::up-arrow,
+QDateEdit#de_fecha_reporte_anual::up-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-arriba.svg")
+}
+
+
+QDateEdit#de_fecha_reporte_mensual::down-arrow,
+QDateEdit#de_fecha_reporte_anual::down-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-abajo.svg")
+}
+
+
+/* LISTAS DESPLEGABLES */
+QComboBox {
+    padding: 8px;
+    border-radius: 9px;
+    border: 1px solid #777;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+QComboBox:hover, QComboBox:on {
+    border-color: #417fd2;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: center right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    
+    /* Redondear esquinas derechas para respetar los 9px del contenedor */
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    
+    /* Mismo margen de 2px que tus otros campos */
+    margin: 2px 2px 2px 0;
+}
+
+QComboBox::down-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-abajo.svg");
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 4px;
+    outline: 0; /* Quita el cuadro punteado al hacer foco */
+    selection-background-color: #417fd2; /* Fondo al pasar el cursor o seleccionar */
+    selection-color: #ffffff;            /* Texto blanco en elemento seleccionado */
+}
+
+
+QPushButton {
+    border-radius: 12px;
+    background-color: #417fd2;
+    padding: 10px 2px;
+    max-width: 240px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton#btn_exportar_reporte {
+    qproperty-icon: url(":recursos/iconos/exportar-archivo.svg");
+    qproperty-iconSize: 25px 25px;
+    background-color: #4fe02b;
+}
+
+QPushButton#btn_exportar_reporte:hover {
+    background-color: #78e05e;
+}
+
+QPushButton#btn_exportar_reporte:pressed {
+    background-color: #40b024;
+}
+
+
+QPushButton#btn_cancelar {
+    qproperty-icon: url(":recursos/iconos/cancelar.svg");
+    qproperty-iconSize: 25px 25px;
+    background-color: #999da3;
+}
+
+QPushButton#btn_cancelar:hover {
+    background-color: #b1b5ba;
+}
+
+QPushButton#btn_cancelar:pressed {
+    background-color: #7b7e81;
+}

@@ -1,0 +1,26 @@
+/* ---------- SECCIÓN DE BOTONES INFERIORES ---------- */
+
+QPushButton#btn_gestion_usuarios {
+    qproperty-icon: url(":recursos/iconos/gestion-usuarios.svg");
+    qproperty-iconSize: 25px 25px;
+}
+
+QPushButton#btn_generar_reporte {
+    qproperty-icon: url(":recursos/iconos/generar-reporte.svg");
+    qproperty-iconSize: 25px 25px;
+}
+
+QPushButton#btn_crear_respaldo {
+    qproperty-icon: url(":recursos/iconos/crear-respaldo.svg");
+    qproperty-iconSize: 25px 25px;
+}
+
+QPushButton#btn_importar_respaldo {
+    qproperty-icon: url(":recursos/iconos/importar-respaldo.svg");
+    qproperty-iconSize: 25px 25px;
+}
+
+QPushButton#btn_cerrar_sesion {
+    qproperty-icon: url(":recursos/iconos/cerrar-sesion.svg");
+    qproperty-iconSize: 25px 25px;
+}

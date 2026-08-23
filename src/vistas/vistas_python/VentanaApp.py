@@ -4,6 +4,7 @@ from PyQt5.QtGui import QStandardItemModel, QColor, QRegExpValidator
 from PyQt5.QtCore import QThread, pyqtSignal, QRegExp, QEvent
 from PyQt5.QtWidgets import QHeaderView, QDialog, QFileDialog
 
+from utilidades.gui import UiBase
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
 from vistas.utilidades_gui.cargar_completers import cargar_completer
 from vistas.utilidades_gui.registrar import registrar_campos
@@ -30,10 +31,11 @@ class HiloImportarRespaldoBD(QThread):
             self.resultado.emit(False, f"Error al importar el respaldo: {error}")
 
 
-class VentanaApp:
+class VentanaApp(UiBase):
     def __init__(self, ventana_principal: VentanaPrincipal):
         super().__init__()
         self.ventana_principal = ventana_principal
+        self.ui = ventana_principal.ui
         
         # SERVICIOS
         self._servicios = ventana_principal._servicios
@@ -41,56 +43,31 @@ class VentanaApp:
         self.respaldo_local = RespaldoLocal
         
         
-        # SECCIÓN DE REGISTRAR NUEVO SERVICIO
-        self.inputDepartamento = self.ventana_principal.inputDepartamento
-        self.tbOtroDepartamento = self.ventana_principal.tbOtroDepartamento
-        self.inputFallaPresenta = self.ventana_principal.inputFallaPresenta
-        self.inputNombreTecnico = self.ventana_principal.inputNombreTecnico
-        
-        self.spCantidad = self.ventana_principal.spCantidad
-        self.lineEditspCantidad = self.spCantidad.lineEdit()
+        self.line_edit_spbox_cantidad = self.ui.spbox_cantidad.lineEdit()
         regex = QRegExp("[0-9]+")
-        validador = QRegExpValidator(regex, self.lineEditspCantidad)
-        self.lineEditspCantidad.setValidator(validador)
-        self.lineEditspCantidad.installEventFilter(self.ventana_principal)
-        
-        self.teDescripcion = self.ventana_principal.teDescripcion
-        self.inputServicioPrestado = self.ventana_principal.inputServicioPrestado
-        self.tbOtroServicioPrestado = self.ventana_principal.tbOtroServicioPrestado
-        self.teObservacionesAdicionales = self.ventana_principal.teObservacionesAdicionales
-        self.deFecha = self.ventana_principal.deFecha
-        self.botonRegistrar = self.ventana_principal.botonRegistrar
-        
-        
-        # SECCIÓN DE FILTRAR SERVICIOS
-        self.deFiltroFecha = self.ventana_principal.deFiltroFecha
-        self.inputFiltroDepartamento = self.ventana_principal.inputFiltroDepartamento
-        self.inputFiltroServicioPrestado = self.ventana_principal.inputFiltroServicioPrestado
-        self.botonBuscarServicios = self.ventana_principal.botonBuscarServicios
+        validador = QRegExpValidator(regex, self.line_edit_spbox_cantidad)
+        self.line_edit_spbox_cantidad.setValidator(validador)
+        self.line_edit_spbox_cantidad.installEventFilter(self.ui)
         
         
         # SECCIÓN DE LA TABLA DE REGISTROS
-        self.tvRegistros = self.ventana_principal.tvRegistros
         self.servicio_data = []
         
         # FUNCIONES Y ELEMENTOS DE UTILIDAD
         self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
         self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
-        self.labelErrorFiltro = self.ventana_principal.labelErrorFiltro
         self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        self.botonRefrescarApp = self.ventana_principal.botonRefrescarApp
-        self.botonManualUsuarioSeccionApp = self.ventana_principal.botonManualUsuarioSeccionApp
         
         lista_campos_departamento_completers = [
-            self.inputDepartamento, 
-            self.inputFiltroDepartamento,
-            self.ventana_principal.inputBuscarDepartamento
+            self.ui.txt_nombre_departamento,
+            self.ui.txt_filtro_nombre_departamento,
+            self.ui.txt_filtrar_departamentos_registrados
         ]
         
         lista_campos_tipos_servicio_completers = [
-            self.inputServicioPrestado,
-            self.inputFiltroServicioPrestado,
-            self.ventana_principal.inputFiltroTipoServicio
+            self.ui.txt_servicio_prestado,
+            self.ui.txt_filtro_servicio_prestado,
+            self.ui.txt_filtro_tipos_servicios_registrados
         ]
         
         self.cargar_completer_departamento = lambda: cargar_completer(
@@ -105,42 +82,37 @@ class VentanaApp:
             "tipo_servicio"
         )
         
-        # BOTONES INFERIORES
-        self.botonCrearUsuario = self.ventana_principal.botonCrearUsuario
-        self.botonCrearRespaldo = self.ventana_principal.botonCrearRespaldo
-        self.botonImportarRespaldo = self.ventana_principal.botonImportarRespaldo
-        self.botonGenerarReporte = self.ventana_principal.botonGenerarReporte
-        self.botonCerrarSesion = self.ventana_principal.botonCerrarSesion
-        
         self.configuracion()
     
     def eventFilter(self, obj, event):
-        if obj is self.lineEditspCantidad and event.type() == QEvent.KeyPress:
+        if obj is self.line_edit_spbox_cantidad and event.type() == QEvent.KeyPress:
             if event.text() == ',':
-                return True  # Bloquea la coma del spCantidad
+                return True  # Bloquea la coma del spbox_cantidad
         return super().eventFilter(obj, event)
     
     def configuracion(self):
         self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
         
-        self.botonRefrescarApp.clicked.connect(self.refrescar_pagina_app)
-        self.botonManualUsuarioSeccionApp.clicked.connect(self.ver_manual_usuario)
+        self.ui.btn_refrescar_pagina_ventana_app.clicked.connect(self.refrescar_pagina_app)
+        self.ui.btn_manual_usuario_ventana_app.clicked.connect(self.ver_manual_usuario)
         
-        self.tbOtroDepartamento.clicked.connect(self.ir_pagina_crear_departamento)
-        self.tbOtroServicioPrestado.clicked.connect(self.ir_pagina_crear_tipo_servicio)
+        self.ui.tool_ventana_departamentos.clicked.connect(self.ir_pagina_crear_departamento)
+        self.ui.tool_ventana_tipos_servicio.clicked.connect(self.ir_pagina_crear_tipo_servicio)
         
-        self.botonRegistrar.clicked.connect(self.registrar_nuevo_servicio)
+        self.ui.btn_registrar_servicio.clicked.connect(self.registrar_nuevo_servicio)
         
-        self.botonBuscarServicios.clicked.connect(self.filtrar_servicios)
-        self.deFiltroFecha.dateChanged.connect(self.filtrar_servicios)
-        self.tvRegistros.clicked.connect(self.seleccionar_servicio)
+        self.ui.btn_buscar_servicios.clicked.connect(self.filtrar_servicios)
+        self.ui.de_filtro_fecha_servicio.dateChanged.connect(self.filtrar_servicios)
         
-        self.botonCrearUsuario.clicked.connect(self.ir_pagina_crear_usuario)
-        self.botonCrearRespaldo.clicked.connect(self.generar_respaldo)
-        self.botonImportarRespaldo.clicked.connect(self.importar_respaldo)
-        self.botonGenerarReporte.clicked.connect(self.generar_reporte)
-        self.botonCerrarSesion.clicked.connect(self.cerrar_sesion)
+        self.ui.tabla_servicios.clicked.connect(self.seleccionar_servicio)
+        self.configurar_tabla(self.ui.tabla_servicios)
+        
+        self.ui.btn_gestion_usuarios.clicked.connect(self.ir_pagina_gestion_usuarios)
+        self.ui.btn_crear_respaldo.clicked.connect(self.generar_respaldo)
+        self.ui.btn_importar_respaldo.clicked.connect(self.importar_respaldo)
+        self.ui.btn_generar_reporte.clicked.connect(self.generar_reporte)
+        self.ui.btn_cerrar_sesion.clicked.connect(self.cerrar_sesion)
     
     def refrescar_pagina_app(self):
         self.filtrar_servicios()
@@ -155,17 +127,18 @@ class VentanaApp:
         self.ir_pagina_inicio_sesion()
     
     def ir_pagina_inicio_sesion(self):
-        self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaIniciarSesion)
-        self.ventana_principal.setWindowTitle("Iniciar Sesión")
+        self.ui.ventanas.setCurrentWidget(self.ui.paginaIniciarSesion)
+        self.ui.setWindowTitle("Iniciar Sesión")
     
-    def ir_pagina_crear_usuario(self):
+    def ir_pagina_gestion_usuarios(self):
         if (self._servicios["usuario_servicio"].usuario_es_admin()):
             if not(hasattr(self, "ventana_usuarios")):
                 from vistas.vistas_python.VentanaUsuarios import VentanaUsuarios
                 self.ventana_usuarios = VentanaUsuarios(self.ventana_principal)
+                self.cargar_estilos("estilos_ventana_gestion_usuarios.qss", self.ui.paginaCrearUsuario)
                 
-            self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaCrearUsuario)
-            self.ventana_principal.setWindowTitle("Usuarios")
+            self.ui.ventanas.setCurrentWidget(self.ui.paginaCrearUsuario)
+            self.ui.setWindowTitle("Usuarios")
         else:
             self.mostrar_mensaje_error("No puedes entrar a esta sección porque no eres Administrador.")
     
@@ -174,40 +147,40 @@ class VentanaApp:
             from vistas.vistas_python.VentanaDepartamento import VentanaDepartamentos
             self.ventana_departamentos = VentanaDepartamentos(self.ventana_principal)
         
-        self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaDepartamentos)
-        self.ventana_principal.setWindowTitle("Departamentos")
+        self.ui.ventanas.setCurrentWidget(self.ui.paginaDepartamentos)
+        self.ui.setWindowTitle("Departamentos")
     
     def ir_pagina_crear_tipo_servicio(self):
         if not(hasattr(self, "ventana_tipos_servicio")):
             from vistas.vistas_python.VentanaTiposServicio import VentanaTipoServicio
             self.ventana_tipos_servicio = VentanaTipoServicio(self.ventana_principal)
         
-        self.ventana_principal.ventanas.setCurrentWidget(self.ventana_principal.paginaTiposServicio)
-        self.ventana_principal.setWindowTitle("Tipos de servicio")
+        self.ui.ventanas.setCurrentWidget(self.ui.paginaTiposServicio)
+        self.ui.setWindowTitle("Tipos de servicio")
     
     def registrar_nuevo_servicio(self):
         try:
             campos_a_registrar = [
-                (self.inputDepartamento, "nombre_departamento"),
-                (self.inputFallaPresenta, "falla_presenta"),
-                (self.inputNombreTecnico, "nombres_tecnicos"),
-                (self.spCantidad, "cantidad"),
-                (self.teDescripcion, "descripcion"),
-                (self.inputServicioPrestado, "tipo_servicio_prestado"),
-                (self.deFecha, "fecha_servicio"),
-                (self.teObservacionesAdicionales, "observaciones_adicionales")
+                (self.ui.txt_nombre_departamento, "nombre_departamento"),
+                (self.ui.txt_falla_presenta, "falla_presenta"),
+                (self.ui.txt_nombres_tecnicos, "nombres_tecnicos"),
+                (self.ui.spbox_cantidad, "cantidad"),
+                (self.ui.txt_descripcion, "descripcion"),
+                (self.ui.txt_servicio_prestado, "tipo_servicio_prestado"),
+                (self.ui.de_fecha_servicio, "fecha_servicio"),
+                (self.ui.txt_observaciones_adicionales, "observaciones_adicionales")
             ]
             
             registrar_campos(self._servicios["servicio_tecnico_servicio"], campos_a_registrar)
             
             limpiar_campos([
-                self.inputDepartamento,
-                self.inputFallaPresenta,
-                self.inputNombreTecnico,
-                self.spCantidad,
-                self.teDescripcion,
-                self.inputServicioPrestado,
-                self.teObservacionesAdicionales
+                self.ui.txt_nombre_departamento,
+                self.ui.txt_falla_presenta,
+                self.ui.txt_nombres_tecnicos,
+                self.ui.spbox_cantidad,
+                self.ui.txt_descripcion,
+                self.ui.txt_servicio_prestado,
+                self.ui.txt_observaciones_adicionales
             ])
             
             self.filtrar_servicios()
@@ -221,9 +194,9 @@ class VentanaApp:
     def filtrar_servicios(self):
         try:
             lista_campos_filtrar = [
-                (self.deFiltroFecha, "fecha_servicio"),
-                (self.inputFiltroDepartamento, "nombre_departamento"),
-                (self.inputFiltroServicioPrestado, "tipo_servicio_prestado")
+                (self.ui.de_filtro_fecha_servicio, "fecha_servicio"),
+                (self.ui.txt_filtro_nombre_departamento, "nombre_departamento"),
+                (self.ui.txt_filtro_servicio_prestado, "tipo_servicio_prestado")
             ]
             
             nombres_labels = [
@@ -253,22 +226,22 @@ class VentanaApp:
             
             modelo_datos, registros = obtener_modelo_datos_y_data(
                 self._servicios["servicio_tecnico_servicio"].obtener_por_fecha_o_departamento_o_tipo_servicio,
-                lista_campos_filtrar,
                 nombres_labels,
                 nombres_columnas,
+                lista_campos_filtrar,
                 FILAS_A_RESALTAR
             )
             
             self.servicio_data = registros
-            self.tvRegistros.setModel(modelo_datos)
-            self.labelErrorFiltro.clear()
+            self.ui.tabla_servicios.setModel(modelo_datos)
+            self.ui.lbl_errores_filtro_servicios.clear()
             
-            header = self.tvRegistros.horizontalHeader()
+            header = self.ui.tabla_servicios.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.Stretch)
         except NoEncontradoError as error:
             self.servicio_data = []
             self.limpiar_tabla("\n".join(error.errores))
-            header = self.tvRegistros.horizontalHeader()
+            header = self.ui.tabla_servicios.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.Stretch)
     
     def seleccionar_servicio(self, indice: int):
@@ -281,16 +254,16 @@ class VentanaApp:
     def mostrar_ventana_info_servicio(self, servicio_data: List[Tuple]):
         if not(hasattr(self, "ventana_info_servicio")):
             from vistas.vistas_python.VentanaInfoServicio import VentanaInfoServicio
-            self.ventana_info_servicio = VentanaInfoServicio(servicio_data, self._servicios)
+            self.ventana_info_servicio = VentanaInfoServicio(servicio_data, self._servicios, "VentanaInfoServicio.ui", "estilos_ventanas_info.qss")
         
         self.ventana_info_servicio.actualizar_data_recibida(servicio_data)
         
-        resultado = self.ventana_info_servicio.exec_()
+        resultado = self.ventana_info_servicio.ui.exec_()
         if (resultado == QDialog.Accepted):
             self.filtrar_servicios()
     
     def mostrar_error_filtro(self, mensaje: str):
-        self.labelErrorFiltro.setText(mensaje)
+        self.lbl_errores_filtro_servicios.setText(mensaje)
     
     def limpiar_tabla(self, mensaje: str = ""):
         modelo_vacio = QStandardItemModel(0, 6)
@@ -305,10 +278,10 @@ class VentanaApp:
             "Observaciones"
         ])
         
-        self.tvRegistros.setModel(modelo_vacio)
+        self.ui.tabla_servicios.setModel(modelo_vacio)
         
         if (mensaje):
-            self.labelErrorFiltro.setText(mensaje)
+            self.ui.lbl_errores_filtro_servicios.setText(mensaje)
     
     def generar_respaldo(self):
         try:
@@ -323,7 +296,7 @@ class VentanaApp:
         filtro = "Archivos SQL (*.sql);;"
         
         ruta_archivo, filtro_archivo = QFileDialog.getOpenFileName(
-            self.ventana_principal.ventanas,
+            self.ui.ventanas,
             titulo,
             directorio_inicial,
             filtro
@@ -334,7 +307,7 @@ class VentanaApp:
             
             if not(hasattr(self, "ventana_carga_importacion_bd")):
                 from vistas.vistas_python.VentanaImportacionBD import VentanaImportacionBd
-                self.ventana_carga_importacion_bd = VentanaImportacionBd()
+                self.ventana_carga_importacion_bd = VentanaImportacionBd("VentanaCargaImportacionBd.ui", "estilos_ventana_importacion_respaldo.qss")
             
             self.hilo_importar_respaldo_bd = HiloImportarRespaldoBD(
                 self.respaldo_local,
@@ -344,11 +317,11 @@ class VentanaApp:
             self.hilo_importar_respaldo_bd.resultado.connect(self._resultado_importacion)
             self.hilo_importar_respaldo_bd.start()
             
-            self.ventana_carga_importacion_bd.exec_()
+            self.ventana_carga_importacion_bd.ui.exec_()
     
     def _resultado_importacion(self, hubo_exito: bool, mensaje: str):
         if (self.ventana_carga_importacion_bd):
-            self.ventana_carga_importacion_bd.accept()
+            self.ventana_carga_importacion_bd.ui.accept()
         
         if (hubo_exito):
             self.mostrar_mensaje_info(mensaje)
@@ -360,8 +333,10 @@ class VentanaApp:
         if not(hasattr(self, "ventana_generar_reporte")):
             from vistas.vistas_python.VentanaGenerarReporte import VentanaGenerarReporte
             self.ventana_generar_reporte = VentanaGenerarReporte(
-                generador_reporte_servicios = ReporteServicios(),
-                servicios = self._servicios
+                ReporteServicios(),
+                self._servicios,
+                "VentanaGenerarReporte.ui",
+                "estilos_ventana_generar_reporte.qss"
             )
             
-        self.ventana_generar_reporte.exec_()
+        self.ventana_generar_reporte.ui.exec_()

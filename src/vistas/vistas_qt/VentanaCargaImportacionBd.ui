@@ -14,12 +14,12 @@
    <string>Importando respaldo...</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../recursos/qtRecursosIconos.qrc">
+   <iconset>
     <normaloff>:/iconos/iconos/icono-app-dgtic.png</normaloff>:/iconos/iconos/icono-app-dgtic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-    <widget class="QFrame" name="frameGeneralCargaImportacionBd">
+    <widget class="QFrame" name="frame_general_carga_importacion">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -46,9 +46,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QVBoxLayout" name="vlCargaImportacionBd">
+       <layout class="QVBoxLayout" name="layout_carga">
         <item>
-         <widget class="QLabel" name="labelImportacionBd">
+         <widget class="QLabel" name="lbl_estado_carga_importacion">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -73,7 +73,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QProgressBar" name="barraProgresoImportacionBd">
+         <widget class="QProgressBar" name="barra_carga_importacion">
           <property name="value">
            <number>24</number>
           </property>
@@ -86,8 +86,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../../recursos/qtRecursosIconos.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

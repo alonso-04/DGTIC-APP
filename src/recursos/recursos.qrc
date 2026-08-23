@@ -1,0 +1,24 @@
+<RCC>
+  <qresource prefix="recursos">
+    <file>iconos/app-dgtic.ico</file>
+    <file>iconos/exportar-archivo.svg</file>
+    <file>iconos/actualizar.svg</file>
+    <file>logos/logo-dgtic.png</file>
+    <file>iconos/buscar.svg</file>
+    <file>iconos/cancelar.svg</file>
+    <file>iconos/cerrar-sesion.svg</file>
+    <file>iconos/crear-respaldo.svg</file>
+    <file>iconos/eliminar.svg</file>
+    <file>iconos/flecha-abajo.svg</file>
+    <file>iconos/flecha-arriba.svg</file>
+    <file>iconos/generar-reporte.svg</file>
+    <file>iconos/gestion-usuarios.svg</file>
+    <file>iconos/importar-respaldo.svg</file>
+    <file>iconos/iniciar-sesion.svg</file>
+    <file>iconos/mostrar-clave.svg</file>
+    <file>iconos/ocultar-clave.svg</file>
+    <file>iconos/refrescar.svg</file>
+    <file>iconos/registrar.svg</file>
+    <file>iconos/regresar.svg</file>
+  </qresource>
+</RCC>

@@ -1,6 +1,7 @@
 from datetime import date
+from functools import reduce
 from typing import List, Tuple, Dict
-from PyQt5.QtWidgets import QLineEdit, QDateEdit
+from PyQt5.QtWidgets import QLineEdit, QDateEdit, QComboBox
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
 
 
@@ -30,6 +31,8 @@ def obtener_modelo_datos_y_data(
                 criterios_filtro[columna] = campo.text().upper()
             elif isinstance(campo, QDateEdit):
                 criterios_filtro[columna] = campo.date().toPyDate()
+            elif isinstance(campo, QComboBox):
+                criterios_filtro[columna] = campo.currentText()
             
         registros = servicio_filtrar(**criterios_filtro)
     else:
@@ -46,11 +49,11 @@ def obtener_modelo_datos_y_data(
         es_fila_resaltada = False
         if filas_resaltadas:
             campo_evaluar = filas_resaltadas.get("nombre_columna")
-            if getattr(registro, campo_evaluar, None):
+            if rgetattr(registro, campo_evaluar, ""):
                 es_fila_resaltada = True
         
         for columna, nombre_columna in enumerate(nombres_columnas):
-            valor = getattr(registro, nombre_columna, "")
+            valor = rgetattr(registro, nombre_columna, "")
             
             if valor is None:
                 valor = ""
@@ -58,6 +61,7 @@ def obtener_modelo_datos_y_data(
                 valor = valor.strftime("%d-%m-%Y")
             
             item = QStandardItem(str(valor))
+            item.setToolTip(str(valor))
             
             if es_fila_resaltada and color_resaltar:
                 item.setBackground(color_resaltar)
@@ -65,3 +69,10 @@ def obtener_modelo_datos_y_data(
             modelo_datos.setItem(fila, columna, item)
     
     return modelo_datos, registros
+
+def rgetattr(objeto, atributo, defecto=""):
+    """Obtiene un atributo simple o anidado (ej. 'rol.tipo_rol') de un objeto."""
+    try:
+        return reduce(getattr, atributo.split('.'), objeto)
+    except AttributeError:
+        return defecto
