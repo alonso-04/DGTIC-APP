@@ -44,126 +44,141 @@
   <property name="modal">
    <bool>false</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="layout_principal">
-     <item>
-      <layout class="QHBoxLayout" name="layout_info_servicio">
-       <property name="spacing">
-        <number>14</number>
+    <layout class="QGridLayout" name="layout_info_servicio_1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lbl_nombre_departamento">
+       <property name="text">
+        <string>Departamento:</string>
        </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="txt_nombre_departamento">
+       <property name="inputMethodHints">
+        <set>Qt::ImhNone</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lbl_falla_presenta">
+       <property name="text">
+        <string>Falla que presenta:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="txt_falla_presenta"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lbl_servicio_prestado">
+       <property name="text">
+        <string>Servicio prestado:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="txt_servicio_prestado"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lbl_nombres_tecnicos">
+       <property name="text">
+        <string>Nombre del técnico:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="txt_nombres_tecnicos"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="layout_info_servicio_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lbl_descripcion">
+       <property name="text">
+        <string>Descripción:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="txt_descripcion">
+       <property name="placeholderText">
+        <string>(Opcional)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QLabel" name="lbl_observaciones">
+       <property name="text">
+        <string>Observaciones:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="txt_observaciones">
+       <property name="placeholderText">
+        <string>(Opcional)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="3">
+      <layout class="QHBoxLayout" name="layout_cantidad_y_fecha">
        <item>
-        <layout class="QGridLayout" name="layout_info_servicio_1">
-         <item row="0" column="0">
-          <widget class="QLabel" name="lbl_nombre_departamento">
-           <property name="text">
-            <string>Departamento:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="txt_nombre_departamento">
-           <property name="inputMethodHints">
-            <set>Qt::ImhNone</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="lbl_falla_presenta">
-           <property name="text">
-            <string>Falla que presenta:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="txt_falla_presenta"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="lbl_servicio_prestado">
-           <property name="text">
-            <string>Servicio prestado:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="txt_servicio_prestado"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="lbl_nombres_tecnicos">
-           <property name="text">
-            <string>Nombre del técnico:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="txt_nombres_tecnicos"/>
-         </item>
-        </layout>
+        <widget class="QLabel" name="lbl_cantidad">
+         <property name="maximumSize">
+          <size>
+           <width>88</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Cantidad:</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="layout_info_servicio_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="lbl_descripcion">
-           <property name="text">
-            <string>Descripción:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="txt_descripcion">
-           <property name="placeholderText">
-            <string>(Opcional)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="lbl_observaciones">
-           <property name="text">
-            <string>Observaciones:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="txt_observaciones">
-           <property name="placeholderText">
-            <string>(Opcional)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="lbl_cantidad">
-           <property name="text">
-            <string>Cantidad:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="spbox_cantidad">
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>99999</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="lbl_fecha">
-           <property name="text">
-            <string>Fecha:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QDateEdit" name="de_fecha">
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QSpinBox" name="spbox_cantidad">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>99999</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_fecha">
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Fecha:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="de_fecha">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lbl_nombre_comuna">
+       <property name="text">
+        <string>Comuna:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QLineEdit" name="txt_nombre_comuna"/>
      </item>
     </layout>
    </item>
