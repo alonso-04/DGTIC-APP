@@ -1,0 +1,277 @@
+/* ---------- ESTILOS GENERALES ---------- */
+
+QWidget#ventanaPrincipal {
+	background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:1, stop:0.477612 rgba(72, 111, 182, 255), stop:0.751244 rgba(31, 72, 133, 255));
+}
+
+
+QFrame[tipo_frame="general"] {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+QLabel {
+    font-size: 15px;
+}
+
+QGroupBox {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* TODOS LOS QLineEdit y QSpinBox que sean hijos directos 
+de un QGroupBox y los QDateEdit */
+QGroupBox > QLineEdit,
+QGroupBox > QSpinBox,
+QDateEdit {
+    padding: 8px;
+    border-radius: 9px;
+    border: 1px solid #777;
+    font-size: 14px;
+}
+
+/* TODOS LOS QToolButton que son hijos directos de un QGroupBox */
+QGroupBox > QToolButton {
+    border-radius: 9px;
+    background-color: #417fd2;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+}
+
+QGroupBox > QToolButton:hover {
+    background-color: #5c8bc9;
+}
+
+QGroupBox > QToolButton:pressed {
+    background-color: #0c5dc7;
+}
+
+/* TODOS LOS BOTONES */
+QPushButton {
+    border-radius: 12px;
+    background-color: #417fd2;
+    padding: 10px 2px;
+    max-width: 240px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #5c8bc9;
+}
+
+QPushButton:pressed {
+    background-color: #0c5dc7;
+}
+
+
+/* LOS BOTONES DE SI, NO, ACEPTAR DE LAS VENTANAS EMERGENTES */
+QMessageBox QPushButton {
+    padding: 8px 12px;
+    background-color: #5897ea;
+}
+
+
+
+/* BOTÓN DE CAMPO NUMÉRICO (MARCO DE FLECHA ARRIBA) */
+QGroupBox > QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    border-top-right-radius: 6px; 
+    margin: 2px 2px 0px 0px;
+}
+
+/* BOTÓN DE CAMPO NUMÉRICO (MARCO DE FLECHA ABAJO) */
+QGroupBox > QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-bottom-right-radius: 6px;
+    margin: 0px 2px 2px 0px;
+}
+
+/* DESPLEGABLE DE CAMPO DE FECHA (MARCO DE DESPLEGABLE) */
+QDateEdit::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: center right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 2px 2px 2px 0;
+}
+
+/* BOTÓN DE CAMPO NUMÉRICO (ICONO DE FLECHA ARRIBA) */
+QGroupBox > QSpinBox::up-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-arriba.svg")
+}
+
+/* BOTÓN DE CAMPO NUMÉRICO (ICONO DE FLECHA ABAJO) */
+QGroupBox > QSpinBox::down-arrow, QDateEdit::down-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-abajo.svg")
+}
+
+
+
+/* BOTÓN DE MANUAL DE USUARIO */
+QPushButton[tipo_boton="manual_usuario"] {
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 20px;
+    color: #000;
+	font-size: 18px;
+}
+
+QPushButton[tipo_boton="manual_usuario"]:hover {
+    background-color: #dadada;
+}
+
+QPushButton[tipo_boton="manual_usuario"]:pressed {
+    background-color: #a3a3a3;
+}
+
+
+/* BOTONES DE REGISTRAR */
+QPushButton[tipo_boton="registrar"] {
+    qproperty-icon: url(":recursos/iconos/registrar.svg");
+    qproperty-iconSize: 25px 25px;
+    padding: 8px;
+}
+
+
+/* BOTONES DE BUSCAR */
+QPushButton[tipo_boton="buscar"] {
+    qproperty-icon: url(":recursos/iconos/buscar.svg");
+    qproperty-iconSize: 25px 25px;
+    padding: 8px;
+}
+
+
+/* BOTONES DE REFRESCAR PÁGINA */
+QPushButton[tipo_boton="refrescar"] {
+    qproperty-icon: url(":recursos/iconos/refrescar.svg");
+    qproperty-iconSize: 25px 25px;
+    padding: 8px;
+    background-color: #686666;
+}
+
+QPushButton[tipo_boton="refrescar"]:hover {
+    background-color: #959191;
+}
+
+QPushButton[tipo_boton="refrescar"]:pressed {
+    background-color: #514e4e;
+}
+
+
+
+/* BOTONES DE REGRESAR */
+QPushButton[tipo_boton="regresar"] {
+    qproperty-icon: url(":recursos/iconos/regresar.svg");
+    qproperty-iconSize: 25px 25px;
+    width: 150px;
+}
+
+
+
+/* LABELS DE ERRORES DE FILTRO */
+QLabel[tipo_label="errores_filtro"] {
+    color: #000;
+}
+
+
+
+/* TODAS LAS TABLAS EN DONDE SE VISUALIZAN LOS REGISTROS */
+QTableView {
+    selection-background-color: #3f6ca8;
+    selection-color: #fff;
+}
+
+QHeaderView::section {
+    background-color: #f8fafc;
+    color: #334155;
+    font-weight: bold;
+    padding: 6px;
+    border: none;
+    border-bottom: 2px solid #cbd5e1;
+    font-size: 13px;
+}
+
+QTableView::item:selected:!active {
+    background-color: transparent;
+    color: inherit;
+}
+
+
+
+/* --------- ESTILOS INICIO DE SESIÓN ---------- */
+
+QFrame > QLabel {
+    color: #fff;
+}
+
+QLabel#lbl_iniciar_sesion {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+QFrame > QLineEdit {
+    padding: 8px;
+    border-radius: 9px;
+    border: 1px solid #777;
+    font-size: 14px;
+}
+
+QLineEdit#txt_ingresar_clave_usuario {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+QPushButton#btn_mostrar_ocultar_clave {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    qproperty-iconSize: 30px 18px;
+    qproperty-icon: url(":recursos/iconos/mostrar-clave.svg");
+    padding: 10px 2px;
+}
+
+QPushButton#btn_iniciar_sesion {
+    qproperty-icon: url(":recursos/iconos/iniciar-sesion.svg");
+    qproperty-iconSize: 25px 25px;
+    background-color: #f2f5f8;
+    color: #000;
+}
+
+QPushButton#btn_iniciar_sesion:hover {
+    background-color: #b8cde9;
+}
+
+QPushButton#btn_iniciar_sesion:pressed {
+    background-color: #7faeec;
+}
+
+
+QFrame#frame_logo_oficina {
+    background-color: #fff;
+}
+
+QLabel#lbl_img_logo_oficina {
+    background-image: url(":recursos/logos/logo-dgtic.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}

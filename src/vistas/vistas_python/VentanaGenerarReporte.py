@@ -1,9 +1,10 @@
 from typing import Optional
 from datetime import date
-from PyQt5.QtWidgets import QDialog, QMessageBox, QCompleter
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate, Qt, QThread, pyqtSignal
 
-from vistas.vistas_pyuic.VentanaGenerarReportePyuic import Ui_VentanaGenerarReporte
+from utilidades.gui import UiBase
+from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import NoEncontradoError, ValidacionError
 
 
@@ -57,12 +58,11 @@ class HiloReporteServicio(QThread):
             self.SENIAL_ERROR.emit(error)
 
 
-class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
-    def __init__(self, generador_reporte_servicios, servicios):
-        super().__init__()
-        self.setupUi(self)
+class VentanaGenerarReporte(UiBase):
+    def __init__(self, generador_reporte_servicios, servicios, nombre_archivo_ui: str, nombre_archivo_estilos: str):
+        super().__init__(nombre_archivo_ui, nombre_archivo_estilos)
         
-        self.setWindowFlags(
+        self.ui.setWindowFlags(
             Qt.WindowSystemMenuHint |
             Qt.WindowTitleHint |
             Qt.WindowCloseButtonHint
@@ -71,96 +71,87 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
         self.generador_reporte_servicios = generador_reporte_servicios
         self._servicios = servicios
         
+        lista_campos_tipos_servicio_completers = [self.ui.txt_tipo_servicio_reporte]
+        self.cargar_completer_tipos_servicio = lambda: cargar_completer(
+            self._servicios["tipo_servicio_tecnico_servicio"],
+            lista_campos_tipos_servicio_completers,
+            "tipo_servicio"
+        )
+        
         self.configuracion()
         
         self.reporte_trabajador = None
     
     def configuracion(self):
-        self.cbTipoReporte.currentIndexChanged.connect(self.seleccionar_opcion)
+        self.ui.cb_tipo_reporte.currentIndexChanged.connect(self.seleccionar_opcion)
         
-        self.deFechaReporte.setDate(QDate.currentDate())
-        self.deFechaDesde.setDate(QDate.currentDate())
-        self.deFechaHasta.setDate(QDate.currentDate())
-        self.deOpcionAnual.setDate(QDate.currentDate())
+        self.ui.de_fecha_reporte_mensual.setDate(QDate.currentDate())
+        self.ui.de_fecha_reporte_desde.setDate(QDate.currentDate())
+        self.ui.de_fecha_reporte_hasta.setDate(QDate.currentDate())
+        self.ui.de_fecha_reporte_anual.setDate(QDate.currentDate())
         
-        self.botonGenerarReporteServicio.clicked.connect(self.generar_reporte)
-        self.botonCancelarReporteServicio.clicked.connect(self.reject)
+        self.ui.btn_exportar_reporte.clicked.connect(self.generar_reporte)
+        self.ui.btn_cancelar.clicked.connect(self.ui.reject)
         
-        self.barraProgresoReporte.hide()
+        self.ui.barra_carga_reporte.hide()
         
         self.seleccionar_opcion(0)
         self.cargar_completer_tipos_servicio()
     
-    def cargar_completer_tipos_servicio(self):
-        tipos_servicio_tecnico_servicio = self._servicios["tipo_servicio_tecnico_servicio"]
-        tipos_servicio = tipos_servicio_tecnico_servicio.obtener_todos()
-        nombres_tipo_servicio = []
-        
-        for tipo_servicio in tipos_servicio:
-            nombres_tipo_servicio.append(tipo_servicio.tipo_servicio_prestado)
-        
-        if (tipos_servicio):
-            completer_tipos_servicio = QCompleter(nombres_tipo_servicio)
-            completer_tipos_servicio.setCaseSensitivity(Qt.CaseInsensitive)
-            completer_tipos_servicio.setFilterMode(Qt.MatchContains)
-            completer_tipos_servicio.setCompletionMode(QCompleter.PopupCompletion)
-            
-            self.inputTipoServicio.setCompleter(completer_tipos_servicio)
-    
     def seleccionar_opcion(self, indice: int):
-        opcion_seleccionada = self.cbTipoReporte.itemText(indice)
+        opcion_seleccionada = self.ui.cb_tipo_reporte.itemText(indice)
         
         if (indice == 0):
-            self.deFechaDesde.setEnabled(False)
-            self.deFechaHasta.setEnabled(False)
-            self.deOpcionAnual.setEnabled(False)
+            self.ui.de_fecha_reporte_desde.setEnabled(False)
+            self.ui.de_fecha_reporte_hasta.setEnabled(False)
+            self.ui.de_fecha_reporte_anual.setEnabled(False)
             
-            self.deFechaReporte.setEnabled(True)
+            self.ui.de_fecha_reporte_mensual.setEnabled(True)
         
         if (indice == 1):
             opcion_seleccionada = "RANGO_FECHA"
             
-            self.deOpcionAnual.setEnabled(False)
-            self.deFechaReporte.setEnabled(False)
+            self.ui.de_fecha_reporte_anual.setEnabled(False)
+            self.ui.de_fecha_reporte_mensual.setEnabled(False)
             
-            self.deFechaDesde.setEnabled(True)
-            self.deFechaHasta.setEnabled(True)
+            self.ui.de_fecha_reporte_desde.setEnabled(True)
+            self.ui.de_fecha_reporte_hasta.setEnabled(True)
         
         if (indice == 2):
-            self.deFechaReporte.setEnabled(False)
-            self.deFechaDesde.setEnabled(False)
-            self.deFechaHasta.setEnabled(False)
+            self.ui.de_fecha_reporte_mensual.setEnabled(False)
+            self.ui.de_fecha_reporte_desde.setEnabled(False)
+            self.ui.de_fecha_reporte_hasta.setEnabled(False)
             
-            self.deOpcionAnual.setEnabled(True)
+            self.ui.de_fecha_reporte_anual.setEnabled(True)
         
         return opcion_seleccionada
     
     def establecer_modo_ocupado(self, ocupado, texto_estado: str = ""):
-        self.botonGenerarReporteServicio.setEnabled(not ocupado)
-        self.botonCancelarReporteServicio.setEnabled(not ocupado)
+        self.ui.btn_exportar_reporte.setEnabled(not ocupado)
+        self.ui.btn_cancelar.setEnabled(not ocupado)
         
         if (ocupado):
-            self.barraProgresoReporte.setRange(0, 0)
-            self.barraProgresoReporte.show()
-            self.labelEstadoReporte.setText(texto_estado)
+            self.ui.barra_carga_reporte.setRange(0, 0)
+            self.ui.barra_carga_reporte.show()
+            self.ui.lbl_estado_reporte.setText(texto_estado)
         else:
-            self.barraProgresoReporte.setRange(0, 100)
-            self.barraProgresoReporte.hide()
-            self.labelEstadoReporte.setText(texto_estado)
+            self.ui.barra_carga_reporte.setRange(0, 100)
+            self.ui.barra_carga_reporte.hide()
+            self.ui.lbl_estado_reporte.setText(texto_estado)
     
     def generar_reporte(self):
         try:
-            indice_opcion_seleccionada = self.cbTipoReporte.currentIndex()
+            indice_opcion_seleccionada = self.ui.cb_tipo_reporte.currentIndex()
             opcion_seleccionada = self.seleccionar_opcion(indice_opcion_seleccionada)
             
-            tipo_servicio_prestado = self.inputTipoServicio.text()
+            tipo_servicio_prestado = self.ui.txt_tipo_servicio_reporte.text()
             tipo_servicio_prestado_sin_espacios = tipo_servicio_prestado.replace(" ", "")
                 
             if (len(tipo_servicio_prestado_sin_espacios) == 0):
                 tipo_servicio_prestado = None
             
             if (indice_opcion_seleccionada == 0):
-                mes_anio_reporte_date = self.deFechaReporte.date()
+                mes_anio_reporte_date = self.ui.de_fecha_reporte_mensual.date()
                 mes_anio_reporte_string = mes_anio_reporte_date.toString("MM-yyyy")
                 
                 self.reporte_trabajador = HiloReporteServicio(
@@ -171,8 +162,8 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 )
             
             if (indice_opcion_seleccionada == 1):
-                fecha_desde = self.deFechaDesde.date().toPyDate()
-                fecha_hasta = self.deFechaHasta.date().toPyDate()
+                fecha_desde = self.ui.de_fecha_reporte_desde.date().toPyDate()
+                fecha_hasta = self.ui.de_fecha_reporte_hasta.date().toPyDate()
                 
                 self.reporte_trabajador = HiloReporteServicio(
                     generador_reporte_servicios = self.generador_reporte_servicios,
@@ -183,7 +174,7 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
                 )
             
             if (indice_opcion_seleccionada == 2):
-                anio_date = self.deOpcionAnual.date()
+                anio_date = self.ui.de_fecha_reporte_anual.date()
                 anio_string = anio_date.toString("yyyy")
                 
                 self.reporte_trabajador = HiloReporteServicio(
@@ -202,27 +193,27 @@ class VentanaGenerarReporte(QDialog, Ui_VentanaGenerarReporte):
             self.reporte_trabajador.start()
         except Exception as error:
             self.establecer_modo_ocupado(False, "Error al iniciar el proceso")
-            QMessageBox.critical(self, "Error al iniciar el proceso", f"{error}")
+            QMessageBox.critical(self.ui, "Error al iniciar el proceso", f"{error}")
     
     def actualizar_mensaje_estado(self, mensaje: str):
-        self.labelEstadoReporte.setText(mensaje)
+        self.ui.lbl_estado_reporte.setText(mensaje)
     
     def reporte_exitoso(self, RUTA_REPORTE_GENERADO: str):
         self.establecer_modo_ocupado(False, "Reporte generado con éxito")
-        self.inputTipoServicio.clear()
+        self.ui.txt_tipo_servicio_reporte.clear()
         
-        QMessageBox.information(self, "Éxito", f"Se ha generado el reporte correctamente en {RUTA_REPORTE_GENERADO}")
-        self.accept()
+        QMessageBox.information(self.ui, "Éxito", f"Se ha generado el reporte correctamente en {RUTA_REPORTE_GENERADO}")
+        self.ui.accept()
     
     def reporte_fallido(self, error: Exception):
         self.establecer_modo_ocupado(False, "Error al generar el reporte")
         
         if isinstance(error, NoEncontradoError):
-            QMessageBox.critical(self, "Error", "\n".join(error.errores))
+            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
         elif isinstance(error, ValidacionError):
-            QMessageBox.critical(self, "Error", "\n".join(error.errores))
+            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
         else:
-            QMessageBox.critical(self, "Error", f"{error}")
+            QMessageBox.critical(self.ui, "Error", f"{error}")
         
         if (self.reporte_trabajador):
             self.reporte_trabajador.wait()

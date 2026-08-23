@@ -1,0 +1,69 @@
+/* BOTÓN DE ACTUALIZAR */
+QPushButton[variante] {
+    margin-top: 30px;
+    min-height: 20px;
+}
+
+QPushButton[variante="actualizar"] {
+    qproperty-icon: url(":recursos/iconos/actualizar.svg");
+    qproperty-iconSize: 25px 25px;
+    border-radius: 12px;
+    background-color: #d4da1c;
+    padding: 12px 2px;
+    max-width: 240px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton[variante="actualizar"]:hover {
+    background-color: #e1e829;
+}
+
+QPushButton[variante="actualizar"]:pressed {
+    background-color: #b2b806;
+}
+
+
+/* BOTÓN DE ELIMINAR */
+QPushButton[variante="eliminar"] {
+    qproperty-icon: url(":recursos/iconos/eliminar.svg");
+    qproperty-iconSize: 25px 25px;
+    border-radius: 12px;
+    background-color: #d8382d;
+    padding: 10px 2px;
+    max-width: 240px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton[variante="eliminar"]:hover {
+    background-color: #f34b3f;
+}
+
+QPushButton[variante="eliminar"]:pressed {
+    background-color: #bd2c22;
+}
+
+
+/* BOTÓN DE CANCELAR */
+QPushButton[variante="cancelar"] {
+    qproperty-icon: url(":recursos/iconos/cancelar.svg");
+    qproperty-iconSize: 25px 25px;
+    border-radius: 12px;
+    background-color: #999da3;
+    padding: 10px 2px;
+    max-width: 240px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton[variante="cancelar"]:hover {
+    background-color: #b1b5ba;
+}
+
+QPushButton[variante="cancelar"]:pressed {
+    background-color: #7b7e81;
+}

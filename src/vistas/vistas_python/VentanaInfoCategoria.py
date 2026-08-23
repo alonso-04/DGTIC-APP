@@ -1,31 +1,31 @@
 from typing import Tuple
-from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 
-from vistas.vistas_pyuic.VentanaInfoCategoriaPyuic import Ui_VentanaInfoCategoria
+from utilidades.gui import UiBase
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
 from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
-class VentanaInfoCategoria(QDialog, Ui_VentanaInfoCategoria):
-    def __init__(self, categoria_data: Tuple, ventana_principal: VentanaPrincipal):
-        super().__init__()
-        self.setupUi(self)
+class VentanaInfoCategoria(UiBase):
+    def __init__(self, categoria_data: Tuple, ventana_principal: VentanaPrincipal, nombre_archivo_ui: str, nombre_archivo_estilos: str):
+        super().__init__(nombre_archivo_ui, nombre_archivo_estilos)
         
-        self.setWindowFlags(
+        self.ui.setWindowFlags(
             Qt.WindowSystemMenuHint |
             Qt.WindowTitleHint |
             Qt.WindowCloseButtonHint
         )
         
         self.categoria_data = categoria_data
-        self.ventana_principal = ventana_principal
-        self._servicios = self.ventana_principal._servicios
+        self.ventana_principal = ventana_principal.ui
+        self._servicios = ventana_principal._servicios
         
         lista_completers_categorias = [
-            self.ventana_principal.inputFiltroSeccionCategoriaTipoServicio,
-            self.ventana_principal.inputRegistrarCategoria
+            self.ventana_principal.txt_categoria_asociada,
+            self.ventana_principal.txt_filtro_por_categoria,
+            self.ventana_principal.txt_filtro_categorias_registradas
         ]
         
         self.cargar_completer_categorias = lambda: cargar_completer(
@@ -34,48 +34,49 @@ class VentanaInfoCategoria(QDialog, Ui_VentanaInfoCategoria):
             "categoria"
         )
         
-        self.filtrar_tipos_servicio = self.ventana_principal.botonBuscarTipoServicio.click
+        self.filtrar_tipos_servicio = ventana_principal.ui.btn_buscar_tipos_servicio.click
         
+        self.cargar_botones()
         self.configuracion()
     
     def configuracion(self):
         self.cargar_completer_categorias()
         
-        self.botonAcualizarInfoCategoria.clicked.connect(self.actualizar_info_categoria)
-        self.botonEliminarCategoria.clicked.connect(self.eliminar_categoria)
-        self.botonCancelarInfoCategoria.clicked.connect(self.reject)
+        self.btn_actualizar.clicked.connect(self.actualizar_info_categoria)
+        self.btn_eliminar.clicked.connect(self.eliminar_categoria)
+        self.btn_cancelar.clicked.connect(self.ui.reject)
     
     def actualizar_data_recibida(self, data_recibida: Tuple):
         self.categoria_data = data_recibida
         self.cargar_datos()
     
     def cargar_datos(self):
-        self.inputInfoNombreCategoria.setText(self.categoria_data[1])
+        self.ui.txt_nombre_categoria.setText(self.categoria_data[1])
     
     def actualizar_info_categoria(self):
         try:
             categoria_tipo_servicio_id = self.categoria_data[0]
-            nuevo_nombre_categoria = self.inputInfoNombreCategoria.text()
+            nuevo_nombre_categoria = self.ui.txt_nombre_categoria.text()
             
             self._servicios["categoria_tipo_servicio_tecnico_servicio"].actualizar(
                 categoria_tipo_servicio_id,
                 nuevo_nombre_categoria.upper()
             )
             
-            QMessageBox.information(self, "Éxito", "La información del tipo de servicio se ha actualizado correctamente.")
+            QMessageBox.information(self.ui, "Éxito", "La información de la categoría se ha actualizado correctamente.")
             self.cargar_completer_categorias()
             self.filtrar_tipos_servicio()
-            self.accept()
+            self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self, "Error", "\n".join(error.errores))
+            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self, "Error", "\n".join(error.errores))
+            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self, "Error", "\n".join(error.errores))
+            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
     
     def eliminar_categoria(self):
         mensaje_confirmacion = QMessageBox.question(
-            self,
+            self.ui,
             "Confirmar eliminación",
             "¿Estás seguro de que quieres eliminar esta categoría?",
             QMessageBox.Yes | QMessageBox.No
@@ -86,12 +87,12 @@ class VentanaInfoCategoria(QDialog, Ui_VentanaInfoCategoria):
                 categoria_tipo_servicio_id = self.categoria_data[0]
                 self._servicios["categoria_tipo_servicio_tecnico_servicio"].eliminar(categoria_tipo_servicio_id)
                 
-                QMessageBox.information(self, "Éxito", "Se ha eliminado la categoría correctamente.")
+                QMessageBox.information(self.ui, "Éxito", "Se ha eliminado la categoría correctamente.")
                 self.cargar_completer_categorias()
-                self.accept()
+                self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self, "Error", "\n".join(error.errores))
+                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self, "Error", "\n".join(error.errores))
+                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self, "Error", "\n".join(error.errores))
+                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))

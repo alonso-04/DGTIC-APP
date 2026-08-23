@@ -2,12 +2,9 @@ import sys
 import os
 
 # Para que el archivo generado por pyuic5 encuentre los recursos correctamente le asignamos
-# la clave exacta que espera el archivo generado (qtRecursosIconos_rc y qtRecursosLogos_rc)
-import recursos.qtRecursosIconos_rc as recursos_iconos_rc
-import recursos.qtRecursosLogos_rc as recursos_logos_rc
-
-sys.modules["qtRecursosIconos_rc"] = recursos_iconos_rc
-sys.modules["qtRecursosLogos_rc"] = recursos_logos_rc
+# la clave exacta que espera el archivo generado (recursos_rc)
+import recursos.recursos_rc as recursos_rcs
+sys.modules["recursos_rc"] = recursos_rcs
 
 from dotenv import load_dotenv
 
@@ -50,8 +47,8 @@ def main():
     servicios = contenedor_dependencias.obtener_servicios()
     
     # Creo la instancia de la ventana principal que contiene todas las demaás
-    ventana_principal = VentanaPrincipal(servicios)
-    ventana_principal.show()
+    ventana_principal = VentanaPrincipal(servicios, "VentanaPrincipal.ui", "estilos_globales.qss")
+    ventana_principal.abrir()
     
     app.exec_()
 

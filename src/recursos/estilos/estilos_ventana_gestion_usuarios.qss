@@ -1,0 +1,43 @@
+/* ---------- VENTANA DE GESTIÓN DE USUARIOS ---------- */
+
+QComboBox {
+    padding: 8px;
+    border-radius: 9px;
+    border: 1px solid #777;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+QComboBox:hover, QComboBox:on {
+    border-color: #417fd2;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: border;
+    subcontrol-position: center right;
+    width: 20px;
+    background-color: #f1f5f9;
+    border-left: 1px solid #cbd5e1;
+    
+    /* Redondear esquinas derechas para respetar los 9px del contenedor */
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    
+    /* Mismo margen de 2px que tus otros campos */
+    margin: 2px 2px 2px 0;
+}
+
+QComboBox::down-arrow {
+    width: 16px;
+    height: 16px;
+    image: url(":recursos/iconos/flecha-abajo.svg");
+}
+
+QComboBox QAbstractItemView {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 4px;
+    outline: 0; /* Quita el cuadro punteado al hacer foco */
+    selection-background-color: #417fd2; /* Fondo al pasar el cursor o seleccionar */
+    selection-color: #ffffff;            /* Texto blanco en elemento seleccionado */
+}

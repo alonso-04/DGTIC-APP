@@ -1,16 +1,14 @@
-from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import Qt
 
-from vistas.vistas_pyuic.VentanaImportacionBdPyuic import Ui_VentanaCargaImportacion
+from utilidades.gui import UiBase
 
 
-class VentanaImportacionBd(QDialog, Ui_VentanaCargaImportacion):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
+class VentanaImportacionBd(UiBase):
+    def __init__(self, nombre_archivo_ui: str, nombre_archivo_estilos: str):
+        super().__init__(nombre_archivo_ui, nombre_archivo_estilos)
         
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.barraProgresoImportacionBd.setRange(0, 0)
+        self.ui.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.ui.barra_carga_importacion.setRange(0, 0)
     
     def closeEvent(self, evento):
         evento.ignore()
