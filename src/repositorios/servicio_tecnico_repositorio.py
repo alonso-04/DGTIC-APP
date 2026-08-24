@@ -56,7 +56,8 @@ class ServicioTecnicoRepositorio:
                     nombres_tecnicos,
                     descripcion,
                     cantidad,
-                    observaciones_adicionales
+                    observaciones_adicionales,
+                    nombre_comuna
                 FROM vw_servicios_prestados
                 WHERE MONTH(fecha_servicio) = :mes
                 AND YEAR(fecha_servicio)  = :anio
@@ -98,7 +99,8 @@ class ServicioTecnicoRepositorio:
                     nombres_tecnicos,
                     descripcion,
                     cantidad,
-                    observaciones_adicionales
+                    observaciones_adicionales,
+                    nombre_comuna
                 FROM vw_servicios_prestados
                 WHERE fecha_servicio BETWEEN :fecha_desde AND :fecha_hasta
             """
@@ -141,7 +143,8 @@ class ServicioTecnicoRepositorio:
                     nombres_tecnicos,
                     descripcion,
                     cantidad,
-                    observaciones_adicionales
+                    observaciones_adicionales,
+                    nombre_comuna
                 FROM vw_servicios_prestados
                 WHERE YEAR(fecha_servicio) = :anio
             """
@@ -178,7 +181,8 @@ class ServicioTecnicoRepositorio:
                     nombres_tecnicos,
                     descripcion,
                     cantidad,
-                    observaciones_adicionales
+                    observaciones_adicionales,
+                    nombre_comuna
                 FROM vw_servicios_prestados
                 WHERE fecha_servicio = :fecha_servicio
             """
@@ -508,6 +512,7 @@ class ServicioTecnicoRepositorio:
             servicio_modelo.fecha_servicio = servicio.fecha_servicio
             servicio_modelo.falla_presenta = servicio.falla_presenta
             servicio_modelo.tipo_servicio_id = servicio.tipo_servicio_id
+            servicio_modelo.comuna_id = servicio.comuna_id
             servicio_modelo.nombres_tecnicos = servicio.nombres_tecnicos
             servicio_modelo.cantidad = servicio.cantidad
             servicio_modelo.descripcion = servicio.descripcion

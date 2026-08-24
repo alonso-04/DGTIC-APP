@@ -24,7 +24,7 @@ def cargar_completer(servicio, lista_campos: List, nombre_entidad: str) -> None:
     columnas = lista_modelos[0].__table__.columns.keys()
     lista_elementos = [tuple(getattr(modelo, columna) for columna in columnas) for modelo in lista_modelos]
     
-    if nombre_entidad == "departamento" or nombre_entidad == "categoria":
+    if nombre_entidad == "departamento" or nombre_entidad == "categoria" or nombre_entidad == "comuna":
         nombres_elementos = [str(elemento[1]) for elemento in lista_elementos]
     else:
         nombres_elementos = [str(elemento[2]) for elemento in lista_elementos]

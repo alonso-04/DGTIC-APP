@@ -7,6 +7,7 @@ from modelos.servicio_tecnico_modelo import ServicioTecnicoModelo
 from repositorios.servicio_tecnico_repositorio import ServicioTecnicoRepositorio
 from repositorios.departamento_repositorio import DepartamentoRepositorio
 from repositorios.tipo_servicio_tecnico_repositorio import TipoServicioTecnicoRepositorio
+from repositorios.comuna_repositorio import ComunaRepositorio
 
 
 class ServicioTecnicoServicio:
@@ -14,11 +15,13 @@ class ServicioTecnicoServicio:
         self, 
         servicio_tecnico_repositorio: ServicioTecnicoRepositorio, 
         departamento_repositorio: DepartamentoRepositorio,
-        tipo_servicio_tecnico_repositorio: TipoServicioTecnicoRepositorio
+        tipo_servicio_tecnico_repositorio: TipoServicioTecnicoRepositorio,
+        comuna_repositorio: ComunaRepositorio
     ):
         self._servicio_tecnico_repositorio = servicio_tecnico_repositorio
         self._departamento_repositorio = departamento_repositorio
         self._tipo_servicio_tecnico_repositorio = tipo_servicio_tecnico_repositorio
+        self._comuna_repositorio = comuna_repositorio
     
     def _validar_campos_servicio_tecnico(
         self,
@@ -27,7 +30,8 @@ class ServicioTecnicoServicio:
         tipo_servicio_prestado_limpio: str,
         nombres_tecnicos_limpio: str,
         descripcion_limpio: Optional[str],
-        observaciones_adicionales_limpio: Optional[str]
+        observaciones_adicionales_limpio: Optional[str],
+        nombre_comuna_limpio: str
     ) -> List[str]:
         errores = []
         
@@ -38,6 +42,10 @@ class ServicioTecnicoServicio:
         # Validar el tipo de servicio prestado
         if not (tipo_servicio_prestado_limpio):
             errores.append("Tipo de servicio: Debe elegir un tipo de servicio.")
+        
+        # Validar la comuna
+        if not (nombre_comuna_limpio):
+            errores.append("Comuna: Debe elegir una comuna.")
         
         # Validar la falla que presenta
         if not(falla_presenta_limpio):
@@ -72,7 +80,8 @@ class ServicioTecnicoServicio:
         nombres_tecnicos: str,
         cantidad: int,
         descripcion: Optional[str],
-        observaciones_adicionales: Optional[str]
+        observaciones_adicionales: Optional[str],
+        nombre_comuna: str
     ) -> None:
         nombre_departamento_limpio = nombre_departamento.strip() if nombre_departamento else ""
         falla_presenta_limpio = falla_presenta.strip() if falla_presenta else ""
@@ -80,6 +89,7 @@ class ServicioTecnicoServicio:
         nombres_tecnicos_limpio = nombres_tecnicos.strip() if nombres_tecnicos else ""
         descripcion_limpio = descripcion.strip() if descripcion else None
         observaciones_adicionales_limpio = observaciones_adicionales.strip() if observaciones_adicionales else None
+        nombre_comuna_limpio = nombre_comuna.strip() if nombre_comuna else ""
         
         errores = self._validar_campos_servicio_tecnico(
             nombre_departamento_limpio,
@@ -87,7 +97,8 @@ class ServicioTecnicoServicio:
             tipo_servicio_prestado_limpio,
             nombres_tecnicos_limpio,
             descripcion_limpio,
-            observaciones_adicionales_limpio
+            observaciones_adicionales_limpio,
+            nombre_comuna_limpio
         )
         
         if (errores):
@@ -95,12 +106,14 @@ class ServicioTecnicoServicio:
         
         departamento = self._departamento_repositorio.obtener_por_nombre(nombre_departamento_limpio)
         tipo_servicio = self._tipo_servicio_tecnico_repositorio.obtener_por_tipo_servicio(tipo_servicio_prestado_limpio)
+        comuna = self._comuna_repositorio.obtener_por_comuna(nombre_comuna_limpio)
         try:
             nuevo_servicio_tecnico = ServicioTecnicoModelo(
                 departamento_id = departamento.departamento_id,
                 fecha_servicio = fecha_servicio,
                 falla_presenta = falla_presenta_limpio,
                 tipo_servicio_id = tipo_servicio.tipo_servicio_id,
+                comuna_id = comuna.comuna_id,
                 nombres_tecnicos = nombres_tecnicos_limpio,
                 cantidad = cantidad,
                 descripcion = descripcion_limpio,
@@ -247,7 +260,8 @@ class ServicioTecnicoServicio:
         nuevo_nombres_tecnicos: str,
         nuevo_cantidad: int,
         nuevo_descripcion: Optional[str],
-        nuevo_observaciones_adicionales: Optional[str]
+        nuevo_observaciones_adicionales: Optional[str],
+        nuevo_comuna: str
     ) -> None:
         nuevo_departamento_limpio = nuevo_departamento.strip() if nuevo_departamento else ""
         nuevo_falla_presenta_limpio = nuevo_falla_presenta.strip() if nuevo_falla_presenta else ""
@@ -255,6 +269,7 @@ class ServicioTecnicoServicio:
         nuevo_nombres_tecnicos_limpio = nuevo_nombres_tecnicos.strip() if nuevo_nombres_tecnicos else ""
         nuevo_descripcion_limpio = nuevo_descripcion.strip() if nuevo_descripcion else None
         nuevo_observaciones_adicionales_limpio = nuevo_observaciones_adicionales.strip() if nuevo_observaciones_adicionales else None
+        nuevo_comuna_limpio = nuevo_comuna.strip() if nuevo_comuna else ""
         
         errores = self._validar_campos_servicio_tecnico(
             nuevo_departamento_limpio,
@@ -262,7 +277,8 @@ class ServicioTecnicoServicio:
             nuevo_tipo_servicio_prestado_limpio,
             nuevo_nombres_tecnicos_limpio,
             nuevo_descripcion_limpio,
-            nuevo_observaciones_adicionales_limpio
+            nuevo_observaciones_adicionales_limpio,
+            nuevo_comuna_limpio
         )
         
         if (errores):
@@ -270,6 +286,7 @@ class ServicioTecnicoServicio:
         
         nuevo_departamento = self._departamento_repositorio.obtener_por_nombre(nuevo_departamento_limpio)
         nuevo_tipo_servicio = self._tipo_servicio_tecnico_repositorio.obtener_por_tipo_servicio(nuevo_tipo_servicio_prestado_limpio)
+        nuevo_comuna = self._comuna_repositorio.obtener_por_comuna(nuevo_comuna_limpio)
         try:
             servicio_tecnico_actualizado = ServicioTecnicoModelo(
                 servicio_id = servicio_id,
@@ -277,11 +294,13 @@ class ServicioTecnicoServicio:
                 fecha_servicio = nuevo_fecha_servicio,
                 falla_presenta = nuevo_falla_presenta_limpio,
                 tipo_servicio_id = nuevo_tipo_servicio.tipo_servicio_id,
+                comuna_id = nuevo_comuna.comuna_id,
                 nombres_tecnicos = nuevo_nombres_tecnicos_limpio,
                 cantidad = nuevo_cantidad,
                 descripcion = nuevo_descripcion_limpio,
                 observaciones_adicionales = nuevo_observaciones_adicionales_limpio
             )
+            
             self._servicio_tecnico_repositorio.actualizar(servicio_tecnico_actualizado)
         except NoEncontradoError as error:
             raise error

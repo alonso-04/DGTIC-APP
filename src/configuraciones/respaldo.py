@@ -8,7 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-TABLAS_RESPALDO = ["tb_departamentos", "tb_tipos_servicio", "tb_servicios"]
+TABLAS_RESPALDO = [
+    "tb_departamentos", 
+    "tb_tipos_servicio", 
+    "tb_categorias_tipo_servicio", 
+    "tb_comunas", 
+    "tb_servicios"
+]
 
 def _obtener_parametros_conexion_mysql():
     NOMBRE_USUARIO_BD = os.getenv('NOMBRE_USUARIO_BD')

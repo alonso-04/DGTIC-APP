@@ -29,9 +29,15 @@ class VentanaInfoServicio(UiBase):
         self.line_edit_spbox_cantidad.installEventFilter(self.ui)
         
         lista_campos_departamento_completers = [self.ui.txt_nombre_departamento]
-                
         lista_campos_tipos_servicio_completers = [self.ui.txt_servicio_prestado]
-                
+        lista_campos_comuna_completers = [self.ui.txt_nombre_comuna]
+        
+        self.cargar_completer_comunas = lambda: cargar_completer(
+            self._servicios["comuna_servicio"],
+            lista_campos_comuna_completers,
+            "comuna"
+        )
+        
         self.cargar_completer_departamento = lambda: cargar_completer(
             self._servicios["departamento_servicio"],
             lista_campos_departamento_completers,
@@ -57,6 +63,7 @@ class VentanaInfoServicio(UiBase):
     def configuracion(self):
         self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
+        self.cargar_completer_comunas()
         
         self.btn_actualizar.clicked.connect(self.actualizar_info_servicio)
         self.btn_eliminar.clicked.connect(self.eliminar_servicio)
@@ -78,6 +85,7 @@ class VentanaInfoServicio(UiBase):
         self.ui.txt_descripcion.setText(self.servicio_data[8])
         self.ui.spbox_cantidad.setValue(self.servicio_data[9])
         self.ui.txt_observaciones.setText(self.servicio_data[10])
+        self.ui.txt_nombre_comuna.setText(self.servicio_data[11])
     
     def actualizar_info_servicio(self):
         try:
@@ -91,6 +99,7 @@ class VentanaInfoServicio(UiBase):
             nuevo_cantidad = self.ui.spbox_cantidad.value()
             nuevo_descripcion = self.ui.txt_descripcion.text()
             nueva_observacion_adicional = self.ui.txt_observaciones.text()
+            nueva_comuna = self.ui.txt_nombre_comuna.text()
             
             self._servicios["servicio_tecnico_servicio"].actualizar(
                 servicio_id,
@@ -101,7 +110,8 @@ class VentanaInfoServicio(UiBase):
                 nuevo_nombres_tecnicos.upper(),
                 nuevo_cantidad,
                 nuevo_descripcion.upper(),
-                nueva_observacion_adicional.upper()
+                nueva_observacion_adicional.upper(),
+                nueva_comuna.upper()
             )
             
             QMessageBox.information(self.ui, "Éxito", "La información del servicio se ha actualizado correctamente.")

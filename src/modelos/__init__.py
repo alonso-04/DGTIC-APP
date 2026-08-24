@@ -1,6 +1,7 @@
 from .departamento_modelo import DepartamentoModelo
 from .categoria_tipo_servicio_tecnico_modelo import CategoriaTipoServicioTecnicoModelo
 from .tipo_servicio_tecnico_modelo import TipoServicioTecnicoModelo
+from .comuna_modelo import ComunaModelo
 from .servicio_tecnico_modelo import ServicioTecnicoModelo
 from .rol_modelo import RolModelo
 from .usuario_modelo import UsuarioModelo

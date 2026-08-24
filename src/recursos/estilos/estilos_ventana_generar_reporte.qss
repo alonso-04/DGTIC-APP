@@ -162,3 +162,20 @@ QPushButton#btn_cancelar:hover {
 QPushButton#btn_cancelar:pressed {
     background-color: #7b7e81;
 }
+
+
+QMessageBox QPushButton {
+    padding: 8px 12px;
+    background-color: #5897ea;
+    color: #fff;
+    border-radius: 9px;
+    font-weight: 600;
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #5c8bc9;
+}
+
+QMessageBox QPushButton:pressed {
+    background-color: #0c5dc7;
+}

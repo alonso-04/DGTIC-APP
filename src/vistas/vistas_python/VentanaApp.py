@@ -70,6 +70,17 @@ class VentanaApp(UiBase):
             self.ui.txt_filtro_tipos_servicios_registrados
         ]
         
+        lista_campos_comuna_completers = [
+            self.ui.txt_nombre_comuna,
+            self.ui.txt_filtro_comunas_registradas
+        ]
+        
+        self.cargar_completer_comunas = lambda: cargar_completer(
+            self._servicios["comuna_servicio"],
+            lista_campos_comuna_completers,
+            "comuna"
+        )
+        
         self.cargar_completer_departamento = lambda: cargar_completer(
             self._servicios["departamento_servicio"],
             lista_campos_departamento_completers,
@@ -93,12 +104,14 @@ class VentanaApp(UiBase):
     def configuracion(self):
         self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
+        self.cargar_completer_comunas()
         
         self.ui.btn_refrescar_pagina_ventana_app.clicked.connect(self.refrescar_pagina_app)
         self.ui.btn_manual_usuario_ventana_app.clicked.connect(self.ver_manual_usuario)
         
         self.ui.tool_ventana_departamentos.clicked.connect(self.ir_pagina_crear_departamento)
         self.ui.tool_ventana_tipos_servicio.clicked.connect(self.ir_pagina_crear_tipo_servicio)
+        self.ui.tool_ventana_comunas.clicked.connect(self.ir_pagina_comunas)
         
         self.ui.btn_registrar_servicio.clicked.connect(self.registrar_nuevo_servicio)
         
@@ -158,6 +171,14 @@ class VentanaApp(UiBase):
         self.ui.ventanas.setCurrentWidget(self.ui.paginaTiposServicio)
         self.ui.setWindowTitle("Tipos de servicio")
     
+    def ir_pagina_comunas(self):
+        if not(hasattr(self, "ventana_comunas")):
+            from vistas.vistas_python.VentanaComunas import VentanaComunas
+            self.ventana_comunas = VentanaComunas(self.ventana_principal)
+        
+        self.ui.ventanas.setCurrentWidget(self.ui.paginaComunas)
+        self.ui.setWindowTitle("Comunas")
+    
     def registrar_nuevo_servicio(self):
         try:
             campos_a_registrar = [
@@ -168,7 +189,8 @@ class VentanaApp(UiBase):
                 (self.ui.txt_descripcion, "descripcion"),
                 (self.ui.txt_servicio_prestado, "tipo_servicio_prestado"),
                 (self.ui.de_fecha_servicio, "fecha_servicio"),
-                (self.ui.txt_observaciones_adicionales, "observaciones_adicionales")
+                (self.ui.txt_observaciones_adicionales, "observaciones_adicionales"),
+                (self.ui.txt_nombre_comuna, "nombre_comuna")
             ]
             
             registrar_campos(self._servicios["servicio_tecnico_servicio"], campos_a_registrar)
@@ -180,7 +202,8 @@ class VentanaApp(UiBase):
                 self.ui.spbox_cantidad,
                 self.ui.txt_descripcion,
                 self.ui.txt_servicio_prestado,
-                self.ui.txt_observaciones_adicionales
+                self.ui.txt_observaciones_adicionales,
+                self.ui.txt_nombre_comuna
             ])
             
             self.filtrar_servicios()
@@ -205,7 +228,7 @@ class VentanaApp(UiBase):
                 "Falla que presenta",
                 "Servicio prestado",
                 "Nombre del técnico",
-                "Descripción",
+                "Comuna",
                 "Cantidad",
                 "Observaciones"
             ]
@@ -216,7 +239,7 @@ class VentanaApp(UiBase):
                 "falla_presenta",
                 "tipo_servicio_prestado",
                 "nombres_tecnicos",
-                "descripcion",
+                "nombre_comuna",
                 "cantidad",
                 "observaciones_adicionales"
             ]
@@ -273,7 +296,7 @@ class VentanaApp(UiBase):
             "Falla que presenta",
             "Servicio prestado",
             "Nombre del técnico",
-            "Descripción",
+            "Comuna",
             "Cantidad",
             "Observaciones"
         ])

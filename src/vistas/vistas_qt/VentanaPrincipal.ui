@@ -493,6 +493,9 @@
                </item>
                <item row="2" column="2">
                 <widget class="QToolButton" name="tool_ventana_comunas">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="text">
                   <string>...</string>
                  </property>
@@ -502,9 +505,15 @@
                 <layout class="QHBoxLayout" name="layout_cantidad_y_fecha" stretch="0,0,0,0">
                  <item>
                   <widget class="QLabel" name="lbl_cantidad">
+                   <property name="minimumSize">
+                    <size>
+                     <width>90</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
-                     <width>88</width>
+                     <width>90</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -515,10 +524,10 @@
                  </item>
                  <item>
                   <widget class="QSpinBox" name="spbox_cantidad">
-                   <property name="maximumSize">
+                   <property name="minimumSize">
                     <size>
-                     <width>401</width>
-                     <height>16777215</height>
+                     <width>150</width>
+                     <height>0</height>
                     </size>
                    </property>
                    <property name="minimum">
@@ -529,14 +538,8 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item alignment="Qt::AlignRight">
                   <widget class="QLabel" name="lbl_fecha_servicio">
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
                    <property name="text">
                     <string>Fecha:</string>
                    </property>
@@ -544,10 +547,10 @@
                  </item>
                  <item>
                   <widget class="QDateEdit" name="de_fecha_servicio">
-                   <property name="maximumSize">
+                   <property name="minimumSize">
                     <size>
-                     <width>401</width>
-                     <height>16777215</height>
+                     <width>150</width>
+                     <height>0</height>
                     </size>
                    </property>
                    <property name="calendarPopup">
@@ -1751,6 +1754,12 @@
                  <height>40</height>
                 </size>
                </property>
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Manual de usuario&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
                <property name="text">
                 <string>?</string>
                </property>
@@ -1769,6 +1778,9 @@
               <width>150</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="text">
              <string>Registrar</string>
@@ -1799,6 +1811,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn_buscar_comunas">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Buscar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -1809,6 +1827,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn_refrescar_pagina_ventana_comunas">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refrescar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -1820,11 +1844,24 @@
             </layout>
            </widget>
           </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="lbl_errores_filtro_comunas">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="tipo_label" stdset="0">
+             <string>errores_filtro</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QTableView" name="tabla_comunas"/>
           </item>
           <item alignment="Qt::AlignHCenter">
            <widget class="QPushButton" name="btn_regresar_ventana_comuna">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
             <property name="text">
              <string/>
             </property>
