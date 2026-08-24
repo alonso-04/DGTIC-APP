@@ -11,6 +11,7 @@ class ServicioTecnicoModelo(Base):
     fecha_servicio = Column(Date)
     falla_presenta = Column(String(150), nullable = False)
     tipo_servicio_id = Column(Integer, ForeignKey("tb_tipos_servicio.tipo_servicio_id", ondelete = "RESTRICT", onupdate = "CASCADE"), nullable = False)
+    comuna_id = Column(Integer, ForeignKey("tb_comunas.comuna_id", ondelete = "RESTRICT", onupdate = "CASCADE"), nullable = False)
     nombres_tecnicos = Column(String(250), nullable = False)
     descripcion = Column(String(255), nullable = True)
     cantidad = Column(Integer, default = 1)
@@ -18,3 +19,4 @@ class ServicioTecnicoModelo(Base):
     
     departamento = relationship("DepartamentoModelo", back_populates = "servicio")
     tipo_servicio = relationship("TipoServicioTecnicoModelo", back_populates = "servicio")
+    comuna = relationship("ComunaModelo", back_populates = "servicio")

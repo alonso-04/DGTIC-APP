@@ -49,6 +49,7 @@ class ReporteServicios:
             "SOLICITUD DE SERVICIO A NIVEL TÉCNICO",
             "RESPUESTA DE LA DIRECCIÓN DE INFORMÁTICA",
             "NOMBRE DEL TÉCNICO",
+            "COMUNA",
             "DESCRIPCIÓN",
             "CANTIDAD",
             "OBSERVACIONES"
@@ -167,7 +168,8 @@ class ReporteServicios:
             "nombres_tecnicos",
             "descripcion",
             "cantidad",
-            "observaciones_adicionales"
+            "observaciones_adicionales",
+            "nombre_comuna"
         ]
         
         if (opcion_tipo_reporte == "MENSUAL"):
@@ -206,6 +208,7 @@ class ReporteServicios:
                 registro.falla_presenta,
                 registro.tipo_servicio_prestado,
                 registro.nombres_tecnicos,
+                registro.nombre_comuna,
                 registro.descripcion,
                 registro.cantidad,
                 registro.observaciones_adicionales
