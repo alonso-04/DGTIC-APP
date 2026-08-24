@@ -32,7 +32,8 @@ class VentanaTipoServicio(UiBase):
         
         lista_campos_tipos_servicio_completers = [
             self.ui.txt_filtro_tipos_servicios_registrados,
-            self.ui.txt_filtro_servicio_prestado
+            self.ui.txt_filtro_servicio_prestado,
+            self.ui.txt_servicio_prestado
         ]
         
         lista_campos_categorias_completers = [

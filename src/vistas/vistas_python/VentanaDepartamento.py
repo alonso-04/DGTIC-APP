@@ -32,7 +32,8 @@ class VentanaDepartamentos(UiBase):
         
         lista_campos_departamento_completers = [
             self.ui.txt_filtrar_departamentos_registrados,
-            self.ui.txt_filtro_nombre_departamento
+            self.ui.txt_filtro_nombre_departamento,
+            self.ui.txt_nombre_departamento
         ]
         
         self.cargar_completer_departamento = lambda: cargar_completer(
