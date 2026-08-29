@@ -22,43 +22,41 @@ from servicios.usuario_servicio import UsuarioServicio
 class ContenedorDependencias:
     def __init__(self):
         self._bd = bd
-        
-        self._departamento_repositorio = DepartamentoRepositorio(self._bd)
-        self._rol_repositorio = RolRepositorio(self._bd)
-        self._servicio_tecnico_repositorio = ServicioTecnicoRepositorio(self._bd)
-        self._categoria_tipo_servicio_tecnico_repositorio = CategoriaTipoServicioTecnicoRepositorio(self._bd)
-        self._tipo_servicio_tecnico_repositorio = TipoServicioTecnicoRepositorio(self._bd)
-        self._comuna_repositorio = ComunaRepositorio(self._bd)
-        self._usuario_repositorio = UsuarioRepositorio(self._bd)
-        
-        self._departamento_servicio = DepartamentoServicio(self._departamento_repositorio)
-        self._rol_servicio = RolServicio(self._rol_repositorio)
-        
-        self._servicio_tecnico_servicio = ServicioTecnicoServicio(
-            self._servicio_tecnico_repositorio, 
-            self._departamento_repositorio, 
-            self._tipo_servicio_tecnico_repositorio,
-            self._comuna_repositorio
-        )
-        
-        self._tipo_servicio_tecnico_servicio = TipoServicioTecnicoServicio(
-            self._tipo_servicio_tecnico_repositorio, 
-            self._categoria_tipo_servicio_tecnico_repositorio
-        )
-        
-        self._comuna_servicio = ComunaServicio(self._comuna_repositorio)
-        self._categoria_tipo_servicio_tecnico_servicio = CategoriaTipoServicioTecnicoServicio(self._categoria_tipo_servicio_tecnico_repositorio)
-        self._usuario_servicio = UsuarioServicio(self._usuario_repositorio, self._rol_repositorio)
+        self._instancias = {}
+    
+    def _crear_si_falta(self, nombre, fabrica):
+        if nombre not in self._instancias:
+            self._instancias[nombre] = fabrica()
+        return self._instancias[nombre]
     
     def obtener_servicios(self) -> Dict:
+        departamento_repositorio = self._crear_si_falta("departamento_repositorio", lambda: DepartamentoRepositorio(self._bd))
+        rol_repositorio = self._crear_si_falta("rol_repositorio", lambda: RolRepositorio(self._bd))
+        servicio_tecnico_repositorio = self._crear_si_falta("servicio_tecnico_repositorio", lambda: ServicioTecnicoRepositorio(self._bd))
+        categoria_tipo_servicio_repositorio = self._crear_si_falta("categoria_tipo_servicio_repositorio", lambda: CategoriaTipoServicioTecnicoRepositorio(self._bd))
+        tipo_servicio_repositorio = self._crear_si_falta("tipo_servicio_repositorio", lambda: TipoServicioTecnicoRepositorio(self._bd))
+        comuna_repositorio = self._crear_si_falta("comuna_repositorio", lambda: ComunaRepositorio(self._bd))
+        usuario_repositorio = self._crear_si_falta("usuario_repositorio", lambda: UsuarioRepositorio(self._bd))
+        
         return {
-            "departamento_servicio": self._departamento_servicio,
-            "rol_servicio": self._rol_servicio,
-            "servicio_tecnico_servicio": self._servicio_tecnico_servicio,
-            "tipo_servicio_tecnico_servicio": self._tipo_servicio_tecnico_servicio,
-            "comuna_servicio": self._comuna_servicio,
-            "categoria_tipo_servicio_tecnico_servicio": self._categoria_tipo_servicio_tecnico_servicio,
-            "usuario_servicio": self._usuario_servicio
+            "departamento_servicio": self._crear_si_falta("departamento_servicio", lambda: DepartamentoServicio(departamento_repositorio)),
+            "rol_servicio": self._crear_si_falta("rol_servicio", lambda: RolServicio(rol_repositorio)),
+            "servicio_tecnico_servicio": self._crear_si_falta(
+                "servicio_tecnico_servicio", 
+                lambda: ServicioTecnicoServicio(
+                    servicio_tecnico_repositorio, 
+                    departamento_repositorio, 
+                    tipo_servicio_repositorio, 
+                    comuna_repositorio
+                )),
+            "tipo_servicio_tecnico_servicio": self._crear_si_falta(
+                "tipo_servicio_tecnico_servicio", 
+                lambda: TipoServicioTecnicoServicio(tipo_servicio_repositorio, categoria_tipo_servicio_repositorio)),
+            "comuna_servicio": self._crear_si_falta("comuna_servicio", lambda: ComunaServicio(comuna_repositorio)),
+            "categoria_tipo_servicio_tecnico_servicio": self._crear_si_falta(
+                "categoria_tipo_servicio_tecnico_servicio", 
+                lambda: CategoriaTipoServicioTecnicoServicio(categoria_tipo_servicio_repositorio)),
+            "usuario_servicio": self._crear_si_falta("usuario_servicio", lambda: UsuarioServicio(usuario_repositorio, rol_repositorio))
         }
 
 contenedor_dependencias = ContenedorDependencias()
