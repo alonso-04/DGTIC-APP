@@ -22,11 +22,23 @@ if os.path.exists(dotenv_path):
 
 
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo
+from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo, QThread, pyqtSignal
 
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
 from configuraciones.dependencias import contenedor_dependencias
 from configuraciones.usuario_admin_init import inicializar_usuario_admin_bd
+
+
+class HiloInicializarUsuarioAdmin(QThread):
+    terminado = pyqtSignal()
+    error = pyqtSignal(str)
+    
+    def run(self):
+        try:
+            inicializar_usuario_admin_bd()
+            self.terminado.emit()
+        except Exception as error:
+            self.error.emit(str(error))
 
 
 def main():
@@ -39,10 +51,10 @@ def main():
     if translator_base.load(QLocale.system(), "qtbase", "_", path):
         app.installTranslator(translator_base)
     
-    try:
-        inicializar_usuario_admin_bd()
-    except Exception as e:
-        print(f"Advertencia al inicializar base de datos: {e}")
+    hilo_inicializar_usuario_admin = HiloInicializarUsuarioAdmin()
+    hilo_inicializar_usuario_admin.terminado.connect(lambda: print("Admin listo."))
+    hilo_inicializar_usuario_admin.error.connect(lambda error: print(f"Error al inicializar usuario admin: {error}"))
+    hilo_inicializar_usuario_admin.start()
     
     servicios = contenedor_dependencias.obtener_servicios()
     
