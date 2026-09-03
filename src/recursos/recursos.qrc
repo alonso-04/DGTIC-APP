@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="recursos">
+    <file>imagenes/img-pantalla-carga.jfif</file>
     <file>iconos/app-dgtic.ico</file>
     <file>iconos/exportar-archivo.svg</file>
     <file>iconos/actualizar.svg</file>

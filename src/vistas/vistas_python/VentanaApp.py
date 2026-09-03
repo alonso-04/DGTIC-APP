@@ -329,8 +329,8 @@ class VentanaApp(UiBase):
             ruta_path = Path(ruta_archivo)
             
             if not(hasattr(self, "ventana_carga_importacion_bd")):
-                from vistas.vistas_python.VentanaImportacionBD import VentanaImportacionBd
-                self.ventana_carga_importacion_bd = VentanaImportacionBd("VentanaCargaImportacionBd.ui", "estilos_ventana_importacion_respaldo.qss")
+                from vistas.vistas_python.VentanaCarga import VentanaCarga
+                self.ventana_carga_importacion_bd = VentanaCarga("VentanaCarga.ui", "estilos_ventana_carga.qss")
             
             self.hilo_importar_respaldo_bd = HiloImportarRespaldoBD(
                 self.respaldo_local,

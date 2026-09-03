@@ -1,0 +1,13 @@
+QDialog {
+    background-color: #fff;
+}
+
+QLabel#lbl_img_carga {
+    background-image: url(":recursos/imagenes/img-pantalla-carga.jfif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+QLabel#lbl_estado_carga {
+    font-size: 15px;
+}
