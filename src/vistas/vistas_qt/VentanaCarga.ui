@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VentanaCargaImportacion</class>
- <widget class="QDialog" name="VentanaCargaImportacion">
+ <class>VentanaCarga</class>
+ <widget class="QDialog" name="VentanaCarga">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>467</width>
-    <height>143</height>
+    <height>478</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>467</width>
+    <height>478</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>467</width>
+    <height>478</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Importando respaldo...</string>
+   <string>Cargando...</string>
   </property>
   <property name="windowIcon">
    <iconset>
     <normaloff>:/iconos/iconos/icono-app-dgtic.png</normaloff>:/iconos/iconos/icono-app-dgtic.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-    <widget class="QFrame" name="frame_general_carga_importacion">
+   <item>
+    <widget class="QFrame" name="frame_general_carga">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -32,12 +44,6 @@
        <height>100</height>
       </size>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>423</width>
-       <height>280</height>
-      </size>
-     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -47,8 +53,27 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QVBoxLayout" name="layout_carga">
-        <item>
-         <widget class="QLabel" name="lbl_estado_carga_importacion">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="lbl_img_carga">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>415</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="lbl_estado_carga">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -68,12 +93,12 @@
            </size>
           </property>
           <property name="text">
-           <string>Cargando datos....</string>
+           <string>Cargando...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QProgressBar" name="barra_carga_importacion">
+         <widget class="QProgressBar" name="barra_carga">
           <property name="value">
            <number>24</number>
           </property>
@@ -86,6 +111,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../recursos/recursos.qrc"/>
+ </resources>
  <connections/>
 </ui>
