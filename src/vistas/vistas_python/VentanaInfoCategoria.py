@@ -2,9 +2,8 @@ from typing import Tuple
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,6 +21,8 @@ class VentanaInfoCategoria(UiBase):
         self.ventana_principal = ventana_principal.ui
         self._servicios = ventana_principal._servicios
         
+        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_completers_categorias = [
             self.ventana_principal.txt_categoria_asociada,
             self.ventana_principal.txt_filtro_por_categoria,
@@ -34,7 +35,9 @@ class VentanaInfoCategoria(UiBase):
             "categoria"
         )
         
+        
         self.filtrar_tipos_servicio = ventana_principal.ui.btn_buscar_tipos_servicio.click
+        
         
         self.cargar_botones()
         self.configuracion()
@@ -62,17 +65,17 @@ class VentanaInfoCategoria(UiBase):
                 categoria_tipo_servicio_id,
                 nuevo_nombre_categoria.upper()
             )
-            
-            QMessageBox.information(self.ui, "Éxito", "La información de la categoría se ha actualizado correctamente.")
+
+            self.mostrar_mensaje_info("La información de la categoría se ha actualizado correctamente.")
             self.cargar_completer_categorias()
             self.filtrar_tipos_servicio()
             self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_categoria(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -87,12 +90,12 @@ class VentanaInfoCategoria(UiBase):
                 categoria_tipo_servicio_id = self.categoria_data[0]
                 self._servicios["categoria_tipo_servicio_tecnico_servicio"].eliminar(categoria_tipo_servicio_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se ha eliminado la categoría correctamente.")
+                self.mostrar_mensaje_info("Se ha eliminado la categoría correctamente.")
                 self.cargar_completer_categorias()
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))

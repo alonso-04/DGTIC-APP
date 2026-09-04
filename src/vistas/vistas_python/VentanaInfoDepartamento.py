@@ -2,9 +2,8 @@ from typing import Tuple
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,6 +21,8 @@ class VentanaInfoDepartamento(UiBase):
         self._servicios = ventana_principal._servicios
         self.ventana_principal = ventana_principal.ui
         
+        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_departamento_completers = [
             self.ventana_principal.txt_nombre_departamento,
             self.ventana_principal.txt_filtro_nombre_departamento,
@@ -33,6 +34,7 @@ class VentanaInfoDepartamento(UiBase):
             lista_campos_departamento_completers,
             "departamento"
         )
+        
         
         self.cargar_botones()
         self.configuracion()
@@ -61,15 +63,15 @@ class VentanaInfoDepartamento(UiBase):
                 nuevo_nombre_departamento.upper()
             )
             
-            QMessageBox.information(self.ui, "Éxito", "La información del departamento se ha actualizado correctamente.")
+            self.mostrar_mensaje_info("La información del departamento se ha actualizado correctamente.")
             self.cargar_completer_departamento()
             self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_departamento(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -84,12 +86,12 @@ class VentanaInfoDepartamento(UiBase):
                 departamento_id = self.departamento_data[0]
                 self._servicios["departamento_servicio"].eliminar(departamento_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se ha eliminado el departamento correctamente.")
+                self.mostrar_mensaje_info("Se ha eliminado el departamento correctamente.")
                 self.cargar_completer_departamento()
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))

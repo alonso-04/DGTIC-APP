@@ -4,7 +4,7 @@ import re
 from typing import List, Optional
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-from utilidades.hasher import hashear_contenido
+from utilidades.seguridad import hashear_contenido
 from configuraciones.excepciones import ValidacionError, LogicaError, NoEncontradoError
 from configuraciones.rutas import obtener_ruta_sesion_json
 from modelos.usuario_modelo import UsuarioModelo

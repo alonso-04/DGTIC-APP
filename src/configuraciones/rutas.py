@@ -4,7 +4,7 @@ import shutil
 import platform
 import subprocess
 from userpaths import get_my_documents
-from utilidades.tipos_reporte import TiposReporte
+from utilidades.constantes import TiposReporte
 
 
 def obtener_ruta_base():

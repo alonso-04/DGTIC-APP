@@ -4,12 +4,8 @@ from PyQt5.QtGui import QStandardItemModel, QColor, QRegExpValidator
 from PyQt5.QtCore import QThread, pyqtSignal, QRegExp, QEvent
 from PyQt5.QtWidgets import QHeaderView, QDialog, QFileDialog
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer, registrar_campos, limpiar_campos, obtener_modelo_datos_y_data
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
-from vistas.utilidades_gui.registrar import registrar_campos
-from vistas.utilidades_gui.limpiar_campos import limpiar_campos
-from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.respaldo import RespaldoLocal
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 from reportes.reporte_servicios import ReporteServicios
@@ -36,13 +32,11 @@ class VentanaApp(UiBase):
         super().__init__()
         self.ventana_principal = ventana_principal
         self.ui = ventana_principal.ui
-        
-        # SERVICIOS
         self._servicios = ventana_principal._servicios
-        
         self.respaldo_local = RespaldoLocal
         
         
+        # CONFIGURAR EL QSPINBOX PARA QUE NO ACEPTE COMAS (,) NI PUNTOS (.)
         self.line_edit_spbox_cantidad = self.ui.spbox_cantidad.lineEdit()
         regex = QRegExp("[0-9]+")
         validador = QRegExpValidator(regex, self.line_edit_spbox_cantidad)
@@ -50,14 +44,11 @@ class VentanaApp(UiBase):
         self.line_edit_spbox_cantidad.installEventFilter(self.ui)
         
         
-        # SECCIÓN DE LA TABLA DE REGISTROS
+        # DATA DE LOS SERVICIOS
         self.servicio_data = []
         
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
         
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_departamento_completers = [
             self.ui.txt_nombre_departamento,
             self.ui.txt_filtro_nombre_departamento,
@@ -92,6 +83,7 @@ class VentanaApp(UiBase):
             lista_campos_tipos_servicio_completers,
             "tipo_servicio"
         )
+        
         
         self.configuracion()
     
@@ -131,9 +123,6 @@ class VentanaApp(UiBase):
         self.filtrar_servicios()
         self.cargar_completer_departamento()
         self.cargar_completer_tipos_servicio()
-    
-    def ver_manual_usuario(self):
-        self.cargar_manual_usuario()
     
     def cerrar_sesion(self):
         self._servicios["usuario_servicio"].cerrar_sesion()

@@ -2,11 +2,8 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QHeaderView, QDialog
 
 from modelos.usuario_modelo import UsuarioModelo
+from utilidades.gui import UiBase, registrar_campos, limpiar_campos, obtener_modelo_datos_y_data
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from utilidades.gui import UiBase
-from vistas.utilidades_gui.registrar import registrar_campos
-from vistas.utilidades_gui.limpiar_campos import limpiar_campos
-from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -15,18 +12,10 @@ class VentanaUsuarios(UiBase):
         super().__init__()
         self.ventana_principal = ventana_principal
         self.ui = ventana_principal.ui
-        
-        # SERVICIOS
         self._servicios = self.ventana_principal._servicios
         
         
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        self.mostrar_mensaje_info = self.ventana_principal.mostrar_mensaje_info
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
-        
-        
-        # SECCIÓN DE LA TABLA DE USUARIOS
+        # DATA DE LOS USUARIOS
         self.usuario_data = []
         
         self.configurar()
@@ -35,19 +24,15 @@ class VentanaUsuarios(UiBase):
         self.ui.btn_refrescar_pagina_ventana_usuarios.clicked.connect(self.refrescar_pagina_usuarios)
         self.ui.btn_manual_usuario_ventana_usuarios.clicked.connect(self.ver_manual_usuario)
         self.ui.btn_regresar_ventana_usuarios.clicked.connect(self.ir_pagina_app)
+        self.ui.btn_registrar_usuario.clicked.connect(self.registrar_nuevo_usuario)
         
         self.ui.tabla_usuarios.clicked.connect(self.seleccionar_usuario)
         self.configurar_tabla(self.ui.tabla_usuarios)
-        
-        self.ui.btn_registrar_usuario.clicked.connect(self.registrar_nuevo_usuario)
         
         self.filtrar_todos_usuarios()
     
     def refrescar_pagina_usuarios(self):
         self.filtrar_todos_usuarios()
-    
-    def ver_manual_usuario(self):
-        self.cargar_manual_usuario()
     
     def ir_pagina_app(self):
         self.ui.ventanas.setCurrentWidget(self.ui.paginaApp)
