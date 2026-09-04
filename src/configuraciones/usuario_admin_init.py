@@ -1,6 +1,6 @@
 import os
 import pymysql
-from utilidades.hasher import hashear_contenido
+from utilidades.seguridad import hashear_contenido
 
 
 def inicializar_usuario_admin_bd():

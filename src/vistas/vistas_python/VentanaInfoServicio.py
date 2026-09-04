@@ -4,8 +4,7 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt, QRegExp, QEvent
 from PyQt5.QtGui import QRegExpValidator
 
-from utilidades.gui import UiBase
-from vistas.utilidades_gui.cargar_completers import cargar_completer
+from utilidades.gui import UiBase, cargar_completer
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
 
 
@@ -22,12 +21,16 @@ class VentanaInfoServicio(UiBase):
         self.servicio_data = servicio_data
         self._servicios = servicios
         
+        
+        # CONFIGURAR EL QSPINBOX PARA QUE NO ACEPTE COMAS (,) NI PUNTOS (.)
         self.line_edit_spbox_cantidad = self.ui.spbox_cantidad.lineEdit()
         regex = QRegExp("[0-9]+")
         validador = QRegExpValidator(regex, self.line_edit_spbox_cantidad)
         self.line_edit_spbox_cantidad.setValidator(validador)
         self.line_edit_spbox_cantidad.installEventFilter(self.ui)
         
+        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_departamento_completers = [self.ui.txt_nombre_departamento]
         lista_campos_tipos_servicio_completers = [self.ui.txt_servicio_prestado]
         lista_campos_comuna_completers = [self.ui.txt_nombre_comuna]
@@ -50,14 +53,14 @@ class VentanaInfoServicio(UiBase):
             "tipo_servicio"
         )
         
-        self.cargar_botones()
         
+        self.cargar_botones()
         self.configuracion()
     
     def eventFilter(self, obj, event):
         if obj is self.line_edit_spbox_cantidad and event.type() == QEvent.KeyPress:
             if event.text() == ',':
-                return True  # Bloquea la coma del spInfoCantidad
+                return True  # Bloquea la coma del spbox_cantidad
         return super().eventFilter(obj, event)
     
     def configuracion(self):
@@ -114,14 +117,14 @@ class VentanaInfoServicio(UiBase):
                 nueva_comuna.upper()
             )
             
-            QMessageBox.information(self.ui, "Éxito", "La información del servicio se ha actualizado correctamente.")
+            self.mostrar_mensaje_info("La información del servicio se ha actualizado correctamente.")
             self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_servicio(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -136,9 +139,9 @@ class VentanaInfoServicio(UiBase):
                 servicio_id = self.servicio_data[0]
                 self._servicios["servicio_tecnico_servicio"].eliminar(servicio_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se eliminó el registro correctamente.")
+                self.mostrar_mensaje_info("Se eliminó el registro correctamente.")
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))

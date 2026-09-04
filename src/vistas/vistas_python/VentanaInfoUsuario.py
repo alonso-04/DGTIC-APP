@@ -62,13 +62,15 @@ class VentanaInfoUsuario(UiBase):
                 nueva_clave_usuario
             )
             
-            QMessageBox.information(self.ui, "Éxito", "La información del usuario se ha actualizado correctamente.")
+            self.mostrar_mensaje_info("La información del usuario se ha actualizado correctamente.")
             self.ui.txt_clave_usuario.clear()
             self.ui.accept()
+        except NoEncontradoError as error:
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_usuario(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -83,11 +85,11 @@ class VentanaInfoUsuario(UiBase):
                 usuario_id = self.usuario_data.usuario_id
                 self._servicios["usuario_servicio"].eliminar(usuario_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se eliminó el usuario correctamente.")
+                self.mostrar_mensaje_info("Se eliminó el usuario correctamente.")
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", f"\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self.ui, "Error", f"\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))

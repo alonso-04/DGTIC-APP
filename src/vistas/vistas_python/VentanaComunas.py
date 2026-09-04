@@ -3,12 +3,8 @@ from PyQt5.QtWidgets import QHeaderView, QDialog
 from PyQt5.QtGui import QStandardItemModel
 from PyQt5.QtCore import QDate
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer, registrar_campos, limpiar_campos, obtener_modelo_datos_y_data
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
-from vistas.utilidades_gui.registrar import registrar_campos
-from vistas.utilidades_gui.limpiar_campos import limpiar_campos
-from vistas.utilidades_gui.filtrar import obtener_modelo_datos_y_data
 from configuraciones.excepciones import NoEncontradoError, ValidacionError, LogicaError
 
 
@@ -17,18 +13,14 @@ class VentanaComunas(UiBase):
         super().__init__()
         self.ventana_principal = ventana_principal
         self.ui = ventana_principal.ui
-        
-        
-        # CONTROLADORES
         self._servicios = self.ventana_principal._servicios
         
-        # SECCIÓN DE LA TABLA DE TIPOS DE SERVICIO
+        
+        # DATA DE LAS COMUNAS
         self.comuna_data = []
         
         
-        # FUNCIONES Y ELEMENTOS DE UTILIDAD
-        self.mostrar_mensaje_error = self.ventana_principal.mostrar_mensaje_error
-        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_comuna_completers = [
             self.ui.txt_nombre_comuna,
             self.ui.txt_filtro_comunas_registradas
@@ -40,7 +32,6 @@ class VentanaComunas(UiBase):
             "categoria"
         )
         
-        self.cargar_manual_usuario = self.ventana_principal.ver_manual_usuario
         
         self.configuracion()
     
@@ -60,9 +51,6 @@ class VentanaComunas(UiBase):
     def refrescar_pagina_comunas(self):
         self.filtrar_comunas()
         self.cargar_completer_comunas()
-    
-    def ver_manual_usuario(self):
-        self.cargar_manual_usuario()
     
     def ir_pagina_app(self):
         self.ui.ventanas.setCurrentWidget(self.ui.paginaApp)

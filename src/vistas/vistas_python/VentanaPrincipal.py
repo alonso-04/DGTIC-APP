@@ -5,7 +5,6 @@ from PyQt5.QtGui import QIcon
 
 from utilidades.gui import UiBase
 from configuraciones.excepciones import ValidacionError
-from configuraciones.rutas import obtener_ruta_manual_usuario
 
 
 class HiloIniciarSesion(QThread):
@@ -45,13 +44,6 @@ class VentanaPrincipal(UiBase):
         
         self.ui.btn_manual_usuario_iniciar_sesion.clicked.connect(self.ver_manual_usuario)
     
-    def ver_manual_usuario(self):
-        try:
-            RUTA_MANUAL_GENERADO = obtener_ruta_manual_usuario()
-            self.mostrar_mensaje_info(f"Se generó el manual de usuario en la ruta {RUTA_MANUAL_GENERADO} en caso de querer consultar más tarde.")
-        except Exception as error:
-            self.mostrar_mensaje_error(f"Error al generar el manual de usuario: {error}")
-    
     def iniciar_sesion(self):
         nombre_usuario = self.ui.txt_ingresar_nombre_usuario.text()
         clave_usuario = self.ui.txt_ingresar_clave_usuario.text()
@@ -61,7 +53,7 @@ class VentanaPrincipal(UiBase):
         
         self.hilo_iniciar_sesion = HiloIniciarSesion(self._servicios["usuario_servicio"], nombre_usuario, clave_usuario)
         self.hilo_iniciar_sesion.exito.connect(self.ir_pagina_app)
-        self.hilo_iniciar_sesion.error.connect(self.mostrar_mensaje_error)
+        self.hilo_iniciar_sesion.error.connect(self.error_inicio_sesion)
         self.hilo_iniciar_sesion.start()
         
         self.ui.txt_ingresar_nombre_usuario.clear()
@@ -99,9 +91,6 @@ class VentanaPrincipal(UiBase):
         self.ui.de_filtro_fecha_servicio.setDate(QDate.currentDate())
         self.ui.de_fecha_servicio.setDate(QDate.currentDate())
     
-    def mostrar_mensaje_error(self, mensaje: str):
+    def error_inicio_sesion(self, mensaje: str):
         self.ventana_carga.ui.close()
         QMessageBox.critical(self.ui, "Error", mensaje)
-    
-    def mostrar_mensaje_info(self, mensaje: str):
-        QMessageBox.information(self.ui, "Éxito", mensaje)

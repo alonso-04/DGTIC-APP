@@ -2,9 +2,8 @@ from typing import Tuple
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,6 +21,8 @@ class VentanaInfoTipoServicio(UiBase):
         self.ventana_principal = ventana_principal.ui
         self._servicios = ventana_principal._servicios
         
+        
+        # LISTA Y MÉTODO DE LOS COMPLETERS
         lista_campos_tipos_servicio_completers = [
             self.ventana_principal.txt_servicio_prestado,
             self.ventana_principal.txt_filtro_servicio_prestado,
@@ -72,15 +73,15 @@ class VentanaInfoTipoServicio(UiBase):
                 nuevo_nombre_tipo_servicio.upper()
             )
             
-            QMessageBox.information(self.ui, "Éxito", "La información del tipo de servicio se ha actualizado correctamente.")
+            self.mostrar_mensaje_info("La información del tipo de servicio se ha actualizado correctamente.")
             self.cargar_completer_tipos_servicio()
             self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_tipo_servicio(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -95,12 +96,12 @@ class VentanaInfoTipoServicio(UiBase):
                 tipo_servicio_id = self.tipo_servicio_data[0]
                 self._servicios["tipo_servicio_tecnico_servicio"].eliminar(tipo_servicio_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se ha eliminado el tipo de servicio correctamente.")
+                self.mostrar_mensaje_info("Se ha eliminado el tipo de servicio correctamente.")
                 self.cargar_completer_tipos_servicio()
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))

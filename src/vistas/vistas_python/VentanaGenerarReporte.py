@@ -3,8 +3,7 @@ from datetime import date
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QDate, Qt, QThread, pyqtSignal
 
-from utilidades.gui import UiBase
-from vistas.utilidades_gui.cargar_completers import cargar_completer
+from utilidades.gui import UiBase, cargar_completer
 from configuraciones.excepciones import NoEncontradoError, ValidacionError
 
 
@@ -70,8 +69,12 @@ class VentanaGenerarReporte(UiBase):
         
         self.generador_reporte_servicios = generador_reporte_servicios
         self._servicios = servicios
+        self.reporte_trabajador = None
         
+        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_tipos_servicio_completers = [self.ui.txt_tipo_servicio_reporte]
+        
         self.cargar_completer_tipos_servicio = lambda: cargar_completer(
             self._servicios["tipo_servicio_tecnico_servicio"],
             lista_campos_tipos_servicio_completers,
@@ -79,8 +82,6 @@ class VentanaGenerarReporte(UiBase):
         )
         
         self.configuracion()
-        
-        self.reporte_trabajador = None
     
     def configuracion(self):
         self.ui.cb_tipo_reporte.currentIndexChanged.connect(self.seleccionar_opcion)

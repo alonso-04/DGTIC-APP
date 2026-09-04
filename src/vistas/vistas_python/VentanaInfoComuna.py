@@ -2,9 +2,8 @@ from typing import Tuple
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import Qt
 
-from utilidades.gui import UiBase
+from utilidades.gui import UiBase, cargar_completer
 from vistas.vistas_python.VentanaPrincipal import VentanaPrincipal
-from vistas.utilidades_gui.cargar_completers import cargar_completer
 from configuraciones.excepciones import ValidacionError, NoEncontradoError, LogicaError
 
 
@@ -22,6 +21,8 @@ class VentanaInfoComuna(UiBase):
         self._servicios = ventana_principal._servicios
         self.ventana_principal = ventana_principal.ui
         
+        
+        # LISTA Y MÉTODOS DE LOS COMPLETERS
         lista_campos_comuna_completers = [
             self.ventana_principal.txt_nombre_comuna,
             self.ventana_principal.txt_filtro_comunas_registradas
@@ -58,15 +59,15 @@ class VentanaInfoComuna(UiBase):
                 nuevo_nombre_comuna.upper()
             )
             
-            QMessageBox.information(self.ui, "Éxito", "La información de la comuna se ha actualizado correctamente.")
+            self.mostrar_mensaje_info("La información de la comuna se ha actualizado correctamente.")
             self.cargar_completer_comunas()
             self.ui.accept()
         except NoEncontradoError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except ValidacionError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
         except LogicaError as error:
-            QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+            self.mostrar_mensaje_error("\n".join(error.errores))
     
     def eliminar_comuna(self):
         mensaje_confirmacion = QMessageBox.question(
@@ -81,12 +82,12 @@ class VentanaInfoComuna(UiBase):
                 comuna_id = self.comuna_data[0]
                 self._servicios["comuna_servicio"].eliminar(comuna_id)
                 
-                QMessageBox.information(self.ui, "Éxito", "Se ha eliminado la comuna correctamente.")
+                self.mostrar_mensaje_info("Se ha eliminado la comuna correctamente.")
                 self.cargar_completer_comunas()
                 self.ui.accept()
             except NoEncontradoError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except ValidacionError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
             except LogicaError as error:
-                QMessageBox.critical(self.ui, "Error", "\n".join(error.errores))
+                self.mostrar_mensaje_error("\n".join(error.errores))
