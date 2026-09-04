@@ -98,10 +98,10 @@ class UiBase:
         cabecera_vertical.setVisible(False)
     
     def mostrar_mensaje_error(self, mensaje: str):
-        QMessageBox.critical(None, "Error", mensaje)
+        QMessageBox.critical(self.ui, "Error", mensaje)
     
     def mostrar_mensaje_info(self, mensaje: str):
-        QMessageBox.information(None, "Éxito", mensaje)
+        QMessageBox.information(self.ui, "Éxito", mensaje)
     
     def ver_manual_usuario(self):
         try:
