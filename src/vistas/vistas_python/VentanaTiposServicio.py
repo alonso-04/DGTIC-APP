@@ -146,6 +146,8 @@ class VentanaTipoServicio(UiBase):
             )
         
         self.ventana_info_tipo_servicio.actualizar_data_recibida(tipo_servicio_data)
+        self.ventana_info_tipo_servicio.cargar_completers_info()
+        
         resultado = self.ventana_info_tipo_servicio.ui.exec_()
             
         if (resultado == QDialog.Accepted):

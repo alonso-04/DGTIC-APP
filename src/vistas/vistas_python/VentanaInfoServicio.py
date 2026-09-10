@@ -64,13 +64,14 @@ class VentanaInfoServicio(UiBase):
         return super().eventFilter(obj, event)
     
     def configuracion(self):
-        self.cargar_completer_departamento()
-        self.cargar_completer_tipos_servicio()
-        self.cargar_completer_comunas()
-        
         self.btn_actualizar.clicked.connect(self.actualizar_info_servicio)
         self.btn_eliminar.clicked.connect(self.eliminar_servicio)
         self.btn_cancelar.clicked.connect(self.ui.reject)
+    
+    def cargar_completers_info(self):
+        self.cargar_completer_departamento()
+        self.cargar_completer_tipos_servicio()
+        self.cargar_completer_comunas()
     
     def actualizar_data_recibida(self, data_recibida: Tuple):
         self.servicio_data = data_recibida
