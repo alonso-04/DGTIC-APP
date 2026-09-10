@@ -47,11 +47,12 @@ class VentanaInfoTipoServicio(UiBase):
         self.configuracion()
     
     def configuracion(self):
-        self.cargar_completer_categorias()
-        
         self.btn_actualizar.clicked.connect(self.actualizar_info_tipo_servicio)
         self.btn_eliminar.clicked.connect(self.eliminar_tipo_servicio)
         self.btn_cancelar.clicked.connect(self.ui.reject)
+    
+    def cargar_completers_info(self):
+        self.cargar_completer_categorias()
     
     def actualizar_data_recibida(self, data_recibida: Tuple):
         self.tipo_servicio_data = data_recibida

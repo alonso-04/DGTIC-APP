@@ -269,6 +269,7 @@ class VentanaApp(UiBase):
             self.ventana_info_servicio = VentanaInfoServicio(servicio_data, self._servicios, "VentanaInfoServicio.ui", "estilos_ventanas_info.qss")
         
         self.ventana_info_servicio.actualizar_data_recibida(servicio_data)
+        self.ventana_info_servicio.cargar_completers_info()
         
         resultado = self.ventana_info_servicio.ui.exec_()
         if (resultado == QDialog.Accepted):
