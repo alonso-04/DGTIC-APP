@@ -59,7 +59,7 @@ class VentanaCategorias(UiBase):
     def registrar_categoria(self):
         try:
             campos_a_registrar = [(self.ui.txt_registrar_categoria, "nombre_categoria")]
-            registrar_campos(self._servicios["categoria_tipo_servicio_tecnico_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["categoria_tipo_servicio_tecnico_servicio"], campos_a_registrar, "categoria")
             limpiar_campos([self.ui.txt_registrar_categoria])
             
             self.refrescar_pagina_categorias()

@@ -182,7 +182,7 @@ class VentanaApp(UiBase):
                 (self.ui.txt_nombre_comuna, "nombre_comuna")
             ]
             
-            registrar_campos(self._servicios["servicio_tecnico_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["servicio_tecnico_servicio"], campos_a_registrar, "servicio")
             
             limpiar_campos([
                 self.ui.txt_nombre_departamento,
