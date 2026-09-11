@@ -351,5 +351,6 @@ class VentanaApp(UiBase):
                 "VentanaGenerarReporte.ui",
                 "estilos_ventana_generar_reporte.qss"
             )
-            
+        
+        self.ventana_generar_reporte.resetear_campos()
         self.ventana_generar_reporte.ui.exec_()

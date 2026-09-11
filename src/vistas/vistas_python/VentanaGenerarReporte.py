@@ -85,19 +85,19 @@ class VentanaGenerarReporte(UiBase):
     
     def configuracion(self):
         self.ui.cb_tipo_reporte.currentIndexChanged.connect(self.seleccionar_opcion)
+        self.ui.btn_exportar_reporte.clicked.connect(self.generar_reporte)
+        self.ui.btn_cancelar.clicked.connect(self.ui.reject)
+        self.ui.barra_carga_reporte.hide()
+    
+    def resetear_campos(self):
+        self.cargar_completer_tipos_servicio()
+        self.seleccionar_opcion(0)
+        self.ui.txt_tipo_servicio_reporte.clear()
         
         self.ui.de_fecha_reporte_mensual.setDate(QDate.currentDate())
         self.ui.de_fecha_reporte_desde.setDate(QDate.currentDate())
         self.ui.de_fecha_reporte_hasta.setDate(QDate.currentDate())
         self.ui.de_fecha_reporte_anual.setDate(QDate.currentDate())
-        
-        self.ui.btn_exportar_reporte.clicked.connect(self.generar_reporte)
-        self.ui.btn_cancelar.clicked.connect(self.ui.reject)
-        
-        self.ui.barra_carga_reporte.hide()
-        
-        self.seleccionar_opcion(0)
-        self.cargar_completer_tipos_servicio()
     
     def seleccionar_opcion(self, indice: int):
         opcion_seleccionada = self.ui.cb_tipo_reporte.itemText(indice)
