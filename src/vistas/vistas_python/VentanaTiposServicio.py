@@ -88,7 +88,7 @@ class VentanaTipoServicio(UiBase):
                 (self.ui.txt_categoria_asociada, "nombre_categoria")
             ]
             
-            registrar_campos(self._servicios["tipo_servicio_tecnico_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["tipo_servicio_tecnico_servicio"], campos_a_registrar, "tipo_servicio")
             limpiar_campos([self.ui.txt_registrar_tipo_servicio, self.ui.txt_categoria_asociada])
             
             self.refrescar_pagina_tipos_servicio()

@@ -61,7 +61,7 @@ class VentanaComunas(UiBase):
     def registrar_comuna(self):
         try:
             campos_a_registrar = [(self.ui.txt_registrar_comuna, "nombre_comuna")]
-            registrar_campos(self._servicios["comuna_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["comuna_servicio"], campos_a_registrar, "comuna")
             limpiar_campos([self.ui.txt_registrar_comuna])
             
             self.refrescar_pagina_comunas()

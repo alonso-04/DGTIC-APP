@@ -48,4 +48,4 @@ class UsuarioRepositorio:
     def eliminar(self, usuario: UsuarioModelo) -> None:
         with self._bd.sesion() as sesion:
             usuario_modelo = sesion.query(UsuarioModelo).filter_by(usuario_id = usuario.usuario_id).first()
-            self._sesion.delete(usuario_modelo)
+            sesion.delete(usuario_modelo)

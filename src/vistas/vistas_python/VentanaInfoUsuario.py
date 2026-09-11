@@ -58,7 +58,7 @@ class VentanaInfoUsuario(UiBase):
                 usuario_id,
                 USUARIO_ID_LOGEADO,
                 nuevo_tipo_rol,
-                nuevo_nombre_usuario,
+                nuevo_nombre_usuario.lower(),
                 nueva_clave_usuario
             )
             

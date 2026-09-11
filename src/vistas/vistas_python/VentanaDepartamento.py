@@ -62,7 +62,7 @@ class VentanaDepartamentos(UiBase):
     def registrar_departamento(self):
         try:
             campos_a_registrar = [(self.ui.txt_registrar_departamento, "nombre_departamento")]
-            registrar_campos(self._servicios["departamento_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["departamento_servicio"], campos_a_registrar, "departamento")
             limpiar_campos([self.ui.txt_registrar_departamento])
             
             self.refrescar_pagina_departamentos()

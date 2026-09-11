@@ -48,7 +48,7 @@ class VentanaUsuarios(UiBase):
                 (self.ui.cb_rol_usuario, "tipo_rol")
             ]
             
-            registrar_campos(self._servicios["usuario_servicio"], campos_a_registrar)
+            registrar_campos(self._servicios["usuario_servicio"], campos_a_registrar, "usuario")
             limpiar_campos([
                 self.ui.txt_nombre_usuario,
                 self.ui.txt_clave_usuario

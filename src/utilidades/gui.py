@@ -235,7 +235,8 @@ def limpiar_campos(lista_campos_limpiar: List[object]) -> None:
 
 def registrar_campos(
     servicio,
-    lista_campos_registrar: List[Tuple[object, str]]
+    lista_campos_registrar: List[Tuple[object, str]],
+    entidad: str
 ) -> None:
     """
     Método para poder registrar los campos de las diferentes ventanas del sistema, por ejemplo un servicio, departamento, tipo de servicio,
@@ -249,9 +250,15 @@ def registrar_campos(
     
     for campo, columna in lista_campos_registrar:
         if isinstance(campo, QLineEdit):
-            datos_a_registrar[columna] = campo.text().upper()
+            if entidad == "usuario":
+                datos_a_registrar[columna] = campo.text().lower()
+            else:
+                datos_a_registrar[columna] = campo.text().upper()
         elif isinstance(campo, QTextEdit) or isinstance(campo, QPlainTextEdit):
-            datos_a_registrar[columna] = campo.toPlainText().upper()
+            if entidad == "usuario":
+                datos_a_registrar[columna] = campo.toPlainText().lower()
+            else:
+                datos_a_registrar[columna] = campo.toPlainText().upper()
         elif isinstance(campo, QSpinBox):
             datos_a_registrar[columna] = campo.value()
         elif isinstance(campo, QDateEdit):
