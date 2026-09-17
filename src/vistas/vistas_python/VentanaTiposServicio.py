@@ -72,6 +72,7 @@ class VentanaTipoServicio(UiBase):
         self.ui.setWindowTitle("App")
         self.ui.de_filtro_fecha_servicio.setDate(QDate.currentDate())
         self.ui.de_fecha_servicio.setDate(QDate.currentDate())
+        self.ui.btn_buscar_servicios.click()
     
     def ir_pagina_categorias(self):
         if not(hasattr(self, "ventana_categorias")):

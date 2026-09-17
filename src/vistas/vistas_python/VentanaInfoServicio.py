@@ -131,7 +131,7 @@ class VentanaInfoServicio(UiBase):
         mensaje_confirmacion = QMessageBox.question(
             self.ui,
             "Confirmar eliminación",
-            "¿Estás seguro de que quieres eliminar este registro?",
+            "¿Estás seguro de que quieres eliminar este servicio?",
             QMessageBox.Yes | QMessageBox.No
         )
             
@@ -140,7 +140,7 @@ class VentanaInfoServicio(UiBase):
                 servicio_id = self.servicio_data[0]
                 self._servicios["servicio_tecnico_servicio"].eliminar(servicio_id)
                 
-                self.mostrar_mensaje_info("Se eliminó el registro correctamente.")
+                self.mostrar_mensaje_info("Se eliminó el servicio correctamente.")
                 self.ui.accept()
             except NoEncontradoError as error:
                 self.mostrar_mensaje_error("\n".join(error.errores))

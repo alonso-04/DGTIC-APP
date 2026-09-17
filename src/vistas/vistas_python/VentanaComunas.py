@@ -57,6 +57,7 @@ class VentanaComunas(UiBase):
         self.ui.setWindowTitle("App")
         self.ui.de_filtro_fecha_servicio.setDate(QDate.currentDate())
         self.ui.de_fecha_servicio.setDate(QDate.currentDate())
+        self.ui.btn_buscar_servicios.click()
     
     def registrar_comuna(self):
         try:

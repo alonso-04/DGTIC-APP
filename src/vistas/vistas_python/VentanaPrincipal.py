@@ -90,6 +90,7 @@ class VentanaPrincipal(UiBase):
         
         self.ui.de_filtro_fecha_servicio.setDate(QDate.currentDate())
         self.ui.de_fecha_servicio.setDate(QDate.currentDate())
+        self.ui.btn_buscar_servicios.click()
     
     def error_inicio_sesion(self, mensaje: str):
         self.ventana_carga.ui.close()
