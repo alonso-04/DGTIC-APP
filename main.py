@@ -1,10 +1,11 @@
 import sys
 import os
+from pathlib import Path
 
-# Para que el archivo generado por pyuic5 encuentre los recursos correctamente le asignamos
-# la clave exacta que espera el archivo generado (recursos_rc)
-import recursos.recursos_rc as recursos_rcs
-sys.modules["recursos_rc"] = recursos_rcs
+# Añadimos la carpeta src como el primer sitio del sys.path a buscar en las importaciones
+ruta_src = Path(__file__).resolve().parent / "src"
+sys.path.insert(0, str(ruta_src))
+
 
 from dotenv import load_dotenv
 
@@ -20,6 +21,8 @@ else:
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path = dotenv_path)
 
+import recursos.recursos_rc as recursos_rc
+sys.modules["recursos_rc"] = recursos_rc
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo, QThread, pyqtSignal

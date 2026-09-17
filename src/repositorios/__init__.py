@@ -1,0 +1,7 @@
+from .departamento_repositorio import DepartamentoRepositorio
+from .rol_repositorio import RolRepositorio
+from .servicio_tecnico_repositorio import ServicioTecnicoRepositorio
+from .tipo_servicio_tecnico_repositorio import TipoServicioTecnicoRepositorio
+from .comuna_repositorio import ComunaRepositorio
+from .categoria_tipo_servicio_tecnico_repositorio import CategoriaTipoServicioTecnicoRepositorio
+from .usuario_repositorio import UsuarioRepositorio

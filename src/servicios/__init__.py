@@ -1,0 +1,7 @@
+from .departamento_servicio import DepartamentoServicio
+from .rol_servicio import RolServicio
+from .servicio_tecnico_servicio import ServicioTecnicoServicio
+from .tipo_servicio_tecnico_servicio import TipoServicioTecnicoServicio
+from .comuna_servicio import ComunaServicio
+from .categoria_tipo_servicio_tecnico_servicio import CategoriaTipoServicioTecnicoServicio
+from .usuario_servicio import UsuarioServicio
