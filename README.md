@@ -6,7 +6,7 @@ Esta aplicación fue hecha en `Python 3.8.10`, por lo que los pasos serían los 
 1. **Instalación de dependencias:** <br>
 
 `uv sync` (si tienes instalado uv) <br><br>
-`pip install .` (que detectará el archivo `pyproject.toml` e instalará las dependencias) <br><br>
+`pip install .` (si no tienes o no puedes usar uv, usa este comando que detectará el archivo `pyproject.toml` e instalará las dependencias) <br><br>
 
 2. **Archivo `.env` y `.env.ejemplo`:** <br>
 El archivo `.env` se utiliza para las variables de entorno mientras estas desarrollando, mientras que `.env.ejemplo` es cuando quieres ejecutar la aplicación ya empaquetada.<br><br>
