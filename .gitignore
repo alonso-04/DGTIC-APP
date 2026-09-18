@@ -1,6 +1,8 @@
 # CARPETAS
 .venv
 __pycache__
+build
+dist
 
 
 # ARCHIVOS

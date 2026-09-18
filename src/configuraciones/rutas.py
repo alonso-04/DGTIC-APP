@@ -9,7 +9,8 @@ from utilidades.constantes import TiposReporte
 
 def obtener_ruta_base():
     if getattr(sys, "frozen", False):
-        return sys._MEIPASS
+        ruta_exe = os.path.dirname(sys.executable)
+        return os.path.join(ruta_exe, "_internal")
     else:
         carpeta_configuraciones = os.path.abspath(os.path.dirname(__file__))
         raiz_proyecto = os.path.abspath(os.path.join(carpeta_configuraciones, ".."))
