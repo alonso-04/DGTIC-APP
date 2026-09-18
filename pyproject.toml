@@ -1,6 +1,6 @@
 [project]
 name = "app-dgtic"
-version = "0.1.0"
+version = "1.0.0"
 requires-python = "==3.8.10"
 dependencies = [
     "altgraph==0.17.4",
