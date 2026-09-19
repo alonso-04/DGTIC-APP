@@ -3,9 +3,7 @@ from contextlib import contextmanager
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
-from dotenv import load_dotenv
 
-load_dotenv()
 
 URL_BASE_DATOS_MYSQL = (
     f"mysql+pymysql://"

@@ -6,7 +6,7 @@ a = Analysis(
     pathex=["src"],
     binaries=[],
     datas=[
-        ('.env.ejemplo', '.'),
+        ('.env.enc', '.'),
         ('src/configuraciones/sesion_usuario.json', 'configuraciones'),
         ('src/recursos/', 'recursos'),
         ('src/vistas/vistas_qt', 'vistas/vistas_qt'),

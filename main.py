@@ -1,5 +1,7 @@
 import sys
 import os
+import io
+from cryptography.fernet import Fernet
 from pathlib import Path
 
 # Añadimos la carpeta src como el primer sitio del sys.path a buscar en las importaciones
@@ -9,17 +11,35 @@ sys.path.insert(0, str(ruta_src))
 
 from dotenv import load_dotenv
 
+# Esta clave generada en src/utilidadess/seguridad.py en la función cifrar_env
+# es con motivos demostrativos, cada vez que quieran empaquetar lo recomendable es generar una nueva
+# y pegarla en esta constante
+CLAVE_CIFRADO_ENV_DEMO = b'ykQfZeOPyNX_48CBO5roGPS3qWTFC7d0EH7QII3abig='
+
 # Si la aplicación se ejecuta como un ejecutable de PyInstaller
 if getattr(sys, 'frozen', False):
-    # La ruta del .env será el directorio temporal de PyInstaller
-    dotenv_path = os.path.join(os.path.dirname(sys.executable), "_internal", '.env.ejemplo')
+    # La ruta del .env será el directorio del ejecutable que genera PyInstaller
+    dotenv_path = os.path.join(os.path.dirname(sys.executable), "_internal", '.env.enc')
 else:
     # En modo de desarrollo, la ruta es la del script
-    dotenv_path = os.path.join(os.path.dirname(__file__), "..", '.env')
+    dotenv_path = os.path.join(os.path.dirname(__file__), '.env.enc')
     
 # Cargar las variables de entorno
 if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path = dotenv_path)
+    try:
+        # 1. Leer el contenido cifrado del archivo
+        with open(dotenv_path, "rb") as f:
+            datos_cifrados = f.read()
+
+        # 2. Descifrar los datos con Fernet
+        fernet = Fernet(CLAVE_CIFRADO_ENV_DEMO)
+        datos_descifrados = fernet.decrypt(datos_cifrados)
+
+        # 3. Cargar en memory buffer para python-dotenv sin escribir en disco
+        buffer = io.StringIO(datos_descifrados.decode("utf-8"))
+        load_dotenv(stream=buffer)
+    except Exception as e:
+        print(f"Error al descifrar o cargar el archivo .env.enc: {e}")
 
 import recursos.recursos_rc as recursos_rc
 sys.modules["recursos_rc"] = recursos_rc

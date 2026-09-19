@@ -4,9 +4,6 @@ from pathlib import Path
 from datetime import datetime, date
 from configuraciones.rutas import obtener_ruta_respaldos_bd
 
-from dotenv import load_dotenv
-load_dotenv()
-
 
 TABLAS_RESPALDO = [
     "tb_departamentos", 
