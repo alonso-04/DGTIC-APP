@@ -18,7 +18,7 @@ Para poder trabajar en desarrollo y posteriormente ir empaquetando la app, neces
 `NOMBRE_BD`<br>
 `NOMBRE_USUARIO_BD`<br>
 `CLAVE_USUARIO_BD`<br>
-`CLAVE_SECRETA_SESION`.<br><br>
+`CLAVE_SECRETA_SESION`<br><br>
 
 3. **Ejecutar la aplicación:** <br>
 En la raíz del proyecto ejecutas el comando: `python main.py`.<br><br>
