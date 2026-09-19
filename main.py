@@ -12,7 +12,7 @@ sys.path.insert(0, str(ruta_src))
 from dotenv import load_dotenv
 
 # Esta clave generada en src/utilidadess/seguridad.py en la función cifrar_env
-# es con motivos demostrativos, cada vez que quieran empaquetar lo recomendable es generar una nueva
+# es con motivos demostrativos, cada vez que quieran usarla en desarrollo o empaquetar lo que tienen que hacer es generar una nueva
 # y pegarla en esta constante
 CLAVE_CIFRADO_ENV_DEMO = b'ykQfZeOPyNX_48CBO5roGPS3qWTFC7d0EH7QII3abig='
 
