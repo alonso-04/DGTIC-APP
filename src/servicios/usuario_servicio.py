@@ -1,7 +1,11 @@
 import bcrypt
 import json
 import re
-from typing import List, Optional
+import hmac
+import hashlib
+import os
+from typing import List, Optional, Dict
+from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from utilidades.seguridad import hashear_contenido
@@ -11,6 +15,9 @@ from modelos.usuario_modelo import UsuarioModelo
 from repositorios.usuario_repositorio import UsuarioRepositorio
 from repositorios.rol_repositorio import RolRepositorio
 
+load_dotenv()
+
+CLAVE_SECRETA_SESION = os.getenv("CLAVE_SECRETA_SESION").encode("utf-8")
 RUTA_SESION_JSON = obtener_ruta_sesion_json()
 
 
@@ -164,13 +171,27 @@ class UsuarioServicio:
     
     # Métodos para la sesión del usuario
     def obtener_usuario_id_logeado(self) -> int:
-        with open(RUTA_SESION_JSON, "r") as sesion_usuario_json:
-            data = json.load(sesion_usuario_json)
-            
-            if ("usuario_id" in data):
-                USUARIO_ID_LOGEADO = data["usuario_id"]
-            
-            return USUARIO_ID_LOGEADO
+        try:
+            with open(RUTA_SESION_JSON, "r") as sesion_usuario_json:
+                data = json.load(sesion_usuario_json)
+                
+                if ("usuario_id" in data and "firma" in data):
+                    USUARIO_ID_LOGEADO = data["usuario_id"]
+                    firma_guardada = data["firma"]
+                
+                # Recalculamos la firma para asegurar la integridad (impedir si alguien modifica el .json este pueda acceder al panel de usuario)
+                firma_calculada = hmac.new(
+                    CLAVE_SECRETA_SESION,
+                    str(USUARIO_ID_LOGEADO).encode("utf-8"),
+                    hashlib.sha256
+                ).hexdigest()
+                
+                # Si las firmas coinciden el archivo .json no fué modificado manualmente
+                if hmac.compare_digest(firma_guardada, firma_calculada):
+                    return USUARIO_ID_LOGEADO
+        except (FileNotFoundError, json.JSONDecodeError, KeyError):
+            pass
+        return None # Por si está vacío o no existe el archivo .json
     
     def usuario_es_admin(self) -> bool:
         try:
@@ -181,7 +202,7 @@ class UsuarioServicio:
         except NoEncontradoError:
             return False
     
-    def autenticar_usuario(self, nombre_usuario: str, clave_usuario: str) -> Optional[int]:
+    def autenticar_usuario(self, nombre_usuario: str, clave_usuario: str) -> Optional[Dict]:
         nombre_usuario_limpio = nombre_usuario.strip() if nombre_usuario else ""
         clave_usuario_limpio = clave_usuario.strip() if clave_usuario else ""
         
@@ -198,24 +219,35 @@ class UsuarioServicio:
             return None
     
     def iniciar_sesion(self, nombre_usuario: str, clave_usuario: str) -> None:
-        usuario_id = self.autenticar_usuario(nombre_usuario, clave_usuario)
+        resultado_autenticacion = self.autenticar_usuario(nombre_usuario, clave_usuario)
             
-        if not(usuario_id):
+        if not(resultado_autenticacion):
             raise ValidacionError(["El usuario y/o contraseña son incorrectos."])
         
+        # Creamos la firma de autenticación mezclando la clave secreta con el usuario_id
+        firma_autenticacion = hmac.new(
+            CLAVE_SECRETA_SESION,
+            str(resultado_autenticacion["usuario_id"]).encode("utf-8"),
+            hashlib.sha256
+        ).hexdigest()
+        
+        datos_sesion = {
+            "usuario_id": resultado_autenticacion["usuario_id"],
+            "firma": firma_autenticacion
+        }
+        
         with open(RUTA_SESION_JSON, "w") as sesion_usuario_json:
-            json.dump(usuario_id, sesion_usuario_json, indent = 4)
+            json.dump(datos_sesion, sesion_usuario_json, indent = 4)
     
     def cerrar_sesion(self) -> None:
         try:
-            with open(RUTA_SESION_JSON, "r") as sesion_usuario_json:
-                data = json.load(sesion_usuario_json)
-                
-                if ("usuario_id" in data):
-                    data["usuario_id"] = None
-                
-                with open(RUTA_SESION_JSON, "w") as sesion_usuario_json:
-                    json.dump(data, sesion_usuario_json, indent = 4)
+            datos_vacios = {
+                "usuario_id": None,
+                "firma": ""
+            }
+            
+            with open(RUTA_SESION_JSON, "w") as sesion_usuario_json:
+                json.dump(datos_vacios, sesion_usuario_json, indent = 4)
         except FileNotFoundError as error:
             with open(RUTA_SESION_JSON, "w") as sesion_usuario_json:
                 json.dump({"usuario_id": None}, sesion_usuario_json, indent = 4)

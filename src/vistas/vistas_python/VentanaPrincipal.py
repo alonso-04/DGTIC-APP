@@ -43,6 +43,9 @@ class VentanaPrincipal(UiBase):
         self.ui.btn_iniciar_sesion.clicked.connect(self.iniciar_sesion)
         
         self.ui.btn_manual_usuario_iniciar_sesion.clicked.connect(self.ver_manual_usuario)
+        
+        # Para que al cerrar la ventana principal se limpie la sesión del usuario logeado en el .json
+        self.ui.closeEvent = self.closeEvent
     
     def iniciar_sesion(self):
         nombre_usuario = self.ui.txt_ingresar_nombre_usuario.text()
@@ -95,3 +98,13 @@ class VentanaPrincipal(UiBase):
     def error_inicio_sesion(self, mensaje: str):
         self.ventana_carga.ui.close()
         QMessageBox.critical(self.ui, "Error", mensaje)
+    
+    def closeEvent(self, event):
+        """Este método captura el clic en la 'X' de la ventana"""
+        try:
+            self._servicios["usuario_servicio"].cerrar_sesion()
+        except Exception as error:
+            print(f"Error al limpiar la sesión: {error}")
+            
+        # Esto le dice a PyQt5 que acepte el cierre y cierre la app
+        event.accept() 
