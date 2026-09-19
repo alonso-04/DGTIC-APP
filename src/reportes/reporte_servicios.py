@@ -32,7 +32,7 @@ class ReporteServicios:
         
         return hoja_1, hoja_2
     
-    def cargar_configuraciones_excel(self, hoja_1, hoja_2):
+    def cargar_configuraciones_excel(self, hoja_1):
         hoja_1.row_dimensions[1].height = 47
     
     def cargar_encabezados_hoja_1(
@@ -638,7 +638,7 @@ class ReporteServicios:
                 else:
                     nombre_archivo = f"REPORTE SERVICIOS - {ANIO}"
             
-            self.cargar_configuraciones_excel(hoja_1, hoja_2)
+            self.cargar_configuraciones_excel(hoja_1)
             
             self.cargar_encabezados_hoja_1(
                 hoja_1,
