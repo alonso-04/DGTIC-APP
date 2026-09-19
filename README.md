@@ -24,4 +24,4 @@ Para poder trabajar en desarrollo y posteriormente ir empaquetando la app, neces
 En la raíz del proyecto ejecutas el comando: `python main.py`.<br><br>
 
 4. **Empaquetar la aplicación** <br>
-Ejecutas el comando: `pyinstaller .\DGTIC-APP-SERVICIOS.spec` y en la carpeta `dist` se encontrará la carpeta con el `.exe` junto con la carpeta `_internal` con todos las librerias y archivos de recursos necesarios para que la aplicación funcione.
+Ejecutas el comando: `pyinstaller .\DGTIC-APP-SERVICIOS.spec` y en la carpeta `dist` se encontrará la carpeta con el `.exe` junto con la carpeta `_internal` con todas las librerias y archivos de recursos necesarios para que la aplicación funcione.
