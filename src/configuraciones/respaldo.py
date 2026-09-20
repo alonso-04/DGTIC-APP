@@ -14,13 +14,13 @@ TABLAS_RESPALDO = [
 ]
 
 def _obtener_parametros_conexion_mysql():
-    NOMBRE_USUARIO_BD = os.getenv('NOMBRE_USUARIO_BD')
-    CLAVE_USUARIO_BD = os.getenv('CLAVE_USUARIO_BD')
-    HOST_BD = os.getenv('HOST_BD')
-    PUERTO_BD = os.getenv('PUERTO_BD', 3306)
-    NOMBRE_BD = os.getenv('NOMBRE_BD')
+    NOMBRE_USUARIO_BD = os.environ.get('NOMBRE_USUARIO_BD')
+    CLAVE_USUARIO_BD = os.environ.get('CLAVE_USUARIO_BD')
+    HOST_BD = os.environ.get('HOST_BD')
+    PUERTO_BD = os.environ.get('PUERTO_BD', 3306)
+    NOMBRE_BD = os.environ.get('NOMBRE_BD')
     
-    if not all([NOMBRE_USUARIO_BD, CLAVE_USUARIO_BD, HOST_BD, NOMBRE_BD]):
+    if not all([NOMBRE_USUARIO_BD, HOST_BD, NOMBRE_BD]):
         raise ValueError("FALTAN LAS VARIABLES DE ENTORNO: NOMBRE_USUARIO_BD, CLAVE_USUARIO_BD, HOST_BD O NOMBRE_BD")
     
     return {
