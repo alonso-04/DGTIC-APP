@@ -1,4 +1,3 @@
-import bcrypt
 import json
 import re
 import hmac
@@ -8,7 +7,7 @@ from typing import List, Optional, Dict
 from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-from utilidades.seguridad import hashear_contenido
+from utilidades.seguridad import hashear_contenido, verificar_clave_usuario
 from configuraciones.excepciones import ValidacionError, LogicaError, NoEncontradoError
 from configuraciones.rutas import obtener_ruta_sesion_json
 from modelos.usuario_modelo import UsuarioModelo
@@ -207,12 +206,13 @@ class UsuarioServicio:
         clave_usuario_limpio = clave_usuario.strip() if clave_usuario else ""
         
         try:
-            usuario_a_auntenticar = self._usuario_repositorio.obtener_por_nombre_usuario(nombre_usuario_limpio)
-            clave_usuario_texto_plano = clave_usuario_limpio.encode("utf-8")
-            clave_usuario_hasheado = usuario_a_auntenticar.clave_usuario.encode("utf-8")
-
-            if (bcrypt.checkpw(clave_usuario_texto_plano, clave_usuario_hasheado)):
-                return {"usuario_id": usuario_a_auntenticar.usuario_id}
+            usuario_a_autenticar = self._usuario_repositorio.obtener_por_nombre_usuario(nombre_usuario_limpio)
+            
+            # Extraemos el hash guardado en la Base de Datos para este usuario
+            clave_base_datos = usuario_a_autenticar.clave_usuario
+            
+            if verificar_clave_usuario(clave_usuario_limpio, clave_base_datos):
+                return {"usuario_id": usuario_a_autenticar.usuario_id}
             
             return None
         except NoEncontradoError:
@@ -220,7 +220,7 @@ class UsuarioServicio:
     
     def iniciar_sesion(self, nombre_usuario: str, clave_usuario: str) -> None:
         resultado_autenticacion = self.autenticar_usuario(nombre_usuario, clave_usuario)
-            
+        
         if not(resultado_autenticacion):
             raise ValidacionError(["El usuario y/o contraseña son incorrectos."])
         

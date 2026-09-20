@@ -1,17 +1,40 @@
-import bcrypt
+import hashlib
 from cryptography.fernet import Fernet
 
 
 def hashear_contenido(contenido: str) -> str:
-    if (contenido is None):
+    """
+    Genera un hash limitado estrictamente a 12 caracteres.
+    Compatible con la columna String(12) y sistemas de 32/64 bits.
+    """
+    if contenido is None:
         return None
     
-    contenido_codificado = contenido.encode("utf-8")
-    salt = bcrypt.gensalt()
-    contenido_encriptado = bcrypt.hashpw(contenido_codificado, salt)
-    contenido_encriptado_string = contenido_encriptado.decode("utf-8")
+    # Limpieza rigurosa de entrada (evita problemas de buffers en Windows 7)
+    texto_limpio = str(contenido).strip().replace('"', '').replace("'", "")
     
-    return contenido_encriptado_string
+    # Generamos el hash MD5 plano nativo de Python
+    hash_completo = hashlib.md5(texto_limpio.encode("utf-8")).hexdigest()
+    
+    # RECORTE ESTRICTO: Tomamos solo los primeros 12 caracteres
+    hash_limitado = hash_completo[:12]
+    
+    return hash_limitado
+
+
+def verificar_clave_usuario(clave_texto_plano: str, hash_almacenado: str) -> bool:
+    """Verifica la contraseña limitando el hash ingresado a 12 caracteres."""
+    if not clave_texto_plano or not hash_almacenado:
+        return False
+        
+    try:
+        # Hasheamos y recortamos la contraseña que viene del formulario de Login
+        hash_nuevo = hashear_contenido(clave_texto_plano)
+        
+        # Comparación directa carácter por carácter de los 12 dígitos
+        return hash_nuevo == hash_almacenado
+    except Exception:
+        return False
 
 def cifrar_env():
     # 1. Generar una clave de cifrado
