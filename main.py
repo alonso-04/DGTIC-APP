@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 # Esta clave generada en src/utilidadess/seguridad.py en la función cifrar_env
 # es con motivos demostrativos, cada vez que quieran usarla en desarrollo o empaquetar lo que tienen que hacer es generar una nueva
 # y pegarla en esta constante
-CLAVE_CIFRADO_ENV_DEMO = b'ykQfZeOPyNX_48CBO5roGPS3qWTFC7d0EH7QII3abig='
+CLAVE_CIFRADO_ENV_DEMO = b'IlQQ3BAdBoOSghoclsDUsB7L0tvzr4pm449suQa4u3I='
 
 # Si la aplicación se ejecuta como un ejecutable de PyInstaller
 if getattr(sys, 'frozen', False):
@@ -34,9 +34,15 @@ if os.path.exists(dotenv_path):
         # 2. Descifrar los datos con Fernet
         fernet = Fernet(CLAVE_CIFRADO_ENV_DEMO)
         datos_descifrados = fernet.decrypt(datos_cifrados)
+        
+        texto_descifrado = datos_descifrados.decode("utf-8").replace("\r", "")
+        
+        # Filtramos líneas vacías o corruptas
+        lineas_limpias = [linea.strip() for linea in texto_descifrado.split("\n") if linea.strip()]
+        texto_final = "\n".join(lineas_limpias)
 
-        # 3. Cargar en memory buffer para python-dotenv sin escribir en disco
-        buffer = io.StringIO(datos_descifrados.decode("utf-8"))
+        # 3. Cargar en el memory buffer totalmente limpio
+        buffer = io.StringIO(texto_final)
         load_dotenv(stream=buffer)
     except Exception as e:
         print(f"Error al descifrar o cargar el archivo .env.enc: {e}")
@@ -67,6 +73,13 @@ class HiloInicializarUsuarioAdmin(QThread):
 def main():
     app = QApplication(sys.argv)
     
+    from configuraciones.conexion import bd
+    
+    try:
+        bd.inicializar_conexion()
+    except Exception as error:
+        print(f"Error crítico al preparar la base de datos y tablas: {error}")
+    
     # Para cargar la traducción al español al texto de los botones de los elementos
     path = QLibraryInfo.location(QLibraryInfo.TranslationsPath)
     
@@ -75,8 +88,8 @@ def main():
         app.installTranslator(translator_base)
     
     hilo_inicializar_usuario_admin = HiloInicializarUsuarioAdmin()
-    hilo_inicializar_usuario_admin.terminado.connect(lambda: print("Admin listo."))
-    hilo_inicializar_usuario_admin.error.connect(lambda error: print(f"Error al inicializar usuario admin: {error}"))
+    hilo_inicializar_usuario_admin.terminado.connect(lambda: print("Admin principal listo."))
+    hilo_inicializar_usuario_admin.error.connect(lambda error: print(f"Error al inicializar usuario admin principal: {error}"))
     hilo_inicializar_usuario_admin.start()
     
     servicios = contenedor_dependencias.obtener_servicios()
